@@ -70,7 +70,7 @@ exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
         res.status(200).json({
             success: true,
             message: "Invoice uploaded successfully",
-            invoiceUrl: order.invoice,
+            invoiceUrl: `${req.protocol}://${req.get("host")}/${order.invoice}`,
         });
     });
 });
