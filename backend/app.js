@@ -27,12 +27,11 @@ const errorMiddleware = require('./middleware/error');
 
 // Static Files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
 // Route Mounting
 app.use('/api/v1/', products);
 app.use('/api/v1/', auth);
 app.use('/api/v1/', order);
-app.use('/api/v1/orders', uploadInvoiceRoutes);
+app.use('/api/v1/admin', uploadInvoiceRoutes);
 
 // Environment Variables
 dotenv.config({ path: path.join(__dirname, "config/config.env") });
