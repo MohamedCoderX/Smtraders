@@ -32,48 +32,40 @@ const upload = multer({
 
 // Controller function to handle invoice upload
 exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
-    // Using Multer for file upload
     upload(req, res, async (err) => {
-        if (err) {
-            // Handle upload errors (e.g., file size or type errors)
-            return next(new ErrorHandler(`File upload error: ${err.message}`, 400));
-        }
-
-        // Ensure that file is present in the request
-        if (!req.file) {
-            return next(new ErrorHandler("No file uploaded", 400));
-        }
-
-        // Extract the orderId from the request body
-        const { orderId } = req.body;
-
-        // Ensure orderId is provided
-        if (!orderId) {
-            return next(new ErrorHandler("Order ID is required", 400));
-        }
-
-        // Find the order in the database
-        const order = await Order.findById(orderId);
-
-        // If order is not found, return an error
-        if (!order) {
-            return next(new ErrorHandler("Order not found", 404));
-        }
-
-        // Save the invoice file path in the order
-        order.invoice =`uploads/invoices/${req.file.filename}`; // relative path to the file
-        // Remove the "backend" part of the path
-
-        await order.save(); // Save the updated order
-
-        // Return a success response with the invoice URL
-        res.status(200).json({
-            success: true,
-            message: "Invoice uploaded successfully",
-            invoiceUrl: `${req.protocol}://${req.get("host")}/${order.invoice}`,
-        });
+      if (err) {
+        console.error("Multer Error:", err); // Log multer errors
+        return next(new ErrorHandler(`File upload error: ${err.message}`, 400));
+      }
+  
+      console.log("File Uploaded:", req.file); // Log uploaded file
+      console.log("Request Body:", req.body); // Log request body
+  
+      if (!req.file) {
+        return next(new ErrorHandler("No file uploaded", 400));
+      }
+  
+      const { orderId } = req.body;
+      if (!orderId) {
+        return next(new ErrorHandler("Order ID is required", 400));
+      }
+  
+      const order = await Order.findById(orderId);
+      if (!order) {
+        return next(new ErrorHandler("Order not found", 404));
+      }
+  
+      order.invoice = `uploads/invoices/${req.file.filename}`;
+      await order.save();
+  
+      res.status(200).json({
+        success: true,
+        message: "Invoice uploaded successfully",
+        invoiceUrl: `${req.protocol}://${req.get("host")}/${order.invoice}`,
+      });
     });
-});
+  });
+  
 
 
 
