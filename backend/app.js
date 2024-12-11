@@ -12,7 +12,7 @@ const cors = require('cors');
 app.use('/uploads', express.static(path.join(__dirname,'uploads') ) )
 
 app.use(cors({
-  origin: 'http://localhost:8000',  // Allow your React app to communicate with the backend
+  origin: 'https://smtraders.onrender.com',  // Allow your React app to communicate with the backend
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ['Content-Type', 'Authorization'] 
 }));
