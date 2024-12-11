@@ -26,7 +26,7 @@ router.route('/myorders').get(isAunthenticatedUser,myOrders)
 
 //admin routes
 // Admin: Upload Invoice
-router.route('/admin/upload-invoice').post(upload,uploadInvoice);
+router.route('/admin/upload-invoice').post(upload.single("invoice"),uploadInvoice);
 router.route('/admin/orders').get(isAunthenticatedUser,authorizeRoles('admin'),orders)
 router.route('/admin/order/:id').put(isAunthenticatedUser,authorizeRoles('admin'),updateOrder)
 router.route('/admin/order/:id').delete(isAunthenticatedUser,authorizeRoles('admin'),deleteOrder)
