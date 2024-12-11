@@ -21,13 +21,6 @@ const storage = multer.diskStorage({
 // Define the file upload process
 const upload = multer({
     storage: storage,
-    fileFilter: (req, file, cb) => {
-        // Only allow PDF files
-        if (file.mimetype !== 'application/pdf') {
-            return cb(new Error('Only PDF files are allowed'), false);
-        }
-        cb(null, true); // Allow the file to be uploaded
-    }
 }).single('invoice'); // Field name should be 'invoice'
 
 // Controller function to handle invoice upload
