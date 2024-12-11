@@ -6,24 +6,28 @@ const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
 
-// Define storage configuration for Multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        const uploadPath = path.join(__dirname, '../uploads/invoices');  // Use correct path
-        ensureDirectoryExists(uploadPath);  // Ensure this folder exists
-        cb(null, uploadPath);  // Destination folder
+        const uploadPath = path.join(__dirname, '../uploads/invoices');
+        ensureDirectoryExists(uploadPath);
+        cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Set a unique filename based on the timestamp
+        cb(null, Date.now() + path.extname(file.originalname));
     },
 });
 
-// Define the file upload process
 const upload = multer({
     storage: storage,
-}).single('invoice'); // Field name should be 'invoice'
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype !== 'application/pdf') {
+            return cb(new Error('Only PDF files are allowed'), false);
+        }
+        cb(null, true);
+    },
+}).single('invoice');
 
-// Controller function to handle invoice upload
+// Controller for uploading invoice
 exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
     upload(req, res, async (err) => {
         if (err) {
@@ -35,8 +39,8 @@ exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
             return next(new ErrorHandler("No file uploaded", 400));
         }
 
-        console.log("File Uploaded:", req.file); // Log uploaded file
-        console.log("Request Body:", req.body); // Log request body
+        console.log("File Uploaded:", req.file); // Debugging
+        console.log("Request Body:", req.body);
 
         const { orderId } = req.body;
         if (!orderId) {
@@ -48,7 +52,7 @@ exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
             return next(new ErrorHandler("Order not found", 404));
         }
 
-        // Save the invoice file path to the order
+        // Update the order with the invoice path
         order.invoice = `uploads/invoices/${req.file.filename}`;
         await order.save();
 
@@ -59,8 +63,6 @@ exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
         });
     });
 });
-
-
 
 
 

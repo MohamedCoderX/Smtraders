@@ -8,15 +8,19 @@ const fs = require('fs');
 
 // Define storage configuration for Multer
 
-const upload = multer({storage: multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, path.join( __dirname,'..','uploads/invoices' ) )
-    },
-    filename: function(req, file, cb ) {
-        cb(null, file.originalname)
-    }
-}) })
-
+const upload = multer({
+    storage: multer.diskStorage({
+      destination: function (req, file, cb) {
+        const uploadPath = path.join(__dirname, '..', 'uploads/invoices');
+        fs.mkdirSync(uploadPath, { recursive: true }); // Ensure directory exists
+        cb(null, uploadPath);
+      },
+      filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname); // Add timestamp for uniqueness
+      },
+    }),
+  });
+  
 
 router.route('/order/new').post(isAunthenticatedUser,newOrder);
 router.route('/order/:id').get(isAunthenticatedUser,getSingleOrder)
