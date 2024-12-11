@@ -36,42 +36,51 @@ const Payment = () => {
         console.error("Invoice element not found!");
         return;
       }
+    
       try {
+        console.log("Generating canvas from invoice...");
         const canvas = await html2canvas(invoiceElement);
+        console.log("Canvas generated successfully.");
+    
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF("portrait", "mm", "a4");
         const imgProps = pdf.getImageProperties(imgData);
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         pdf.addImage(imgData, "PNG", 10, 10, pdfWidth - 20, pdfHeight - 20);
-  
+        console.log("PDF created successfully.");
+    
         // Convert PDF to Blob
         const pdfBlob = pdf.output("blob");
-  
+        console.log("PDF Blob created:", pdfBlob);
+    
+        // Create FormData
         const formData = new FormData();
         formData.append("invoice", pdfBlob, "invoice.pdf");
         formData.append("orderId", orderDetail?._id);
-  
+        console.log("FormData prepared:", formData);
+    
         // Upload PDF
+        console.log("Uploading invoice...");
         const response = await axios.post(
           "https://smtraders.onrender.com/api/v1/admin/upload-invoice",
-          formData,{
+          formData,
+          {
             headers: {
-             "Content-Type": "multipart/form-data",
+              "Content-Type": "multipart/form-data",
             },
           }
         );
-  
+    
         console.log("Invoice uploaded successfully:", response.data);
-        toast("Invoice uploaded successfully!", { type: "success" })
-        ;
+        toast("Invoice uploaded successfully!", { type: "success" });
         setInvoiceUploaded(true);
       } catch (error) {
         console.error("Failed to upload the invoice:", error);
         toast("Failed to upload the invoice.", { type: "error" });
       }
     };
-  
+    
     const downloadPDF = async () => {
       const invoiceElement = invoiceRef.current;
   
