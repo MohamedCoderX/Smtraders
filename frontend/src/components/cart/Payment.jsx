@@ -57,7 +57,7 @@ const Payment = () => {
           "https://smtraders.onrender.com/api/v1/admin/upload-invoice",
           formData,{
             headers: {
-              "Content-Type": "application/json", // Adjust if sending files
+             "Content-Type": "multipart/form-data",
             },
           }
         );
