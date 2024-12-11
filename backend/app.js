@@ -31,7 +31,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/v1/', products);
 app.use('/api/v1/', auth);
 app.use('/api/v1/', order);
-app.use('/api/v1/admin', uploadInvoiceRoutes);
+app.use('/api/v1/', uploadInvoiceRoutes);
 
 // Environment Variables
 dotenv.config({ path: path.join(__dirname, "config/config.env") });
