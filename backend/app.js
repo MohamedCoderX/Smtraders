@@ -10,8 +10,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
   origin: [
-    'https://smtraders.onrender.com',
-    'http://localhost:3000'
+    'https://smtraders.onrender.com',  // Production URL
+    'http://localhost:3000'  // Development URL
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -22,21 +22,20 @@ app.use(cors({
 const products = require('./routes/product');
 const auth = require('./routes/auth');
 const order = require('./routes/order');
-const uploadInvoiceRoutes = require('./routes/order');
 const errorMiddleware = require('./middleware/error');
 
-// Static Files
+// Static Files for uploaded invoices
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Route Mounting
 app.use('/api/v1/', products);
 app.use('/api/v1/', auth);
 app.use('/api/v1/', order);
-app.use('/api/v1/', uploadInvoiceRoutes);
 
 // Environment Variables
 dotenv.config({ path: path.join(__dirname, "config/config.env") });
 
-// Production Static Files
+// Production Static Files (Frontend)
 if (process.env.NODE_ENV === "Production") {
   app.use(express.static(path.join(__dirname, '../frontend/build/')));
   app.get("*", (req, res) => {
@@ -48,3 +47,4 @@ if (process.env.NODE_ENV === "Production") {
 app.use(errorMiddleware);
 
 module.exports = app;
+

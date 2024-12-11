@@ -10,7 +10,8 @@ const fs = require('fs');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const uploadPath = path.join(__dirname, '../uploads/invoices');  // Use correct path
-        cb(null, uploadPath);  // Ensure this folder exists
+        ensureDirectoryExists(uploadPath);  // Ensure this folder exists
+        cb(null, uploadPath);  // Destination folder
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname)); // Set a unique filename based on the timestamp
@@ -20,7 +21,6 @@ const storage = multer.diskStorage({
 // Define the file upload process
 const upload = multer({
     storage: storage,
-
     fileFilter: (req, file, cb) => {
         // Only allow PDF files
         if (file.mimetype !== 'application/pdf') {
@@ -33,39 +33,39 @@ const upload = multer({
 // Controller function to handle invoice upload
 exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
     upload(req, res, async (err) => {
-      if (err) {
-        console.error("Multer Error:", err); // Log multer errors
-        return next(new ErrorHandler(`File upload error: ${err.message}`, 400));
-      }
-  
-      console.log("File Uploaded:", req.file); // Log uploaded file
-      console.log("Request Body:", req.body); // Log request body
-  
-      if (!req.file) {
-        return next(new ErrorHandler("No file uploaded", 400));
-      }
-  
-      const { orderId } = req.body;
-      if (!orderId) {
-        return next(new ErrorHandler("Order ID is required", 400));
-      }
-  
-      const order = await Order.findById(orderId);
-      if (!order) {
-        return next(new ErrorHandler("Order not found", 404));
-      }
-  
-      order.invoice = `uploads/invoices/${req.file.filename}`;
-      await order.save();
-  
-      res.status(200).json({
-        success: true,
-        message: "Invoice uploaded successfully",
-        invoiceUrl: `${req.protocol}://${req.get("host")}/${order.invoice}`,
-      });
+        if (err) {
+            console.error("Multer Error:", err); // Log multer errors
+            return next(new ErrorHandler(`File upload error: ${err.message}`, 400));
+        }
+
+        if (!req.file) {
+            return next(new ErrorHandler("No file uploaded", 400));
+        }
+
+        console.log("File Uploaded:", req.file); // Log uploaded file
+        console.log("Request Body:", req.body); // Log request body
+
+        const { orderId } = req.body;
+        if (!orderId) {
+            return next(new ErrorHandler("Order ID is required", 400));
+        }
+
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return next(new ErrorHandler("Order not found", 404));
+        }
+
+        // Save the invoice file path to the order
+        order.invoice = `uploads/invoices/${req.file.filename}`;
+        await order.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Invoice uploaded successfully",
+            invoiceUrl: `${req.protocol}://${req.get("host")}/${order.invoice}`,
+        });
     });
-  });
-  
+});
 
 
 
