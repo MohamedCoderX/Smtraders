@@ -33,52 +33,64 @@ const Payment = () => {
     const generateAndUploadInvoice = async () => {
       const invoiceElement = invoiceRef.current;
       if (!invoiceElement) {
-        console.error("Invoice element not found!");
-        return;
+          console.error("Invoice element not found!");
+          return;
       }
-    
+  
       try {
-        console.log("Generating canvas from invoice...");
-        const canvas = await html2canvas(invoiceElement);
-        console.log("Canvas generated successfully.");
-    
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("portrait", "mm", "a4");
-        const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        pdf.addImage(imgData, "PNG", 10, 10, pdfWidth - 20, pdfHeight - 20);
-        console.log("PDF created successfully.");
-    
-        // Convert PDF to Blob
-        const pdfBlob = pdf.output("blob");
-        console.log("PDF Blob created:", pdfBlob);
-    
-        // Create FormData
-        const formData = new FormData();
-        formData.append("invoice", pdfBlob, "invoice.pdf");
-        formData.append("orderId", orderDetail?._id);
-        console.log("FormData prepared:", formData);
-    
-        // Upload PDF
-        console.log("Uploading invoice...");
-        const response = await axios.post(
-          "https://smtraders.onrender.com/api/v1/admin/upload-invoice",
-          formData,{
-            headers:{
-              "Content-Type":"multipart/form-data"
-            },
-          }
-        );
-    
-        console.log("Invoice uploaded successfully:", response.data);
-        toast("Invoice uploaded successfully!", { type: "success" });
-        setInvoiceUploaded(true);
+          console.log("Generating canvas from invoice...");
+          const canvas = await html2canvas(invoiceElement);
+          console.log("Canvas generated successfully.");
+  
+          const imgData = canvas.toDataURL("image/png");
+          const pdf = new jsPDF("portrait", "mm", "a4");
+          const imgProps = pdf.getImageProperties(imgData);
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+  
+          pdf.addImage(imgData, "PNG", 10, 10, pdfWidth - 20, pdfHeight - 20);
+          console.log("PDF created successfully.");
+  
+          // Convert PDF to Base64
+          const pdfBlob = pdf.output("blob");
+          const reader = new FileReader();
+          reader.onloadend = async () => {
+              const base64PDF = reader.result.split(",")[1]; // Extract Base64 data
+  
+              const payload = {
+                  invoice: base64PDF,
+                  orderId: orderDetail?._id,
+                  fileName: "invoice.pdf",
+              };
+  
+              console.log("Payload prepared:", payload);
+  
+              try {
+                  const response = await axios.post(
+                      "https://smtraders.onrender.com/api/v1/admin/upload-invoice",
+                      payload,
+                      {
+                          headers: {
+                              "Content-Type": "application/json",
+                          },
+                      }
+                  );
+  
+                  console.log("Invoice uploaded successfully:", response.data);
+                  toast("Invoice uploaded successfully!", { type: "success" });
+                  setInvoiceUploaded(true);
+              } catch (error) {
+                  console.error("Failed to upload the invoice:", error);
+                  toast("Failed to upload the invoice.", { type: "error" });
+              }
+          };
+  
+          reader.readAsDataURL(pdfBlob); // Convert Blob to Base64
       } catch (error) {
-        console.error("Failed to upload the invoice:", error);
-        toast("Failed to upload the invoice.", { type: "error" });
+          console.error("Failed to generate or upload the invoice:", error);
       }
-    };
+  };
+  
     
     const downloadPDF = async () => {
       const invoiceElement = invoiceRef.current;

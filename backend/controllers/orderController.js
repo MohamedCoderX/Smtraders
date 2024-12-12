@@ -8,12 +8,7 @@ const fs = require('fs');
 
 
 
-// Ensure that the upload folder exists before writing
-const ensureDirectoryExists = (directory) => {
-    if (!fs.existsSync(directory)) {
-        fs.mkdirSync(directory, { recursive: true });
-    }
-};
+
 
 // Define storage configuration for Multer
 const storage = multer.diskStorage({
@@ -27,48 +22,39 @@ const storage = multer.diskStorage({
     },
 });
 
-// Setup multer to handle file uploads
-const upload = multer({ storage: storage }).single("invoice");  // Ensure 'invoice' is the correct field name
 
-// Controller function to handle the invoice upload
+
 exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
-    console.log("Request body:", req.body); // Log request body to check for orderId
-    console.log("Request file:", req.file); // Log the file to check if it is uploaded
+    const { invoice, orderId, fileName } = req.body;
 
-    // Handle file upload
-    upload(req, res, async (err) => {
-        if (err) {
-            console.error("Multer Error:", err); // Log multer errors
-            return next(new ErrorHandler(`File upload error: ${err.message}`, 400));
-        }
+    if (!invoice || !orderId || !fileName) {
+        return next(new ErrorHandler("Missing required fields", 400));
+    }
 
-        if (!req.file) {
-            console.error("No file uploaded"); // Log if no file is uploaded
-            return next(new ErrorHandler("No file uploaded", 400));
-        }
+    const order = await Order.findById(orderId);
+    if (!order) {
+        return next(new ErrorHandler("Order not found", 404));
+    }
 
-        console.log("File Uploaded:", req.file);  // Log uploaded file
-        console.log("Request Body:", req.body);   // Log the orderId
+    // Decode Base64 and save the file
+    const uploadPath = path.join(__dirname, "../uploads/invoices");
+    if (!fs.existsSync(uploadPath)) {
+        fs.mkdirSync(uploadPath, { recursive: true });
+    }
 
-        const { orderId } = req.body;
-        if (!orderId) {
-            return next(new ErrorHandler("Order ID is required", 400));
-        }
+    const filePath = path.join(uploadPath, fileName);
+    const buffer = Buffer.from(invoice, "base64");
 
-        const order = await Order.findById(orderId);
-        if (!order) {
-            return next(new ErrorHandler("Order not found", 404));
-        }
+    fs.writeFileSync(filePath, buffer);
 
-        // Save the invoice file path to the order
-        order.invoice = `uploads/invoices/${req.file.filename}`;
-        await order.save();
+    // Save file path to the order
+    order.invoice = `uploads/invoices/${fileName}`;
+    await order.save();
 
-        res.status(200).json({
-            success: true,
-            message: "Invoice uploaded successfully",
-            invoiceUrl: `${req.protocol}://${req.get("host")}/${order.invoice}`,
-        });
+    res.status(200).json({
+        success: true,
+        message: "Invoice uploaded successfully",
+        invoiceUrl: `${req.protocol}://${req.get("host")}/${order.invoice}`,
     });
 });
 
