@@ -6,9 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
 
-const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
+
 
 // Ensure that the upload folder exists before writing
 const ensureDirectoryExists = (directory) => {
