@@ -6,29 +6,38 @@ const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
 
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+
+// Ensure that the upload folder exists before writing
+const ensureDirectoryExists = (directory) => {
+    if (!fs.existsSync(directory)) {
+        fs.mkdirSync(directory, { recursive: true });
+    }
+};
+
+// Define storage configuration for Multer
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadPath = path.join(__dirname, '../uploads/invoices');
-        ensureDirectoryExists(uploadPath);
-        cb(null, uploadPath);
+    destination: function (req, file, cb) {
+        const uploadPath = path.join(__dirname, "../uploads/invoices");
+        ensureDirectoryExists(uploadPath);  // Ensure this folder exists
+        cb(null, uploadPath);  // Destination folder
     },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname));  // Use unique name based on timestamp
     },
 });
 
-const upload = multer({
-    storage: storage,
-    fileFilter: (req, file, cb) => {
-        if (file.mimetype !== 'application/pdf') {
-            return cb(new Error('Only PDF files are allowed'), false);
-        }
-        cb(null, true);
-    },
-}).single('invoice');
+// Setup multer to handle file uploads
+const upload = multer({ storage: storage }).single("invoice");  // Ensure 'invoice' is the correct field name
 
-// Controller for uploading invoice
+// Controller function to handle the invoice upload
 exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
+    console.log("Request body:", req.body); // Log request body to check for orderId
+    console.log("Request file:", req.file); // Log the file to check if it is uploaded
+
+    // Handle file upload
     upload(req, res, async (err) => {
         if (err) {
             console.error("Multer Error:", err); // Log multer errors
@@ -36,11 +45,12 @@ exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
         }
 
         if (!req.file) {
+            console.error("No file uploaded"); // Log if no file is uploaded
             return next(new ErrorHandler("No file uploaded", 400));
         }
 
-        console.log("File Uploaded:", req.file); // Debugging
-        console.log("Request Body:", req.body);
+        console.log("File Uploaded:", req.file);  // Log uploaded file
+        console.log("Request Body:", req.body);   // Log the orderId
 
         const { orderId } = req.body;
         if (!orderId) {
@@ -52,7 +62,7 @@ exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
             return next(new ErrorHandler("Order not found", 404));
         }
 
-        // Update the order with the invoice path
+        // Save the invoice file path to the order
         order.invoice = `uploads/invoices/${req.file.filename}`;
         await order.save();
 
@@ -63,8 +73,6 @@ exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
         });
     });
 });
-
-
 
 
 
