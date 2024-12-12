@@ -64,7 +64,11 @@ const Payment = () => {
         console.log("Uploading invoice...");
         const response = await axios.post(
           "https://smtraders.onrender.com/api/v1/admin/upload-invoice",
-          formData,
+          formData,{
+            headers:{
+              "Content-Type":"multipart/form-data"
+            },
+          }
         );
     
         console.log("Invoice uploaded successfully:", response.data);
