@@ -82,7 +82,12 @@ const cartSlice = createSlice({
                 loading: false,
                 shippingInfo: {}
             }
+        },
+        clearCart(state) {
+            state.items = [];
+            localStorage.removeItem('cartItems');
         }
+
 
     }
 })
@@ -95,7 +100,8 @@ export const {addCartItemRequest,
     decreaseCartItemQty,
     removeItemFromCart,
     saveShippingInfo,
-    orderCompleted
+    orderCompleted,
+    clearCart
 
 } = actions;
 

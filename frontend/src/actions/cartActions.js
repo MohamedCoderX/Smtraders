@@ -7,7 +7,6 @@ export const addCartItem = (id, quantity) => async (dispatch) => {
 
         const { data } = await axios.get(`/api/v1/product/${id}`);
       
-
         
         const item = {
             product: data.Product._id,

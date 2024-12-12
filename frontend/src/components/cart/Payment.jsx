@@ -5,7 +5,7 @@ import './Invoice.css'
 import html2canvas from 'html2canvas'
 import Footer from "../footer/Footer";
 import { toast } from "react-toastify";
-import { orderCompleted } from "../../slices/cartSlice";
+import { orderCompleted,clearCart } from "../../slices/cartSlice";
 import { createOrder } from "../../actions/orderActions";
 import { clearError as clearOrderError } from "../../slices/orderSlice";
 import { validateShipping } from "./Shipping";
@@ -79,6 +79,11 @@ const Payment = () => {
                   console.log("Invoice uploaded successfully:", response.data);
                   toast("Invoice uploaded successfully!", { type: "success" });
                   setInvoiceUploaded(true);
+                   // Clear the cart
+          dispatch(clearCart());
+
+          // Redirect to home page
+          navigate("/");
               } catch (error) {
                   console.error("Failed to upload the invoice:", error);
                   toast("Failed to upload the invoice.", { type: "error" });
