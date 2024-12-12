@@ -107,7 +107,7 @@ adminOrders.forEach( order => {
                 Phoneno: order?.shippingInfo?.phoneNo || "Phone Not Provided",
                 Amount: `₹${order?.totalPrice?.toFixed(2) || "0.00"}`,
                 invoice: order.invoice ? (
-                    <a href={`http://127.0.0.1:8000/${order.invoice}`} target="_blank" rel="noopener noreferrer">
+                    <a href={`https://smtraders.onrender.com/${order.invoice}`} target="_blank" rel="noopener noreferrer">
                         View Invoice
                     </a>
                 ) : 'No Invoice',
