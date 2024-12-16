@@ -1,46 +1,46 @@
- # 🔥Fire Crackers Selling Website
+# 🔥 Fire Crackers Selling Website
 
-Welcome to the Fire Crackers Selling Website! This e-commerce platform provides a seamless shopping experience for users and efficient order management for admins. Explore its exciting features, including user-friendly navigation, robust admin tools, and intuitive order handling.
+Welcome to the **Fire Crackers Selling Website**! This e-commerce platform provides a seamless shopping experience for users and efficient order management for admins. Explore its exciting features, including user-friendly navigation, robust admin tools, and intuitive order handling.
 
- 📍 Live Demo
+## 📍 Live Demo
 Check out the live demo: [Fire Crackers Selling Website](https://smtraders.onrender.com/)
 
 ---
 
- 🌟 Features
+## 🌟 Features
 
- 🛍️ User Features
-- 🔑 User Login:** Secure login functionality for users.
-- 🎉 Browse Products:** Explore a wide range of firecrackers.
-- 🔎 Filter & Search:** Quickly find products using filters and search options.
-- 🛒 Add to Cart:** Seamlessly add products to the shopping cart.
-- 📝 Invoice Generation:** View an automatically generated invoice at checkout (without payment gateway).
-- 📢 Out of Stock Indicator:** Clear display of unavailable items.
-- ✉️ Contact Us:** Easy access to reach out for queries or support.
+### 🛍️ User Features
+- 🔑 **User Login:** Secure login functionality for users.
+- 🎉 **Browse Products:** Explore a wide range of firecrackers.
+- 🔎 **Filter & Search:** Quickly find products using filters and search options.
+- 🛒 **Add to Cart:** Seamlessly add products to the shopping cart.
+- 📝 **Invoice Generation:** View an automatically generated invoice at checkout (without payment gateway).
+- 📢 **Out of Stock Indicator:** Clear display of unavailable items.
+- ✉️ **Contact Us:** Easy access to reach out for queries or support.
 
-💪 Admin Features
-- 🔑 Admin Login:** Dedicated login functionality for admins.
-- 🔍 View User Orders:** Detailed view of user orders with all relevant information.
-- 📝 Invoice Access:** Access invoice details for user orders.
-- ➕ Manage Products:** Add, update, and remove products seamlessly.
-- 👤 User Management:** Oversee user activities and order history.
-
----
-
- 🌐 Tech Stack
-- Frontend: HTML, CSS, JavaScript,Reactjs
-- Backend: Node.js, Express.js
-- Database: MongoDB
+### 💪 Admin Features
+- 🔑 **Admin Login:** Dedicated login functionality for admins.
+- 🔍 **View User Orders:** Detailed view of user orders with all relevant information.
+- 📝 **Invoice Access:** Access invoice details for user orders.
+- ➕ **Manage Products:** Add, update, and remove products seamlessly.
+- 👤 **User Management:** Oversee user activities and order history.
 
 ---
 
- 📖 Getting Started
+## 🌐 Tech Stack
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB
 
-Prerequisites
+---
+
+## 📖 Getting Started
+
+### Prerequisites
 - Node.js installed on your system
 - MongoDB server set up locally or remotely
 
- Installation
+### Installation
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/firecrackers-selling-website.git
@@ -66,40 +66,33 @@ Prerequisites
 
 ---
 
- 🛠️ Usage
+## 🛠️ Usage
 
- Users
+### Users
 1. Sign up or log in to access the website.
 2. Browse and add products to your cart.
 3. Review the invoice generated at checkout.
 
- Admins
+### Admins
 1. Log in with admin credentials.
 2. Manage products and view detailed user orders and invoices.
 
 ---
 
-🚨 Credentials
+## 🚨 Credentials
 
- Demo Login
-- User Login:**
-  - Email: `mdibrahim.developer@gmail.com`
-  - Password: `123456`
-- Admin Login:**
-  - Email: `mdibrahim.developer@gmail.com`
-  - Password: `123456`
-
----
-
- 🎨 Screenshots
-
-| User Dashboard**       | Admin Dashboard**       |
-|--------------------------|--------------------------|
-| ![User Dashboard](https://ibb.co/Lx6nZ1w) | ![Admin Dashboard](https://ibb.co/XtsKWc0) |
+### Demo Login
+- **User Login:**
+  - Email: `user@example.com`
+  - Password: `user123`
+- **Admin Login:**
+  - Email: `admin@example.com`
+  - Password: `admin123`
 
 ---
 
-🏆 Key Highlights
+
+## 🏆 Key Highlights
 - User-friendly navigation 🎨
 - Intuitive admin tools ✅
 - Real-time invoice generation 📈
@@ -107,17 +100,17 @@ Prerequisites
 
 ---
 
-📊 Project Status
+## 📊 Project Status
 This project is fully functional and continuously improved based on user feedback.
 
 ---
 
- 📢 Feedback
-We'd love to hear your thoughts! Feel free to reach out via the Contact Us page.
+## 📢 Feedback
+We'd love to hear your thoughts! Feel free to reach out via the **Contact Us** page.
 
 ---
 
- 🔧 Contributing
+## 🔧 Contributing
 Contributions are welcome! Follow these steps:
 1. Fork the repository.
 2. Create a new branch:
@@ -136,11 +129,13 @@ Contributions are welcome! Follow these steps:
 
 ---
 
- 💚 License
+## 💚 License
 This project is licensed under the [MIT License](LICENSE).
 
 ---
 
- 🔗 Connect with Us
-Have questions? Reach out on the **Contact Us** page or drop a message at our official email: `mdibrahim.developer@gmail.com`.
+## 🔗 Connect with Us
+Have questions? Reach out on the **Contact Us** page or drop a message at our official email: `support@firecrackers.com`.
+
+
 
