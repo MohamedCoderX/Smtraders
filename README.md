@@ -1,6 +1,6 @@
-🔥 Fire Crackers Selling Website
+#🔥 Fire Crackers Selling Website
 
-Welcome to the **Fire Crackers Selling Website! This e-commerce platform provides a seamless shopping experience for users and efficient order management for admins. Explore its exciting features, including user-friendly navigation, robust admin tools, and intuitive order handling.
+Welcome to the Fire Crackers Selling Website! This e-commerce platform provides a seamless shopping experience for users and efficient order management for admins. Explore its exciting features, including user-friendly navigation, robust admin tools, and intuitive order handling.
 
  📍 Live Demo
 Check out the live demo: [Fire Crackers Selling Website](https://smtraders.onrender.com/)
@@ -95,7 +95,7 @@ Prerequisites
 
 | User Dashboard**       | Admin Dashboard**       |
 |--------------------------|--------------------------|
-| ![User Dashboard](https://via.placeholder.com/400x200) | ![Admin Dashboard](https://via.placeholder.com/400x200) |
+| ![User Dashboard](https://ibb.co/Lx6nZ1w) | ![Admin Dashboard](https://ibb.co/XtsKWc0) |
 
 ---
 
