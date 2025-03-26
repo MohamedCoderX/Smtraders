@@ -3,10 +3,10 @@ const connectDatabase = require('./config/database');
 
 connectDatabase();
 
-const server = app.listen(process.env.PORT,(res)=>
-{
-    console.log(`My started ${process.env.PORT} in ${process.env.NODE_ENV}`)
-})
+const server = app.listen(process.env.PORT || 5000, "0.0.0.0", () => {
+    console.log(`Server running on port ${process.env.PORT || 5000} in ${process.env.NODE_ENV}`);
+});
+
 app.get("/", (req, res) => {
     res.json({ message: "API is running successfully!" });
   });
