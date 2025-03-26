@@ -18,7 +18,7 @@ import {
 
 // Load API Base URL from environment
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-const token = localStorage.getItem("token"); 
+
 // ✅ GET ALL PRODUCTS (WITH FILTERS)
 export const getProducts = (keyword, category, currentPage) => async (dispatch) => {
   try {
@@ -41,24 +41,21 @@ export const getProducts = (keyword, category, currentPage) => async (dispatch) 
 };
 
 // ✅ GET ALL ADMIN PRODUCTS
-export const getAdminProducts = () => async (dispatch) => {
-    try {
-        dispatch(adminProductsRequest());
-
-       // ✅ Get token from storage
-
-        const { data } = await axios.get(`${API_BASE_URL}/admin/products`, {
-            withCredentials: true, // ✅ Ensure cookies are sent
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}` // ✅ Send token in header
-            },
-        });
-
-        dispatch(adminProductsSuccess(data));
-    } catch (error) {
-        dispatch(adminProductsFail(error.response?.data?.message || "Failed to load admin products"));
-    }
+export const getAdminProducts = async (dispatch) => {
+  try {
+    dispatch(adminProductsRequest());
+    
+    const { data } = await axios.get(`${API_BASE_URL}/admin/products`,{
+        withCredentials: true, // ✅ Ensure cookies are sent
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}` // ✅ Send token in header
+        },
+    });
+    dispatch(adminProductsSuccess(data));
+  } catch (error) {
+    dispatch(adminProductsFail(error.response?.data?.message || "Failed to load admin products"));
+  }
 };
 
 // ✅ CREATE NEW PRODUCT
@@ -66,13 +63,7 @@ export const createNewProduct = (productData) => async (dispatch) => {
   try {
     dispatch(newProductRequest());
 
-    const config = {
-        withCredentials: true, // ✅ Ensure cookies are sent
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}` // ✅ Send token in header
-        },
-    };
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
 
     console.log("Sending FormData:", productData); // Debugging
 
@@ -90,13 +81,7 @@ export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch(deleteProductRequest());
 
-    await axios.delete(`${API_BASE_URL}/admin/product/${id}`,{
-        withCredentials: true, // ✅ Ensure cookies are sent
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}` // ✅ Send token in header
-        },
-    });
+    await axios.delete(`${API_BASE_URL}/admin/product/${id}`);
     
     dispatch(deleteProductSuccess());
   } catch (error) {
