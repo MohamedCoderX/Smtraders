@@ -22,14 +22,14 @@ const upload = multer({
   });
   
 
-router.route('/order/new').post(isAunthenticatedUser,newOrder);
-router.route('/order/:id').get(isAunthenticatedUser,getSingleOrder)
+router.route('/new').post(isAunthenticatedUser,newOrder);
+router.route('/:id').get(isAunthenticatedUser,getSingleOrder)
 router.route('/myorders').get(isAunthenticatedUser,myOrders)
 
 //admin routes
 // Admin: Upload Invoice
 router.route('/admin/upload-invoice').post(upload.single("invoice"),uploadInvoice);
-router.route('/admin/orders').get(isAunthenticatedUser,authorizeRoles('admin'),orders)
+router.route('/').get(isAunthenticatedUser,authorizeRoles('admin'),orders)
 router.route('/admin/order/:id').put(isAunthenticatedUser,authorizeRoles('admin'),updateOrder)
 router.route('/admin/order/:id').delete(isAunthenticatedUser,authorizeRoles('admin'),deleteOrder)
 
