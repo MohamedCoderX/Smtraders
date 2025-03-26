@@ -32,7 +32,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Route Mounting
 app.use("/api/v1/", products);
 app.use("/api/v1/", auth);
-app.use("/api/v1/orders", order);
+app.use("/api/v1/order", order);
 // ✅ Production Deployment for Vercel
 // if (process.env.NODE_ENV === "Production") {
 //   app.use(express.static(path.join(__dirname, "../frontend/build/")));
