@@ -5,19 +5,30 @@ const path = require("path");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-// Load environment variables (Ensure this is at the top)
+// Load environment variables
 dotenv.config({ path: path.join(__dirname, "config/config.env") });
+
 // Middleware
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
-// ✅ CORS Configuration (Fixing frontend/backend communication)
+
+// ✅ Fixing CORS issues
+const allowedOrigins = ["https://smtraders.vercel.app", "http://localhost:3000"];
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "https://smtraders.vercel.app",
-  credentials: true,  // ✅ Must be true for cookies
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // ✅ Allows sending cookies
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
+
+// ✅ Handle preflight requests properly
 app.options("*", cors());
 
 // Routes
@@ -28,17 +39,12 @@ const errorMiddleware = require("./middleware/error");
 
 // Static Files for uploaded invoices
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 // Route Mounting
 app.use("/api/v1/", products);
 app.use("/api/v1/", auth);
 app.use("/api/v1/", order);
-// ✅ Production Deployment for Vercel
-// if (process.env.NODE_ENV === "Production") {
-//   app.use(express.static(path.join(__dirname, "../frontend/build/")));
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
-//   });
-// }
+
 // Error Middleware
 app.use(errorMiddleware);
 
