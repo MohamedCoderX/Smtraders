@@ -3,7 +3,7 @@ import { adminProductsFail, adminProductsRequest, adminProductsSuccess, products
 import { deleteProductFail, deleteProductRequest, deleteProductSuccess, newProductFail, newProductRequest, newProductSuccess } from '../slices/productSlice';
 
 
-
+const reactapp = process.env.REACT_APP_API_BASE_URL;
 export const getProducts = (keyword,category,currentPage,id,name,description,image) => async (dispatch) => {
     try{
         dispatch(productsRequest())
@@ -36,7 +36,7 @@ export const getAdminProducts =  async (dispatch) => {
     try{
         dispatch(adminProductsRequest())
         
-        const {data} = await axios.get(`/api/v1/admin/products`);
+        const {data} = await axios.get(`${reactapp}/admin/products`);
         dispatch(adminProductsSuccess(data))
     }catch(error){
 //handle error

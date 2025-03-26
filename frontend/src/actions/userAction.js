@@ -19,11 +19,11 @@ import {
   resetPasswordRequest,
   resetPasswordSuccess,
 } from "../slices/authslice";
-
+const reactapp = process.env.REACT_APP_API_BASE_URL;
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch(loginRequest());
-    const { data } = await axios.post(`/api/v1/login`, { email, password });
+    const { data } = await axios.post(`${reactapp}/login`, { email, password });
     dispatch(loginSucess(data));
   } catch (error) {
     dispatch(loginFail(error.response.data.message));
@@ -42,7 +42,7 @@ export const register = (userData) => async (dispatch) => {
         "Content-type": 'application/json',
       },
     }
-    const { data} = await axios.post(`/api/v1/register`,userData,config);
+    const { data} = await axios.post(`${reactapp}/register`,userData,config);
     dispatch(registerSuccess(data));
   } catch (error) {
     dispatch(registerFail(error.response.data.message));
@@ -53,7 +53,7 @@ export const loadUser = async (dispatch) => {
     try {
       dispatch(loadUserRequest())
      
-      const { data} = await axios.get(`/api/v1/myprofile`);
+      const { data} = await axios.get(`${reactapp}/myprofile`);
       dispatch(loadUserSuccess(data));
     } catch (error) {
       dispatch(loadUserFail(error.response.data.message));
@@ -62,7 +62,7 @@ export const loadUser = async (dispatch) => {
 
   export const logout = async (dispatch) => {
     try {
-      await axios.get(`/api/v1/logout`);
+      await axios.get(`${reactapp}logout`);
       dispatch(logoutSuccess());
     } catch (error) {
       dispatch(logoutFail(error.response.data.message));
