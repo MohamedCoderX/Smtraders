@@ -70,7 +70,7 @@ const Payment = () => {
                 orderDate: new Date().toLocaleDateString(),
             };
 
-            sendInvoiceToAdmin(invoiceData);
+           
         }
     }, [orderDetail, orderCreated, dispatch, cartItems, shippingInfo]);
 
