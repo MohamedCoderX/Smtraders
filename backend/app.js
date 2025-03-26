@@ -18,7 +18,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
-console.log(process.env.BACKEND_URL);
+
 // Routes
 const products = require('./routes/product');
 const auth = require('./routes/auth');
