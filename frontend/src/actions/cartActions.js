@@ -1,7 +1,7 @@
 import axios from "axios";
 import { addCartItemRequest, addCartItemSuccess } from "../slices/cartSlice";
 
-const API_BASE_URL = process.env.REACT_APP_BACKEND_URL ; // Adjust if needed
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL ; // Adjust if needed
 
 export const addCartItem = (id, quantity) => async (dispatch) => {
     try {

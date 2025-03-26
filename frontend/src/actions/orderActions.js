@@ -5,7 +5,7 @@ import {
     deleteOrderFail, deleteOrderRequest, deleteOrderSuccess 
 } from "../slices/orderSlice";
 
-const API_BASE_URL = process.env.REACT_APP_BACKEND_URL ; // Adjust port if needed
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL ; // Adjust port if needed
 
 export const adminOrders = () => async (dispatch) => {
     try {
