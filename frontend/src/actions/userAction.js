@@ -23,7 +23,7 @@ const reactapp = process.env.REACT_APP_API_BASE_URL;
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch(loginRequest());
-    const { data } = await axios.post(`${reactapp}/login`, { email, password });
+    const { data } = await axios.post(`${reactapp}/login`, { email, password },{withCredentials:true});
     dispatch(loginSucess(data));
   } catch (error) {
     dispatch(loginFail(error.response.data.message));
