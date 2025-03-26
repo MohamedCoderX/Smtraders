@@ -18,7 +18,7 @@ import {
 
 // Load API Base URL from environment
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
+const token = localStorage.getItem("token"); 
 // ✅ GET ALL PRODUCTS (WITH FILTERS)
 export const getProducts = (keyword, category, currentPage) => async (dispatch) => {
   try {
@@ -45,7 +45,7 @@ export const getAdminProducts = () => async (dispatch) => {
     try {
         dispatch(adminProductsRequest());
 
-        const token = localStorage.getItem("token"); // ✅ Get token from storage
+       // ✅ Get token from storage
 
         const { data } = await axios.get(`${API_BASE_URL}/admin/products`, {
             withCredentials: true, // ✅ Ensure cookies are sent
@@ -66,7 +66,13 @@ export const createNewProduct = (productData) => async (dispatch) => {
   try {
     dispatch(newProductRequest());
 
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const config = {
+        withCredentials: true, // ✅ Ensure cookies are sent
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}` // ✅ Send token in header
+        },
+    };
 
     console.log("Sending FormData:", productData); // Debugging
 
@@ -84,7 +90,13 @@ export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch(deleteProductRequest());
 
-    await axios.delete(`${API_BASE_URL}/admin/product/${id}`);
+    await axios.delete(`${API_BASE_URL}/admin/product/${id}`,{
+        withCredentials: true, // ✅ Ensure cookies are sent
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}` // ✅ Send token in header
+        },
+    });
     
     dispatch(deleteProductSuccess());
   } catch (error) {

@@ -6,11 +6,17 @@ import {
 } from "../slices/orderSlice";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL ; // Adjust port if needed
-
+const token = localStorage.getItem("token"); 
 export const adminOrders = () => async (dispatch) => {
     try {
         dispatch(adminOrdersRequest());
-        const { data } = await axios.get(`${API_BASE_URL}/admin/orders`);
+        const { data } = await axios.get(`${API_BASE_URL}/admin/orders`,{
+            withCredentials: true, // ✅ Ensure cookies are sent
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}` // ✅ Send token in header
+            },
+        });
         dispatch(adminOrdersSuccess(data));
     } catch (error) {
         dispatch(adminOrdersFail(error.response?.data?.message || "Server Error"));
@@ -34,7 +40,13 @@ export const createOrder = (order) => async (dispatch) => {
 export const deleteOrder = (id) => async (dispatch) => {
     try {
         dispatch(deleteOrderRequest());
-        await axios.delete(`${API_BASE_URL}/admin/order/${id}`);
+        await axios.delete(`${API_BASE_URL}/admin/order/${id}`,{
+            withCredentials: true, // ✅ Ensure cookies are sent
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}` // ✅ Send token in header
+            },
+        });
         dispatch(deleteOrderSuccess(id)); // Optionally pass ID for immediate UI update
     } catch (error) {
         dispatch(deleteOrderFail(error.response?.data?.message || "Order Deletion Failed"));
