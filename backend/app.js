@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const path = require('path');
 const cors = require('cors');
 const dotenv = require('dotenv');
-
+dotenv.config({ path: path.join(__dirname, "config/config.env") });
 // Middleware
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
@@ -18,7 +18,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
-
+console.log(process.env.BACKEND_URL);
 // Routes
 const products = require('./routes/product');
 const auth = require('./routes/auth');
