@@ -7,12 +7,10 @@ const dotenv = require("dotenv");
 
 // Load environment variables (Ensure this is at the top)
 dotenv.config({ path: path.join(__dirname, "config/config.env") });
-
 // Middleware
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
-
 // ✅ CORS Configuration (Fixing frontend/backend communication)
 app.use(cors({
   origin: process.env.FRONTEND_URL || "https://smtraders.vercel.app",

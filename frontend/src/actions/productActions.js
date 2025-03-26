@@ -18,7 +18,15 @@ import {
 
 // Load API Base URL from environment
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-const token = localStorage.getItem("token");
+axios.defaults.withCredentials = true; // ✅ Force credentials globally
+
+export const API = axios.create({
+    baseURL: process.env.REACT_APP_API_BASE_URL,
+    withCredentials: true, // ✅ Ensure cookies are always sent
+    headers: {
+        "Content-Type": "application/json",
+    },
+});
 // ✅ GET ALL PRODUCTS (WITH FILTERS)
 export const getProducts = (keyword, category, currentPage) => async (dispatch) => {
   try {
@@ -45,13 +53,7 @@ export const getAdminProducts = async (dispatch) => {
   try {
     dispatch(adminProductsRequest());
     
-    const { data } = await axios.get(`${API_BASE_URL}/admin/products`,{
-        withCredentials: true, // ✅ Ensure cookies are sent
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}` // ✅ Send token in header
-        },
-    });
+    const { data } = await API.get(`/admin/products` );
     dispatch(adminProductsSuccess(data));
   } catch (error) {
     dispatch(adminProductsFail(error.response?.data?.message || "Failed to load admin products"));
