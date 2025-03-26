@@ -44,7 +44,7 @@ export default function Login() {
             <img src="/images/logo.jpeg" alt="logo" />
           </div>
           <div className="form">
-            <img src="/images/logo.png" alt="logo img" />
+            <img src="../images/logo.png" alt="logo img" />
             <div className="form_one">
               <h1>Sign into your account</h1>
               <form onSubmit={submitHandler}>

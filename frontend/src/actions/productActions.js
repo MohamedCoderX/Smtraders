@@ -41,15 +41,24 @@ export const getProducts = (keyword, category, currentPage) => async (dispatch) 
 };
 
 // ✅ GET ALL ADMIN PRODUCTS
-export const getAdminProducts = async (dispatch) => {
-  try {
-    dispatch(adminProductsRequest());
-    
-    const { data } = await axios.get(`${API_BASE_URL}/admin/products`,{ withCredentials: true, });
-    dispatch(adminProductsSuccess(data));
-  } catch (error) {
-    dispatch(adminProductsFail(error.response?.data?.message || "Failed to load admin products"));
-  }
+export const getAdminProducts = () => async (dispatch) => {
+    try {
+        dispatch(adminProductsRequest());
+
+        const token = localStorage.getItem("token"); // ✅ Get token from storage
+
+        const { data } = await axios.get(`${API_BASE_URL}/admin/products`, {
+            withCredentials: true, // ✅ Ensure cookies are sent
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}` // ✅ Send token in header
+            },
+        });
+
+        dispatch(adminProductsSuccess(data));
+    } catch (error) {
+        dispatch(adminProductsFail(error.response?.data?.message || "Failed to load admin products"));
+    }
 };
 
 // ✅ CREATE NEW PRODUCT
