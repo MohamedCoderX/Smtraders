@@ -52,7 +52,6 @@ export const register = (userData) => async (dispatch) => {
 export const loadUser = async (dispatch) => {
     try {
       dispatch(loadUserRequest())
-     
       const { data} = await axios.get(`${reactapp}/myprofile`);
       dispatch(loadUserSuccess(data));
     } catch (error) {

@@ -14,20 +14,12 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
 
 // ✅ Fixing CORS issues
-const allowedOrigins = ["https://smtraders.vercel.app", "http://localhost:3000"];
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true, // ✅ Allows sending cookies
+  origin: "https://smtraders.vercel.app", // Allow frontend origin
+  credentials: true,  // Allow cookies
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
-
 // ✅ Handle preflight requests properly
 app.options("*", cors());
 
@@ -44,7 +36,9 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/v1/", products);
 app.use("/api/v1/", auth);
 app.use("/api/v1/", order);
-
+app.get("/", (req, res) => {
+  res.json({ message: "API is running successfully!" });
+});
 // Error Middleware
 app.use(errorMiddleware);
 
