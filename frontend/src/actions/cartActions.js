@@ -7,7 +7,7 @@ export const addCartItem = (id, quantity) => async (dispatch) => {
     try {
         dispatch(addCartItemRequest());
 
-        const { data } = await axios.get(`${API_BASE_URL}/api/v1/product/${id}`);
+        const { data } = await axios.get(`${API_BASE_URL}/product/${id}`);
         
         if (!data?.Product) throw new Error("Product not found in response");
 

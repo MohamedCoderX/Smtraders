@@ -10,7 +10,7 @@ const API_BASE_URL = process.env.REACT_APP_BACKEND_URL ; // Adjust port if neede
 export const adminOrders = () => async (dispatch) => {
     try {
         dispatch(adminOrdersRequest());
-        const { data } = await axios.get(`${API_BASE_URL}/api/v1/admin/orders`);
+        const { data } = await axios.get(`${API_BASE_URL}/admin/orders`);
         dispatch(adminOrdersSuccess(data));
     } catch (error) {
         dispatch(adminOrdersFail(error.response?.data?.message || "Server Error"));
@@ -21,7 +21,7 @@ export const adminOrders = () => async (dispatch) => {
 export const createOrder = (order) => async (dispatch) => {
     try {
         dispatch(createOrderRequest());
-        const { data } = await axios.post(`${API_BASE_URL}/api/v1/order/new`, order, {
+        const { data } = await axios.post(`${API_BASE_URL}/order/new`, order, {
             headers: { "Content-Type": "application/json" }
         });
         dispatch(createOrderSuccess(data));
@@ -34,7 +34,7 @@ export const createOrder = (order) => async (dispatch) => {
 export const deleteOrder = (id) => async (dispatch) => {
     try {
         dispatch(deleteOrderRequest());
-        await axios.delete(`${API_BASE_URL}/api/v1/admin/order/${id}`);
+        await axios.delete(`${API_BASE_URL}/admin/order/${id}`);
         dispatch(deleteOrderSuccess(id)); // Optionally pass ID for immediate UI update
     } catch (error) {
         dispatch(deleteOrderFail(error.response?.data?.message || "Order Deletion Failed"));
