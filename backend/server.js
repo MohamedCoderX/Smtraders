@@ -9,8 +9,10 @@ connectDatabase();
 const server = app.listen(process.env.PORT,(res)=>
 {
     console.log(`My started ${process.env.PORT} in ${process.env.NODE_ENV}`)
-    res.send('Server is running');
 })
+app.get("/", (req, res) => {
+    res.json({ message: "API is running successfully!" });
+  });
 
 process.on('unhandledRejection',(err)=>{
     console.log(`Error: ${err.message}`);

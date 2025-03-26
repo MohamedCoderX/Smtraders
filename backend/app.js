@@ -15,6 +15,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+console.log(process.env.FRONTEND_URL);
 
 // ✅ Manually add CORS headers to all responses
 app.use((req, res, next) => {
@@ -40,15 +41,15 @@ app.use('/api/v1/', auth);
 app.use('/api/v1/', order);
 
 // Environment Variables
-dotenv.config({ path: path.join(__dirname, "config/config.env") });
+
 
 // Production Static Files (Frontend)
-if (process.env.NODE_ENV === "Production") {
-  app.use(express.static(path.join(__dirname, '../frontend/build/')));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
-  });
-}
+// if (process.env.NODE_ENV === "Production") {
+//   app.use(express.static(path.join(__dirname, '../frontend/build/')));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+//   });
+// }
 
 // Error Middleware
 app.use(errorMiddleware);
