@@ -1,9 +1,6 @@
 const app = require('./app');
 const connectDatabase = require('./config/database');
 
-
-
-
 connectDatabase();
 
 const server = app.listen(process.env.PORT,(res)=>
