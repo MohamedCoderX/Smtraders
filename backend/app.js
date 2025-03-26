@@ -34,12 +34,12 @@ app.use("/api/v1/", products);
 app.use("/api/v1/", auth);
 app.use("/api/v1/", order);
 // ✅ Production Deployment for Vercel
-if (process.env.NODE_ENV === "Production") {
-  app.use(express.static(path.join(__dirname, "../frontend/build/")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
-  });
-}
+// if (process.env.NODE_ENV === "Production") {
+//   app.use(express.static(path.join(__dirname, "../frontend/build/")));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
+//   });
+// }
 // Error Middleware
 app.use(errorMiddleware);
 
