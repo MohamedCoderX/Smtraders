@@ -11,18 +11,18 @@ dotenv.config({ path: path.join(__dirname, "config/config.env") });
 // Middleware
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
-app.use(cookieParser());
 
-// ✅ Fixing CORS issues
-app.use(cors({
-  origin: "https://smtraders.vercel.app", // Allow frontend origin
-  credentials: true,  // Allow cookies
+const corse = {
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
-// ✅ Handle preflight requests properly
-app.options("*", cors());
+}
+// ✅ Fixing CORS issues
+app.options("", cors());
+app.use(cors(corse));
+  
 
+app.use(cookieParser());
 // Routes
 const products = require("./routes/product");
 const auth = require("./routes/auth");
