@@ -40,39 +40,28 @@ export const getProducts = (keyword, category, currentPage) => async (dispatch) 
   }
 };
 
-const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_API_BASE_URL,
-    withCredentials: true, // ✅ Send cookies for authentication
-});
-
-// ✅ GET ALL ADMIN PRODUCTS (With Authentication)
+// ✅ GET ALL ADMIN PRODUCTS
 export const getAdminProducts = async (dispatch) => {
   try {
     dispatch(adminProductsRequest());
-
-    const { data } = await axiosInstance.get(`/admin/products`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-    });
-
+    
+    const { data } = await axios.get(`${API_BASE_URL}/admin/products`,{ withCredentials: true, });
     dispatch(adminProductsSuccess(data));
   } catch (error) {
     dispatch(adminProductsFail(error.response?.data?.message || "Failed to load admin products"));
   }
 };
 
-// ✅ CREATE NEW PRODUCT (With Authentication)
+// ✅ CREATE NEW PRODUCT
 export const createNewProduct = (productData) => async (dispatch) => {
   try {
     dispatch(newProductRequest());
 
-    const config = { 
-      headers: { 
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${localStorage.getItem("token")}` // ✅ Send token
-      }
-    };
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-    const { data } = await axiosInstance.post(`/admin/product/new`, productData, config);
+    console.log("Sending FormData:", productData); // Debugging
+
+    const { data } = await axios.post(`${API_BASE_URL}/admin/product/new`, productData, config);
 
     dispatch(newProductSuccess(data));
   } catch (error) {
@@ -81,14 +70,12 @@ export const createNewProduct = (productData) => async (dispatch) => {
   }
 };
 
-// ✅ DELETE PRODUCT (With Authentication)
+// ✅ DELETE PRODUCT
 export const deleteProduct = (id) => async (dispatch) => {
   try {
     dispatch(deleteProductRequest());
 
-    await axiosInstance.delete(`/admin/product/${id}`, {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } // ✅ Send token
-    });
+    await axios.delete(`${API_BASE_URL}/admin/product/${id}`);
     
     dispatch(deleteProductSuccess());
   } catch (error) {

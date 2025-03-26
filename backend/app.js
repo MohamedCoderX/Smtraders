@@ -15,10 +15,10 @@ app.use(cookieParser());
 
 // ✅ CORS Configuration (Fixing frontend/backend communication)
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "https://smtraders.vercel.app", // Fallback URL if .env is missing
+  origin: process.env.FRONTEND_URL || "https://smtraders.vercel.app",
+  credentials: true,  // ✅ Must be true for cookies
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
 }));
 
 // Routes
