@@ -16,7 +16,8 @@ import {
   newProductSuccess,
 } from "../slices/productSlice";
 
-// Load API Base URL from environme
+// Load API Base URL from environment
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 // ✅ GET ALL PRODUCTS (WITH FILTERS)
 export const getProducts = (keyword, category, currentPage) => async (dispatch) => {
