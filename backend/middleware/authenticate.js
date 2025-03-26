@@ -1,9 +1,9 @@
-const ErrorHandler = require("../utils/errorHandler");
+const ErrorHanlder = require("../utils/errorHandler");
 const catchAsyncError = require("./catchAsyncError");
-const jwt = require("jsonwebtoken");
-const User = require("../models/userModel");
-exports.isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
-   console.log("Received Cookies:", req.cookies);  // ✅ Check if token is present
+const jwt = require('jsonwebtoken')
+const User = require('../models/userModel')
+exports.isAunthenticatedUser = catchAsyncError(async (req, res, next) => {
+   console.log("Cookies Received:", req.cookies);  // ✅ Check cookies
    console.log("Authorization Header:", req.headers.authorization);
 
    const { token } = req.cookies;
@@ -24,12 +24,11 @@ exports.isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
    }
 });
 
-
-exports.authorizeRoles = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      return next(new ErrorHandler(`Role ${req.user.role} is not allowed`, 403));
-    }
-    next();
-  };
-};
+exports.authorizeRoles = (...roles) =>{
+   return(req,res,next) => {
+if(!roles.includes(req.user.role)){
+   return next(new ErrorHanlder(`role ${req.user.role} is not defined`,401))
+}
+next()
+   }
+}

@@ -3,11 +3,11 @@ import { adminProductsFail, adminProductsRequest, adminProductsSuccess, products
 import { deleteProductFail, deleteProductRequest, deleteProductSuccess, newProductFail, newProductRequest, newProductSuccess } from '../slices/productSlice';
 
 
-const reactapp = process.env.REACT_APP_API_BASE_URL;
+const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
 export const getProducts = (keyword,category,currentPage,id,name,description,image) => async (dispatch) => {
     try{
         dispatch(productsRequest())
-        let link = `/api/v1/products?page=${currentPage}`;
+        let link = `${frontendUrl}/products?page=${currentPage}`;
         if(keyword){
             link += `&keyword=${keyword}`
         }
@@ -36,7 +36,7 @@ export const getAdminProducts =  async (dispatch) => {
     try{
         dispatch(adminProductsRequest())
         
-        const {data} = await axios.get(`${reactapp}/admin/products`);
+        const {data} = await axios.get(`${frontendUrl}/admin/products`,{withCredentials:true});
         dispatch(adminProductsSuccess(data))
     }catch(error){
 //handle error
@@ -55,7 +55,7 @@ export const createNewProduct = (productData) => async (dispatch) => {
 
         console.log("Sending FormData:", productData); // Debugging
 
-        const { data } = await axios.post(`/api/v1/admin/product/new`, productData, config);
+        const { data } = await axios.post(`${frontendUrl}/api/v1/admin/product/new`, productData, config,{withCredentials:true});   
         
         dispatch(newProductSuccess(data));
     } catch (error) {
@@ -69,7 +69,7 @@ export const deleteProduct  =  id => async (dispatch) => {
 
     try {  
         dispatch(deleteProductRequest()) 
-        await axios.delete(`/api/v1/admin/product/${id}`);
+        await axios.delete(`${frontendUrl}/api/v1/admin/product/${id}`,{withCredentials:true});
         dispatch(deleteProductSuccess())
     } catch (error) {
         //handle error
