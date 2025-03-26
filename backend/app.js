@@ -29,12 +29,10 @@ const errorMiddleware = require("./middleware/error");
 
 // Static Files for uploaded invoices
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
 // Route Mounting
 app.use("/api/v1/", products);
 app.use("/api/v1/", auth);
 app.use("/api/v1/", order);
-
 // ✅ Production Deployment for Vercel
 if (process.env.NODE_ENV === "Production") {
   app.use(express.static(path.join(__dirname, "../frontend/build/")));
@@ -42,7 +40,6 @@ if (process.env.NODE_ENV === "Production") {
     res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
   });
 }
-
 // Error Middleware
 app.use(errorMiddleware);
 
