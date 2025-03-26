@@ -11,8 +11,8 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
 app.use(cors({
   origin: [
-    'https://smtraders.onrender.com',  // Production URL
-    'http://localhost:3000'  // Development URL
+    process.env.BACKEND_URL,  // Production URL
+    process.env.FRONTEND_URL  // Development URL
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ['Content-Type', 'Authorization'],

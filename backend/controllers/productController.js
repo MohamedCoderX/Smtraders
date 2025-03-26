@@ -2,7 +2,7 @@ const product = require('../models/productmodel');
 const ErrorHanlder = require('../utils/errorHandler');
 const catchAsyncError = require('../middleware/catchAsyncError');
 const APIFeatures = require('../utils/apiFeatures');
-
+const cloudinary = require('../config/cloudinary');
 
 //get products - {{base_url}}/api/v1/products
 exports.getProducts =catchAsyncError(async(req,res,next)=>{
@@ -35,29 +35,52 @@ res.status(200).json({
 })
 
 //Create product - api/v1/products/new
-exports.newProduct = catchAsyncError(async(req,res,next)=>{    
-let images  = []
-let BASE_URL = process.env.BACKEND_URL;
-if(process.env.NODE_ENV === "Production"){
-    BASE_URL = `https://${req.get('host')}`
-}
+exports.newProduct = catchAsyncError(async (req, res, next) => {
+    try {
+        console.log("Received request body:", req.body);
+        console.log("Received files:", req.files);
 
-    
-if(req.files.length > 0){
-  req.files.forEach(file => {
-    let url = `${BASE_URL}/uploads/product/${file.originalname}`;
-    images.push({image:url})
-});
-}
-req.body.images = images;
-req.body.user = req.user.id;
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({ success: false, message: "No images uploaded" });
+        }
 
-    const Product = await product.create(req.body);
-res.status(201).json({
-    sucess:true,
-    Product
-})
+        let images = [];
+
+        // Upload images to Cloudinary
+        for (let file of req.files) {
+            try {
+                const result = await cloudinary.uploader.upload(file.path, {
+                    folder: "products",
+                });
+                console.log("Cloudinary Upload Success:", result.secure_url);
+                images.push({ image: result.secure_url });
+            } catch (error) {
+                console.error("Cloudinary Upload Error:", error);
+                return res.status(500).json({ success: false, message: "Image upload failed" });
+            }
+        }
+
+        req.body.images = images;
+        req.body.user = req.user.id;
+
+        // Check if the Product model is correctly defined
+        if (!product) {
+            throw new Error("Product model is not initialized");
+        }
+
+        const Product = await product.create(req.body);
+
+        res.status(201).json({
+            success: true,
+            product,
+        });
+    } catch (error) {
+        console.error("Product creation error:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
 });
+
+
 
 //get single product -{{base_url}}/api/v1/product/:id
 exports.getSingleProduct = catchAsyncError(async(req,res,next) => {

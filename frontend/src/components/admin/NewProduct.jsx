@@ -65,21 +65,24 @@ export default function NewProduct() {
         })
 
     }
-    
     const submitHandler = (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('name' , name);
-        formData.append('price' , price);
-        formData.append('stock' , stock);
-        formData.append('description' , description);
-       
-        formData.append('category' , category);
-        images.forEach (image => {
-            formData.append('images', image)
-        })
-        dispatch(createNewProduct(formData))
-    }
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append('name' , name);
+      formData.append('price' , price);
+      formData.append('stock' , stock);
+      formData.append('description' , description);
+      formData.append('category' , category);
+      
+      images.forEach(image => {
+          formData.append('images', image);
+      });
+  
+      console.log("🚀 Sending FormData:", [...formData.entries()]); // Debugging
+  
+      dispatch(createNewProduct(formData));
+  };
+  
 
     useEffect(() => {
         if(isProductCreated) {

@@ -43,18 +43,28 @@ export const getAdminProducts =  async (dispatch) => {
 dispatch(adminProductsFail(error.response.data.message))
     }
 }
+export const createNewProduct = (productData) => async (dispatch) => {
+    try {
+        dispatch(newProductRequest());
 
-export const createNewProduct = productData => async (dispatch) => {
-    try{
-        dispatch(newProductRequest())
+        const config = {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        };
+
+        console.log("Sending FormData:", productData); // Debugging
+
+        const { data } = await axios.post(`/api/v1/admin/product/new`, productData, config);
         
-        const {data} = await axios.post(`/api/v1/admin/product/new`,productData);
-        dispatch(newProductSuccess(data))
-    }catch(error){
-//handle error
-dispatch(newProductFail(error.response.data.message))
+        dispatch(newProductSuccess(data));
+    } catch (error) {
+        dispatch(newProductFail(error.response?.data?.message || "Server Error"));
+        console.error("Product creation error:", error.response?.data);
     }
-}
+};
+
+
 export const deleteProduct  =  id => async (dispatch) => {
 
     try {  
