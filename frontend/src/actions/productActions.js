@@ -69,7 +69,7 @@ export const deleteProduct  =  id => async (dispatch) => {
 
     try {  
         dispatch(deleteProductRequest()) 
-        await axios.delete(`${frontendUrl}/api/v1/admin/product/${id}`,{withCredentials:true});
+        await axios.delete(`${frontendUrl}/admin/product/${id}`,{withCredentials:true});
         dispatch(deleteProductSuccess())
     } catch (error) {
         //handle error

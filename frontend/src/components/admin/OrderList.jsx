@@ -34,11 +34,13 @@ const OrderList = () => {
                     <img src="/images/Logo.jpeg" alt="Logo" style="width: 150px;margin-bottom: 10px;" />
 
                     <h2>SM CRACKERS</h2>
-                    <p>4/89 Vallalar Street, Abirami Nagar, Sennelur, Chennai - 600056</p>
+                    <p>Sattur to thayilpatti main road 
+Unjampatti</p>
                     <p>Office No : 8903359989 </p>
                     <p>☎ 6381933039 / 8248450298</p>
                 </div>
                 <hr/>
+                <h1>Invoice Bill </h1>
                 <div style="display: flex; justify-content: space-between;">
                    
                     <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
@@ -52,7 +54,7 @@ const OrderList = () => {
                 <table style="width: 100%; border-collapse: collapse; text-align: center;">
                     <thead>
                         <tr style="background: #007bff; color: white;">
-                            <th style="padding: 10px; border: 1px solid #ddd;">#</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">S.No</th>
                             <th style="padding: 10px; border: 1px solid #ddd;">Product</th>
                             <th style="padding: 10px; border: 1px solid #ddd;">Qty</th>
                             <th style="padding: 10px; border: 1px solid #ddd;">Price (₹)</th>

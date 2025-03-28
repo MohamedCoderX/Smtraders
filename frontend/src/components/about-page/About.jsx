@@ -16,10 +16,20 @@ const About = () => {
 <div className="header-content-about">
     <h1>SM Crackers</h1>
     <h2>ABOUT US</h2>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.Alias expedita facere ri totam ad <br/>
-     Alias expedita facere assumenda iste laboriosam ut exceptu S totam ad sequi ni ri totam ad <br/>
-     ri totam ad sequi nihil, reprehenderit illo vero consectet optio soluta laborum ri totam ad <br/>
-     optio soluta laborum, distinctio eligendi eaque.</p>
+    <p>Welcome to SM Crackers, your one-stop destination for high-quality
+            crackers that light up every celebration! We specialize in offering
+            a wide range of fireworks, from dazzling sparklers to grand aerial
+            shells, ensuring that your festivities shine brighter than ever.
+            With years of experience in the fireworks industry, we take pride in
+            providing only the safest and most spectacular crackers, sourced
+            from trusted manufacturers. Whether you're celebrating Diwali, New
+            Year's Eve, weddings, or any special occasion, our collection is
+            curated to add excitement and joy to your moments. At SM Crackers,
+            customer satisfaction and safety are our top priorities. Our
+            user-friendly online store allows you to browse, choose, and order
+            crackers with ease, all while ensuring secure payments and reliable
+            delivery. Light up the sky and make every occasion memorable with SM
+            Crackers!</p>
 
      <div className="header-contentimg">
      <img src="../images/wholesale.jpg" alt=" wholesale"/>

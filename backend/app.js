@@ -6,13 +6,13 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 // Middleware
-dotenv.config({ path: path.join(__dirname, "config/config.env") });
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL || 'http://localhost:3000'  // Development URL
+    'https://smtraders.onrender.com',  // Production URL
+    'http://localhost:3000'  // Development URL
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ['Content-Type', 'Authorization'],

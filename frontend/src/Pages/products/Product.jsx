@@ -49,10 +49,10 @@ export default function Product({ product }) {
       </div>
       <div className="cracker-item-info">
         <div className="cracker-review">
-          <p>{product.name}</p>
-          <p id="product_id">Product #{product._id}</p>
+          <p style={{textTransform:"capitalize"}}>{product.name}</p>
+          
         </div>
-        <p className="cracker-item-desc">{product.description}</p>
+        <p className="cracker-item-desc" >{product.description}</p>
         <p className="cracker-item-price">&#x20B9;{product.price}</p>
         <div className="cart">
           <div className="adding">

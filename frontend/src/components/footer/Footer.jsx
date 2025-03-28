@@ -37,11 +37,8 @@ const Footer = () => {
         </div>
         <div className="abtcom">
             <h2>About the company</h2>
-            <p>Lorem, ipsum dolor sit amet 
-                adipisicing elit. Sequi id
-                accusamus saepe maiores
-                neque! Aperiam nulla ven
-                erat explicabo, maiores a </p>
+            <p>At SM Crackers, customer satisfaction and safety are our top priorities. Our user-friendly online store allows you to browse, choose, and order crackers with ease, all while ensuring secure payments and reliable delivery.
+            </p>
                
         </div>
 <hr />
