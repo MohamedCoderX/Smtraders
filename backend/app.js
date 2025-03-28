@@ -7,11 +7,12 @@ const dotenv = require('dotenv');
 
 // Middleware
 app.use(express.json({ limit: "100mb" }));
+dotenv.config({ path: path.join(__dirname, "config/config.env") });
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
 app.use(cors({
   origin: [
-    'https://smtraders.onrender.com',  // Production URL
+    process.env.FRONTEND_URL,  // Production URL
     'http://localhost:3000'  // Development URL
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -36,7 +37,7 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 // Environment Variables
-dotenv.config({ path: path.join(__dirname, "config/config.env") });
+
 
 // Production Static Files (Frontend)
 // if (process.env.NODE_ENV === "Production") {
