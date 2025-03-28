@@ -12,13 +12,13 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL,  // Production URL
-    'http://localhost:3000'  // Development URL
+    process.env.FRONTEND_URL  // Production URL
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
+app.options('*', cors());
 
 // Routes
 const products = require('./routes/product');
