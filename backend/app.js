@@ -11,14 +11,12 @@ dotenv.config({ path: path.join(__dirname, "config/config.env") });
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL  // Production URL
-  ],
+  origin: process.env.FRONTEND_URL , // Production URL,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
-app.options('*', cors());
+app.options('', cors());
 
 // Routes
 const products = require('./routes/product');
