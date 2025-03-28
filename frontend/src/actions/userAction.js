@@ -23,7 +23,10 @@ const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch(loginRequest());
-    const { data } = await axios.post(`${frontendUrl}/login`, { email, password },{withCredentials:true});  
+    const { data } = await axios.post(`${frontendUrl}/login`, { email, password },{withCredentials:true, headers: {
+      "Content-Type": "application/json",
+    }},
+     );  
     dispatch(loginSucess(data));
   } catch (error) {
     dispatch(loginFail(error.response.data.message));
@@ -42,7 +45,9 @@ export const register = (userData) => async (dispatch) => {
         "Content-type": 'application/json',
       },
     }
-    const { data} = await axios.post(`${frontendUrl}/register`,userData,config,{withCredentials:true});
+    const { data} = await axios.post(`${frontendUrl}/register`,userData,config,{withCredentials:true,headers: {
+      "Content-Type": "application/json",
+    }});
     dispatch(registerSuccess(data));
   } catch (error) {
     dispatch(registerFail(error.response.data.message));
