@@ -18,7 +18,7 @@ const ProductSearch = () => {
   const { products, loading, error, productsCount, resPerPage } = useSelector(
     (state) => state.productsState
   );
-  
+
   const { keyword } = useParams(); // Get search keyword from URL
   const [currentPage, setCurrentPage] = useState(1);
   const [category, setCategory] = useState("");
@@ -64,7 +64,7 @@ const ProductSearch = () => {
       <div className="cracker-display" id="cracker-display">
         <h2>All Type Of Crackers</h2>
 
-        {/* Show message if searched */}
+        {/* Show message only if searched */}
         {keyword && (
           <div className="d-flex justify-content-center align-items-center m-1">
             <h6 className="text-center border p-1 border-success">
@@ -72,7 +72,7 @@ const ProductSearch = () => {
             </h6>
             <button
               className="btn btn-danger ms-3"
-              onClick={() => window.location.href = "/products"}
+              onClick={() => (window.location.href = "/products")}
             >
               Clear Search
             </button>
@@ -86,35 +86,40 @@ const ProductSearch = () => {
             <Loader />
           ) : (
             <div className="cracker-display-list">
-              <div className="run">
-                <h3>Browse Categories</h3>
-                <div className="category">
-                  <ul>
-                    {categories.map((cat) => (
-                      <li key={cat} onClick={() => setCategory(cat)}>
-                        {cat}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-              <div className="ruin">
-                <h3>Browse Categories</h3>
-                <div className="category">
-                  <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="category-select"
-                  >
-                    <option value="">Select a category</option>
-                    {categories.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+              {/* Show Browse Categories ONLY when NOT searching */}
+              {!keyword && (
+                <>
+                  <div className="run">
+                    <h3>Browse Categories</h3>
+                    <div className="category">
+                      <ul>
+                        {categories.map((cat) => (
+                          <li key={cat} onClick={() => setCategory(cat)}>
+                            {cat}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="ruin">
+                    <h3>Browse Categories</h3>
+                    <div className="category">
+                      <select
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="category-select"
+                      >
+                        <option value="">Select a category</option>
+                        {categories.map((cat) => (
+                          <option key={cat} value={cat}>
+                            {cat}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </>
+              )}
 
               <div className="cracker-view">
                 {products &&

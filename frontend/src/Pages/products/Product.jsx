@@ -1,22 +1,10 @@
-// import React from 'react'
-// import Crackerdisplay from '../../components/cracker/Crackerdisplay'
-// import Header  from '../../components/Header/Header'
-// import Navbar from '../../components/Navbar/Navbar'
-// const Product = () => {
-//   return (
-//     <div>
-//  <Header/>
-// <Crackerdisplay/>
-// </div>
-//   )
-// }
-
 import { useState } from "react";
 import { addCartItem } from "../../actions/cartActions";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import './product.css'
-export default function Product({ product }) {
+import './product.css';
+
+export default function Product({ product, setCategory, categories }) {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
 
@@ -44,26 +32,38 @@ export default function Product({ product }) {
 
   return (
     <div className="cracker-list-item">
+      {/* Browse Categories - Always Visible */}
+      <div className="category-section">
+        <h3>Browse Categories</h3>
+        <div className="category">
+          <select
+            onChange={(e) => setCategory(e.target.value)}
+            className="category-select"
+          >
+            <option value="">Select a category</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {/* Product Display */}
       <div className="cracker-img">
         <img src={product.images[0]?.image} alt="Product" />
       </div>
       <div className="cracker-item-info">
         <div className="cracker-review">
-          <p style={{textTransform:"capitalize"}}>{product.name}</p>
-          
+          <p style={{ textTransform: "capitalize" }}>{product.name}</p>
         </div>
-        <p className="cracker-item-desc" >{product.description}</p>
+        <p className="cracker-item-desc">{product.description}</p>
         <p className="cracker-item-desc">{product.category}</p>
         <p className="cracker-item-price">&#x20B9;{product.price}</p>
         <div className="cart">
           <div className="adding">
-            <span className="btn minus" onClick={decreaseQty}>
-              -
-            </span>
+            <span className="btn minus" onClick={decreaseQty}>-</span>
             <input type="number" className="count" value={quantity} readOnly />
-            <span className="btn plus" onClick={increaseQty}>
-              +
-            </span>
+            <span className="btn plus" onClick={increaseQty}>+</span>
           </div>
           <div className="add">
             <button
