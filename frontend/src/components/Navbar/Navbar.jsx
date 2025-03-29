@@ -12,7 +12,7 @@ const Navbar = () => {
   const { isAuthenticated, user } = useSelector((state) => state.authState);
   
   const logoutHandler = () => {
-    dispatch(logout());
+    dispatch(logout);
     navigate('/'); // Redirect to home after logout
   };
 
