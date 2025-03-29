@@ -1,23 +1,28 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "server.js",
-        "use": "@vercel/node"
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "server.js",
+      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      "headers": {
+        "Access-Control-Allow-Origin": "https://smtraders.vercel.app",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Credentials": "true"
       }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "server.js",
-        "methods": ["GET", "POST", "PUT", "DELETE"]
-      }
-    ],
-    "functions": {
+    }
+  ],
+  "functions": {
     "server.js": {
       "memory": 1024,
       "maxDuration": 30
     }
   }
-  }
-  
+}

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "ecommerce Website using mern stack",
   "main": "server.js",
+  
   "scripts": {
     "start": "nodemon backend/server.js",
     "build": "npm install && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend ",

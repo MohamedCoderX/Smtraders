@@ -23,7 +23,9 @@ const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch(loginRequest());
-    const { data } = await axios.post(`${frontendUrl}/login`, { email, password },{withCredentials:true, headers: {
+    const { data } = await axios.post(`${frontendUrl}/login`, { email, password },
+      {withCredentials:true, 
+        headers: {
       "Content-Type": "application/json",
     }},
      );  

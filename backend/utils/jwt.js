@@ -11,7 +11,6 @@ const sendToken = (user,statusCode,res)=>{
     sameSite: "None", // Allows cross-site cookies
     }
 
-
 res.status(statusCode)
 .cookie('token',token,options)
 .json({
