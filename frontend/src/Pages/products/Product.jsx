@@ -53,6 +53,7 @@ export default function Product({ product }) {
           
         </div>
         <p className="cracker-item-desc" >{product.description}</p>
+        <p className="cracker-item-desc">{product.category}</p>
         <p className="cracker-item-price">&#x20B9;{product.price}</p>
         <div className="cart">
           <div className="adding">
