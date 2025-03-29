@@ -12,7 +12,7 @@ app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
 app.use(cors({
   credentials: true,
-  origin:process.env.FRONTEND_URL ,, 
+  origin:process.env.FRONTEND_URL ,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ['Content-Type', 'Authorization'],
 
