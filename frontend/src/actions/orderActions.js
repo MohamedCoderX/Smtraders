@@ -22,7 +22,7 @@ export const adminOrders = async (dispatch) => {
 export const createOrder = (order) => async (dispatch) => {
     try {
         dispatch(createOrderRequest());
-        const { data } = await axios.post(`/api/v1/order/new`, order);
+        const { data } = await axios.post(`${frontendUrl}/order/new`, order);
         dispatch(createOrderSuccess(data));
     } catch (error) {
         dispatch(createOrderFail(error.response?.data?.message || "Order Creation Failed"));

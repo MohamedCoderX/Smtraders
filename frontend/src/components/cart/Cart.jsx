@@ -9,9 +9,10 @@ export default function Cart () {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const increaseQty = (item) => {
-        if (item.stock === 0 || item.quantity >= item.stock) return;
-        dispatch(increaseCartItemQty({ product: item.product, quantity: item.quantity + 1 }));
-    };
+        const count = item.quantity;
+        if(item.stock ==0 ||  count >= item.stock) return;
+        dispatch(increaseCartItemQty(item.product))
+    }
     const decreaseQty = (item) => {
         const count = item.quantity;
         if(count == 1) return;
