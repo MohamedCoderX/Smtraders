@@ -38,16 +38,18 @@ sendToken(user,201,res)
     
 })
 
-exports.logoutUser = (req,res,next)=>{
-    res.cookie('token',null,{
-        expires:new Date(Date.now()),
-        htttpOnly:true
-    }).status(200)
-    .json({
-        succes:true,
-        message:"loggeout"
-    })
-}
+exports.logoutUser = (req, res, next) => {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+      sameSite: "None",
+    });
+  
+    res.status(200).json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  };
 
 exports.forgotPassword = catchAsyncError(async(req,res,next) =>{
     const user = await User.findOne({email: req.body.email});
