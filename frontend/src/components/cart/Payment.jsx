@@ -113,7 +113,6 @@ const Payment = () => {
                     <div className="left">
                         <h5>Customer Details</h5>
                         <p><strong>Name:</strong> {shippingInfo?.name || "Guest"}</p>
-                        <p><strong>Email:</strong> {user?.email || "Not Provided"}</p>
                         <p><strong>Phone:</strong> {shippingInfo?.phoneNo || "Not Provided"}</p>
                         <p><strong>Address:</strong> {shippingInfo?.address}, {shippingInfo?.city}, {shippingInfo?.postalCode}, {shippingInfo?.state}, {shippingInfo?.country}</p>
                     </div>

@@ -10,7 +10,8 @@ export default function Cart () {
     const navigate = useNavigate();
     const increaseQty = (item) => {
         const count = item.quantity;
-        if(item.stock ==0 ||  count >= item.stock) return;
+        if (item.stock === 0 || count >= item.stock) return;
+        if (count === 1) return;s
         dispatch(increaseCartItemQty(item.product))
     }
     const decreaseQty = (item) => {
@@ -20,7 +21,7 @@ export default function Cart () {
     }
     
     const checkoutHandler = () =>{
-        navigate('/login?redirect=shipping')
+        navigate('/shipping')
     }
 
     return(
