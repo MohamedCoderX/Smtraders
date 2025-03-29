@@ -22,7 +22,7 @@ const upload = multer({
   });
   
 
-router.route('/order/new').post(isAunthenticatedUser,newOrder);
+router.route('/order/new').post(newOrder);
 router.route('/order/:id').get(isAunthenticatedUser,getSingleOrder)
 router.route('/myorders').get(isAunthenticatedUser,myOrders)
 
