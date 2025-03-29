@@ -24,7 +24,7 @@ const Payment = () => {
     const calculateDiscount = () => cartItems.reduce((acc, item) => acc + (item.discount || 0) * item.quantity, 0) || 0;
     const calculateNetTotal = () => calculateTotal() - calculateDiscount();
 
-    // Function to send invoice details to the backend
+
     // const sendInvoiceToAdmin = async (invoiceData) => {
     //     try {
     //         await axios.post("https://smtraders.onrender.com/api/v1/admin/upload-invoice", invoiceData, {

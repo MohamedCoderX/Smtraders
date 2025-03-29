@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
+
 const orderSchema = new mongoose.Schema({
     shippingInfo: {
-        name:{
-            type:String,
-            require:true
+        name: {
+            type: String,
+            required: true
         },
         address: {
             type: String,
             required: true
         },
-        
         city: {
             type: String,
             required: true
@@ -22,15 +22,10 @@ const orderSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        state:{
-            type:String,
-            required:true
+        state: {
+            type: String,
+            required: true
         }
-    },
-    user: {
-        type: mongoose.SchemaTypes.ObjectId,
-        required: true,
-        ref: 'User'
     },
     orderItems: [{
         name: {
@@ -54,7 +49,6 @@ const orderSchema = new mongoose.Schema({
             required: true,
             ref: 'Product'
         }
-
     }],
     itemsPrice: {
         type: Number,
@@ -91,9 +85,10 @@ const orderSchema = new mongoose.Schema({
     invoice: {
         type: String, // Store the URL of the uploaded PDF
         required: false,
-      },
+    }
 });
 
-let orderModel = mongoose.model('Order', orderSchema);
+// Ensure 'user' is removed
+const Order = mongoose.model('Order', orderSchema);
 
-module.exports = orderModel;
+module.exports = Order;
