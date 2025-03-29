@@ -53,7 +53,7 @@ useEffect(()=>{
       <Route path = '/Mycart' element={<Cart/>}/>
       <Route path='/payment' element={<Payment/>}/>
       <Route path = '/shipping' element={<Shipping/>}/>
-      <Route path = '/order/confirm' element={<ProtectedRoute><ConfirmOrder/></ProtectedRoute>}/>
+      <Route path = '/order/confirm' element={<ConfirmOrder/>}/>
       <Route path='/admin/orders' element={<OrderList/>}/>
       
         <Route path ='/admin/dashboard' element={<ProtectedRoute isAdmin={true}><Dashboard/></ProtectedRoute>}/>
