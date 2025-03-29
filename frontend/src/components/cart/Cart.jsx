@@ -11,7 +11,7 @@ export default function Cart () {
     const increaseQty = (item) => {
         const count = item.quantity;
         if (item.stock === 0 || count >= item.stock) return;
-        if (count === 1) return;s
+        if (count === 1) return;
         dispatch(increaseCartItemQty(item.product))
     }
     const decreaseQty = (item) => {
