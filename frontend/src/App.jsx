@@ -52,7 +52,7 @@ useEffect(()=>{
       <Route path='/password/reset/:token' element={<ResetPassword/>}/>
       <Route path = '/Mycart' element={<Cart/>}/>
       <Route path='/payment' element={<Payment/>}/>
-      <Route path = '/shipping' element={<ProtectedRoute><Shipping/></ProtectedRoute>}/>
+      <Route path = '/shipping' element={<Shipping/>}/>
       <Route path = '/order/confirm' element={<ProtectedRoute><ConfirmOrder/></ProtectedRoute>}/>
       <Route path='/admin/orders' element={<OrderList/>}/>
       
