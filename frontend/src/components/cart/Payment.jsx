@@ -24,18 +24,19 @@ const Payment = () => {
     const calculateDiscount = () => cartItems.reduce((acc, item) => acc + (item.discount || 0) * item.quantity, 0) || 0;
     const calculateNetTotal = () => calculateTotal() - calculateDiscount();
 
+    useEffect(() => {
+        // Prevent page reload duplicate
+        if (performance.navigation.type === 1) {
+            navigate("/", { replace: true });
+        }
 
-    // const sendInvoiceToAdmin = async (invoiceData) => {
-    //     try {
-    //         await axios.post("https://smtraders.onrender.com/api/v1/admin/upload-invoice", invoiceData, {
-    //             headers: { "Content-Type": "application/json" },
-    //         });
-    //         toast.success("Invoice sent to Admin!");
-    //     } catch (error) {
-    //         console.error("Failed to send invoice:", error);
-    //         toast.error("Failed to send invoice to Admin.");
-    //     }
-    // };
+        // Prevent browser back to cart/checkout
+        const handlePopState = () => {
+            navigate("/", { replace: true });
+        };
+        window.addEventListener("popstate", handlePopState);
+        return () => window.removeEventListener("popstate", handlePopState);
+    }, [navigate]);
 
     useEffect(() => {
         if (!orderCreated) {
@@ -48,7 +49,6 @@ const Payment = () => {
             setOrderCreated(true);
         }
 
-        // Send invoice details to Admin when page loads
         if (orderDetail && orderDetail._id) {
             const invoiceData = {
                 orderId: orderDetail._id,
@@ -70,11 +70,30 @@ const Payment = () => {
                 orderDate: new Date().toLocaleDateString(),
             };
 
-           
-        }
-    }, [orderDetail, orderCreated, dispatch, cartItems, shippingInfo]);
+            axios.post("https://smtraders.onrender.com/api/v1/admin/upload-invoice", invoiceData, {
+                headers: { "Content-Type": "application/json" },
+            })
+                .then(() => {
+                    toast.success("Invoice sent to admin!");
+                    dispatch(clearCart());
+                    localStorage.removeItem("cartItems");
+                    localStorage.removeItem("shippingInfo");
 
-    // Function to download PDF
+                    setTimeout(() => {
+                        navigate("/", { replace: true });
+                    }, 8000);
+                })
+                .catch((error) => {
+                    console.error("Failed to send invoice:", error);
+                    toast.error("Failed to send invoice to Admin.");
+                });
+        }
+    }, [orderDetail, orderCreated, dispatch, cartItems, shippingInfo, navigate]);
+
+    useEffect(() => {
+        invoiceRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, []);
+
     const downloadPDF = async () => {
         const invoiceElement = invoiceRef.current;
         if (!invoiceElement) return;
