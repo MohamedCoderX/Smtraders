@@ -55,7 +55,7 @@ export const createNewProduct = (productData) => async (dispatch) => {
 
         console.log("Sending FormData:", productData); // Debugging
 
-        const { data } = await axios.post(`${frontendUrl}/admin/product/new`, productData, config,{withCredentials:true});   
+        const { data } = await axios.post(`${frontendUrl}/admin/product/new`, productData, config);   
         
         dispatch(newProductSuccess(data));
     } catch (error) {
