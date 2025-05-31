@@ -37,7 +37,6 @@ res.status(200).json({
 //Create product - api/v1/products/new
 exports.newProduct = catchAsyncError(async (req, res, next) => {
     try {
-        console.log("Received request body:", req.body);
         console.log("Received files:", req.files);
 
         if (!req.files || req.files.length === 0) {
@@ -46,39 +45,28 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
 
         let images = [];
 
-        // Upload images to Cloudinary
         for (let file of req.files) {
-            try {
-                const result = await cloudinary.uploader.upload(file.path, {
-                    folder: "products",
-                });
-                console.log("Cloudinary Upload Success:", result.secure_url);
-                images.push({ image: result.secure_url });
-            } catch (error) {
-                console.error("Cloudinary Upload Error:", error);
-                return res.status(500).json({ success: false, message: "Image upload failed" });
+            if (!file?.path) {
+                return res.status(500).json({ success: false, message: "File upload failed" });
             }
+            images.push({ image: file.path }); // Cloudinary secure_url is in file.path
         }
 
         req.body.images = images;
         req.body.user = req.user.id;
 
-        // Check if the Product model is correctly defined
-        if (!product) {
-            throw new Error("Product model is not initialized");
-        }
-
-        const Product = await product.create(req.body);
+        const createdProduct = await product.create(req.body);
 
         res.status(201).json({
             success: true,
-            product,
+            product: createdProduct,
         });
     } catch (error) {
         console.error("Product creation error:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 });
+
 
 
 

@@ -32,6 +32,6 @@ router.route('/product/:id').put(updateProduct)
 //admin routes
 
 router.route('/admin/products').get(isAunthenticatedUser,authorizeRoles('admin'),getAdminProducts)
-router.route('/admin/product/new').post(isAunthenticatedUser, authorizeRoles('admin'),upload.single('images'), newProduct);
+router.route('/admin/product/new').post(isAunthenticatedUser, authorizeRoles('admin'),upload.array('images'), newProduct);
 router.route('/admin/product/:id').delete(isAunthenticatedUser,authorizeRoles('admin'),deleteProduct)
 module.exports = router;
