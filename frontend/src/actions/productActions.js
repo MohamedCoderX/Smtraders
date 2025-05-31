@@ -47,15 +47,8 @@ export const createNewProduct = (productData) => async (dispatch) => {
     try {
         dispatch(newProductRequest());
 
-        const config = {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        };
-
-        console.log("Sending FormData:", productData); // Debugging
-
-        const { data } = await axios.post(`${frontendUrl}/admin/product/new`, productData, config);   
+        // No headers config needed, let axios handle it automatically
+        const { data } = await axios.post(`${frontendUrl}/admin/product/new`, productData);
         
         dispatch(newProductSuccess(data));
     } catch (error) {
@@ -63,6 +56,7 @@ export const createNewProduct = (productData) => async (dispatch) => {
         console.error("Product creation error:", error.response?.data);
     }
 };
+
 
 
 export const deleteProduct  =  id => async (dispatch) => {
