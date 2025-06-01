@@ -48,7 +48,7 @@ export const createNewProduct = (productData) => async (dispatch) => {
         dispatch(newProductRequest());
 
         // No headers config needed, let axios handle it automatically
-        const { data } = await axios.post(`${frontendUrl}/admin/product/new`, productData);
+        const { data } = await axios.post(`${frontendUrl}/admin/product/new`, productData , {withCredentials:true});
         
         dispatch(newProductSuccess(data));
     } catch (error) {
