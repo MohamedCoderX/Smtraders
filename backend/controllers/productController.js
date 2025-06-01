@@ -35,11 +35,9 @@ res.status(200).json({
 })
 
 //Create product - api/v1/products/new
-export const newProduct = catchAsyncError(async (req, res, next) => {
+exports.newProduct = catchAsyncError(async (req, res, next) => {
     try {
-        console.log("req.files:", req.files);
-        console.log("req.body:", req.body);
-        console.log("req.user:", req.user);
+        console.log("Received files:", req.files);
 
         if (!req.files || req.files.length === 0) {
             return res.status(400).json({ success: false, message: "No images uploaded" });
@@ -48,19 +46,13 @@ export const newProduct = catchAsyncError(async (req, res, next) => {
         let images = [];
 
         for (let file of req.files) {
-            console.log("Processing file:", file);
             if (!file?.path) {
                 return res.status(500).json({ success: false, message: "File upload failed" });
             }
-            images.push({ image: file.path });
+            images.push({ image: file.path }); // Cloudinary secure_url is in file.path
         }
 
         req.body.images = images;
-
-        // Make sure req.user.id exists or handle if auth missing
-        if (!req.user || !req.user.id) {
-            return res.status(401).json({ success: false, message: "User not authenticated" });
-        }
         req.body.user = req.user.id;
 
         const createdProduct = await product.create(req.body);
