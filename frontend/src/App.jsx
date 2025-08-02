@@ -26,6 +26,7 @@ import ProductList from './components/admin/ProductList';
 import NewProduct from './components/admin/NewProduct';
 import Payment from './components/cart/Payment';
 import OrderList from './components/admin/OrderList';
+import FlashingOfferBox from './components/FlashingOfferBox';
 
 
 function App() {
@@ -38,6 +39,7 @@ useEffect(()=>{
      <div className="App">
       <HelmetProvider>
       <Navbar/>
+      <FlashingOfferBox/>
       <ToastContainer/>
       <Routes>
         <Route path='/search' element={<ProductSearch/>}/>
