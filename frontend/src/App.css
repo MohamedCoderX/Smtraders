@@ -9,6 +9,26 @@ body {
   padding: 0px;
   overflow-x: hidden;
 }
+.vertical-offer-box {
+  position: fixed;
+  top:60%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 99;
+}
+
+.vertical-offer-text {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  font-size: 10px;
+  padding: 6px 10px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  white-space: nowrap;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  cursor: default;
+}
 .App{
   width: 100%;
   margin: auto;
