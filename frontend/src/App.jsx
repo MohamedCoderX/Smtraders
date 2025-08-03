@@ -27,6 +27,7 @@ import NewProduct from './components/admin/NewProduct';
 import Payment from './components/cart/Payment';
 import OrderList from './components/admin/OrderList';
 import FlashingOfferBox from './components/FlashingOfferBox';
+import Whatsapp from './components/Whatsapp';
 
 
 function App() {
@@ -39,6 +40,7 @@ useEffect(()=>{
      <div className="App">
       <HelmetProvider>
       <Navbar/>
+      <Whatsapp/>
       <FlashingOfferBox/>
       <ToastContainer/>
       <Routes>

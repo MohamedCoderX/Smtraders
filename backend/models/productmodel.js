@@ -1,3 +1,4 @@
+const { original } = require("@reduxjs/toolkit");
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
@@ -8,6 +9,11 @@ const productSchema = new mongoose.Schema({
     maxLength: [100, "product name cannot be exceed 100"],
   },
   price: {
+    type: Number,
+    required: true,
+    default: 0.0,
+  },
+  originalPrice: {
     type: Number,
     required: true,
     default: 0.0,

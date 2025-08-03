@@ -10,6 +10,7 @@ import Sidebar from "./Sidebar";
 export default function NewProduct() {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
+    const [originalPrice, setOriginalPrice] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("");
     const [stock, setStock] = useState(0);
@@ -71,6 +72,7 @@ export default function NewProduct() {
       formData.append('name' , name);
       formData.append('price' , price);
       formData.append('stock' , stock);
+      formData.append('originalPrice' , originalPrice);
       formData.append('description' , description);
       formData.append('category' , category);
       
@@ -130,7 +132,7 @@ export default function NewProduct() {
               </div>
 
               <div className="form-group">
-                <label htmlFor="price_field">Price</label>
+                <label htmlFor="price_field">Discounted Price</label>
                 <input
                   type="text"
                   id="price_field"
@@ -139,7 +141,17 @@ export default function NewProduct() {
                   value={price}
                 />
               </div>
-
+              {/* ///original price form */}
+              <div className="form-group">
+                <label htmlFor="originalPrice_field">Original Price</label>
+                <input
+                  type="text"
+                  id="originalPrice_field"
+                  className="form-control"
+                  onChange={(e) => setOriginalPrice(e.target.value)}
+                  value={originalPrice}
+                />
+              </div>
               <div className="form-group">
                 <label htmlFor="description_field">Description</label>
                 <textarea
