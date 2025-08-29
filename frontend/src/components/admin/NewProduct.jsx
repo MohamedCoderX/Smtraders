@@ -39,7 +39,8 @@ export default function NewProduct() {
 'Flash novalties',
 'Varities',
 'Colour matches',
-'Gift box'
+'Gift box',
+'Sparklers'
     ];
 
     const navigate = useNavigate();
