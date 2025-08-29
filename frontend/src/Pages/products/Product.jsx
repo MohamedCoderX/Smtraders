@@ -50,10 +50,22 @@ export default function Product({ product }) {
       <div className="cracker-item-info">
         <div className="cracker-review">
           <p>{product.name}</p>
-          <p id="product_id">Product #{product._id}</p>
+          
         </div>
         <p className="cracker-item-desc">{product.description}</p>
-        <p className="cracker-item-price">&#x20B9;{product.price}</p>
+        <div className="price-wrapper">
+  <p className="cracker-item-price">
+  &#x20B9;
+    {product.price}
+  </p>
+
+  {product.originalPrice && (
+    <p className="cracker-item-original-price">
+      &#x20B9;
+      <span>{product.originalPrice}</span>
+    </p>
+  )}
+</div>
         <div className="cart">
           <div className="adding">
             <span className="btn minus" onClick={decreaseQty}>

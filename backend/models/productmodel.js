@@ -1,3 +1,4 @@
+const { original } = require("@reduxjs/toolkit");
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
@@ -12,7 +13,9 @@ const productSchema = new mongoose.Schema({
     required: true,
     default: 0.0,
   },
+
    originalPrice: {
+
     type: Number,
     required: true,
     default: 0.0,

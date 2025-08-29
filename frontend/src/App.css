@@ -15,7 +15,40 @@ body {
   right: 0;
   transform: translateY(-50%);
   z-index: 99;
+  animation: blinkBox 1s infinite;
 }
+@keyframes blinkBox {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+.whatsapp-float {
+  position: fixed;
+  top: 30%; /* distance from bottom */
+  right: 20px; 
+  background-color:#25D366;
+  width: max-content;
+  padding: 6px;
+  border-radius: 50%;
+  left: 10px; /* distance from right side */
+  color: white; /* WhatsApp green */
+  z-index: 1000;
+  transition: transform 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+.whatsapp-icon {
+  width: 28px;
+  height: 28px;
+}
+
 
 .vertical-offer-text {
   background-color: red;
