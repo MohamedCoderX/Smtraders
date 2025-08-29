@@ -52,7 +52,8 @@ const categories = [
 'Flash novalties',
 'Varities',
 'Colour matches',
-'Gift box'
+'Gift box',
+'Sparklers'
 ]
         
         

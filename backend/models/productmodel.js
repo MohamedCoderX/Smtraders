@@ -13,7 +13,9 @@ const productSchema = new mongoose.Schema({
     required: true,
     default: 0.0,
   },
-  originalPrice: {
+
+   originalPrice: {
+
     type: Number,
     required: true,
     default: 0.0,
@@ -56,6 +58,7 @@ const productSchema = new mongoose.Schema({
         "Varities",
         "Colour matches",
         "Gift box",
+        "Sparklers"
       ],
       message: "please select correct category",
     },
