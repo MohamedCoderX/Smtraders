@@ -23,16 +23,15 @@ const Footer = () => {
         <h2>Contact us</h2>
             <div className="contact_s1">
                 <a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
-                <p>46,balan nagar
-                 perali road,virudhunagar </p>
+                <p>4/175/A Sattur to Sivakasi road Veerapandiyapuram near by Toll gate Sattur -626203</p>
             </div>
             <div className="contact_s1">
                 <a href="#"><i class="fa fa-mobile" aria-hidden="true"></i></a>
-                <p>+91 6381933039</p>
+                <p>+91 8903359989</p>
             </div>
             <div className="contact_s1">
                 <a href="#"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-                <p>support@company.com</p>
+                <p>smpyropark.2019@gmail.com</p>
             </div>
         </div>
         <div className="abtcom">
@@ -45,7 +44,7 @@ const Footer = () => {
 
     </div>
     <div className="copyright">
-    &copy; Copyirght 2024 SM Crackers,Sathur , Made with <span className='her' >&hearts;</span> by GOFS
+    &copy; Copyirght 2024 SM Crackers,Sathur , Made with <span className='her' >&hearts;</span> 
 </div>
 </div>
   )
