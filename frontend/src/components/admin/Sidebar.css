@@ -1,0 +1,116 @@
+/* Sidebar Styling */
+.sidebar-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    background-color: #343a40;
+    color: #fff;
+    position: relative;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar ul {
+    padding-left: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 15px;
+}
+
+.sidebar li a {
+    color: #fff;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar li a:hover {
+    background-color: #495057;
+    border-radius: 4px;
+}
+
+.sidebar .dropdown-item {
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+.sidebar .dropdown-item:hover {
+    background-color: #495057;
+}
+
+/* Main Content Styling */
+.content-wrapper {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.content-wrapper h1 {
+    font-size: 2rem;
+}
+
+/* Mobile Styling */
+@media (max-width: 768px) {
+    .sidebar-wrapper {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        position: relative;
+        height: 80px; /* Set the height for mobile */
+        top: 0;
+        left: 0;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .content-wrapper {
+        padding-top: 100px; /* Ensure content is below the sidebar */
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .sidebar li {
+        margin-bottom: 0;
+    }
+
+    .sidebar li a {
+        padding: 5px 10px;
+        font-size: 1rem;
+    }
+
+    /* Reduce the size of icons on mobile */
+    .sidebar li i {
+        font-size: 18px;
+    }
+}
+
+/* For larger screens */
+@media (min-width: 769px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 250px;
+    }
+
+    .content-wrapper {
+        margin-left: 250px;
+        padding: 20px;
+    }
+}

@@ -10,7 +10,9 @@ import MetaData from "../../Pages/Home/MetaData";
 import Pagination from "react-js-pagination";
 import Product from "../../Pages/products/Product";
 import Search from "../search";
-
+import { Link } from "react-router-dom";
+import FloatingCard from "../../components/FloatingCard";
+import FlashingOfferBox from "../../components/FlashingOfferBox";
 const Cracker = () => {
   const dispatch = useDispatch();
   const { products, loading, error, productsCount, resPerPage } = useSelector(
@@ -31,6 +33,10 @@ const Cracker = () => {
 
   return (
     <div>
+      <Link to='/Mycart'>
+      <FloatingCard/>
+      </Link>
+      <FlashingOfferBox/>
       <MetaData title={"Crackers"} />
       <div className="cracker-display" id="cracker-diplay">
         <h2>All Type Of Crackers</h2>

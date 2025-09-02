@@ -9,6 +9,23 @@ body {
   padding: 0px;
   overflow-x: hidden;
 }
+/* Navbar.css */
+
+.cart-link {
+  position: relative;
+}
+
+.cart-amount-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: #28a745;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
 .vertical-offer-box {
   position: fixed;
   top:60%;

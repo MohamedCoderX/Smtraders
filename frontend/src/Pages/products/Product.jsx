@@ -44,6 +44,7 @@ export default function Product({ product }) {
 
   return (
     <div className="cracker-list-item">
+      
       <div className="cracker-img">
         <img src={product.images[0]?.image} alt="Product" />
       </div>

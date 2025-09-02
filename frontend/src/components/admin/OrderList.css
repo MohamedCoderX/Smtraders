@@ -1,0 +1,112 @@
+/* Basic Layout */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-12 {
+    flex: 0 0 100%;
+    
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background-color: #f4f4f4;
+    padding: 15px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .sidebar-item {
+    margin-bottom: 15px;
+}
+
+/* Table Layout */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Modal Styles */
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 10px 20px;
+    text-align: right;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* For Small Devices */
+@media (max-width: 768px) {
+    .col-md-2 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .col-md-10 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .modal-body {
+        padding: 15px;
+    }
+
+    .modal-footer {
+        font-size: 14px;
+    }
+}
+
+/* For Extra Small Devices */
+@media (max-width: 576px) {
+    .col-md-2 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .col-md-10 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .table th, .table td {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .modal-body {
+        padding: 10px;
+    }
+
+    .modal-footer {
+        font-size: 12px;
+    }
+
+    .button {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
+
+/* Adjust Modal Width for Small Screens */
+@media (max-width: 768px) {
+    .modal-dialog {
+        max-width: 90%;
+        margin: 30px auto;
+    }
+}

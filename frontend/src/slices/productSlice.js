@@ -131,6 +131,7 @@ const productSlice = createSlice({
                 loading: true
             }
         },
+       
         deleteProductSuccess(state, action){
             return {
                 ...state,
@@ -165,6 +166,7 @@ export const {
     clearProduct,clearProductCreated,
     clearError,
     deleteProductSuccess,deleteProductRequest,deleteProductFail,clearProductDeleted
+   
 } = actions;
 
 export default reducer;

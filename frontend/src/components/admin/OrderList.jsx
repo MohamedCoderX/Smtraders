@@ -8,6 +8,7 @@ import { Button, Modal } from "react-bootstrap";
 import Sidebar from "./Sidebar";
 import { deleteOrder, adminOrders as adminAction } from "../../actions/orderActions";
 import html2pdf from "html2pdf.js";
+import "./OrderList.css";
 
 const OrderList = () => {
     const { adminOrders, loading = true, error, isOrderDeleted } = useSelector((state) => state.orderState);
@@ -34,8 +35,11 @@ const OrderList = () => {
                     <img src="/images/Logo.jpg" alt="Logo" style="width: 150px;margin-bottom: 10px;" />
 
                     <h2>SM CRACKERS</h2>
-                    <p>Sattur to thayilpatti main road 
-Unjampatti</p>
+                    <p>4/175/A Sattur to Sivakasi road
+                    Veerapandiyapuram 
+                    
+                    Near by toll gate Sattur - 626203
+</p>
                     <p>Office No : 8903359989 </p>
                     <p>☎ 6381933039 / 8248450298</p>
                 </div>
@@ -154,38 +158,44 @@ Unjampatti</p>
 
     return (
         <div className="row">
-            <div className="col-12 col-md-2">
-                <Sidebar />
-            </div>
-            <div className="col-12 col-md-10">
-                <h1 className="my-4">Order List</h1>
-                {loading ? (
-                    <Loader />
-                ) : (
+        <div className="col-12 col-md-2">
+            <Sidebar />
+        </div>
+        <div className="col-12 col-md-10">
+            <h1 className="my-4">Order List</h1>
+            {loading ? (
+                <Loader />
+            ) : (
+                <div className="table-responsive">
                     <MDBDataTable data={setOrders()} bordered striped hover className="px-3" />
-                )}
+                </div>
+            )}
 
-                {/* Modal for Invoice */}
-                <Modal show={showInvoice} onHide={handleCloseInvoice} size="lg">
-                    <Modal.Header closeButton>
-                        <Modal.Title>Invoice</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        {selectedOrder ? (
-                            <div>
-                                <h3>SM CRACKERS</h3>
-                                <p>
-                                    Address: 4/89 Vallalar Street, Abirami Nagar, Sennelur, Chennai 600056
-                                    <br />
-                                    Phone: 6381933039 / 8248450298
-                                </p>
-                                <hr />
-                                <p><strong>Name:</strong> {selectedOrder.shippingInfo?.name}</p>
-                                <p><strong>Phone:</strong> {selectedOrder.shippingInfo?.phoneNo}</p>
-                                <p><strong>Address:</strong> {selectedOrder.shippingInfo?.address}</p>
-                                <p><strong>Order ID:</strong> {selectedOrder._id}</p>
-                                <p><strong>Date:</strong> {new Date(selectedOrder.createdAt).toLocaleDateString()}</p>
-                                <hr />
+            {/* Modal for Invoice */}
+            <Modal show={showInvoice} onHide={handleCloseInvoice} size="lg">
+                <Modal.Header closeButton>
+                    <Modal.Title>Invoice</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {selectedOrder ? (
+                        <div>
+                            <h3>SM CRACKERS</h3>
+                            <p>
+                                Address: 4/175/A Sattur to Sivakasi road
+                     Veerapandiyapuram 
+                    
+                    Near by toll gate Sattur - 626203
+                                <br />
+                                Phone: +91 8903359989 / 8248450298
+                            </p>
+                            <hr />
+                            <p><strong>Name:</strong> {selectedOrder.shippingInfo?.name}</p>
+                            <p><strong>Phone:</strong> {selectedOrder.shippingInfo?.phoneNo}</p>
+                            <p><strong>Address:</strong> {selectedOrder.shippingInfo?.address}</p>
+                            <p><strong>Order ID:</strong> {selectedOrder._id}</p>
+                            <p><strong>Date:</strong> {new Date(selectedOrder.createdAt).toLocaleDateString()}</p>
+                            <hr />
+                            <div className="table-responsive">
                                 <table className="table">
                                     <thead>
                                         <tr>
@@ -208,24 +218,26 @@ Unjampatti</p>
                                         ))}
                                     </tbody>
                                 </table>
-                                <hr />
-                                <p><strong>Total:</strong> ₹{selectedOrder.totalPrice.toFixed(2)}</p>
-                                <Button variant="success" onClick={() => handleDownloadInvoice(selectedOrder)} className="mt-2">
-                                    Download Invoice
-                                </Button>
                             </div>
-                        ) : (
-                            <p>No Invoice Available</p>
-                        )}
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseInvoice}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
+                            <hr />
+                            <p><strong>Total:</strong> ₹{selectedOrder.totalPrice.toFixed(2)}</p>
+                            <Button variant="success" onClick={() => handleDownloadInvoice(selectedOrder)} className="mt-2">
+                                Download Invoice
+                            </Button>
+                        </div>
+                    ) : (
+                        <p>No Invoice Available</p>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseInvoice}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
+    </div>
+    
     );
 };
 

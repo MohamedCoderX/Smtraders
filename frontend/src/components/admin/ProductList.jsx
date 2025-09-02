@@ -54,9 +54,9 @@ export default function ProductList(){
             rows : []
         }
 
-        products.forEach( product => {
+        products.forEach(( product,index) => {
             data.rows.push({
-                id: product._id,
+                id: index + 1,
                 name: product.name,
                 price : `₹${product.price}`,
                 stock: product.stock,
@@ -94,23 +94,33 @@ export default function ProductList(){
     },[dispatch, error, isProductDeleted])
     return(
         <div className="row">
+        {/* Sidebar Section */}
         <div className="col-12 col-md-2">
-        <Sidebar/>
+            <Sidebar />
         </div>
+    
+        {/* Content Section */}
         <div className="col-12 col-md-10">
             <h1 className="my-4">Product List</h1>
+            
+            {/* Loading or Product List */}
             <Fragment>
-                {loading ? <Loader/> : 
-                    <MDBDataTable
-                        data={setProducts()}
-                        bordered
-                        striped
-                        hover
-                        className="px-3"
-                    />
-                }
+                {loading ? (
+                    <Loader />
+                ) : (
+                    <div className="table-responsive">
+                        <MDBDataTable
+                            data={setProducts()}
+                            bordered
+                            striped
+                            hover
+                            className="px-3"
+                        />
+                    </div>
+                )}
             </Fragment>
         </div>
     </div>
+    
     )
 }

@@ -13,6 +13,20 @@ const productsSlice = createSlice({
                 loading:true
             }
         },
+        addStockRequest: (state) => {
+            state.loading = true;
+            state.error = null;
+            state.isStockUpdated = false;
+          },
+          addStockSuccess: (state, action) => {
+            state.loading = false;
+            state.isStockUpdated = true;
+            state.error = null;
+          },
+          addStockFail: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+          },
         productsSucess(state,action){
             return{
                 loading:false,

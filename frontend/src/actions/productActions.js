@@ -71,3 +71,22 @@ export const deleteProduct  =  id => async (dispatch) => {
     }
     
 }
+// export const addStock = (id, quantity) => async (dispatch) => {
+//     try {
+//       dispatch(addStockRequest());
+      
+//       // Send the PUT request to add stock for the product
+//       const { data } = await axios.put(
+//         `${frontendUrl}/admin/product/stock/${id}`, 
+//         { stock: quantity }, 
+//         { withCredentials: true }
+//       );
+      
+//       // Dispatch the success action
+//       dispatch(addStockSuccess(data));
+  
+//     } catch (error) {
+//       // Dispatch the failure action if error occurs
+//       dispatch(addStockFail(error.response?.data?.message || 'Failed to add stock'));
+//     }
+//   };

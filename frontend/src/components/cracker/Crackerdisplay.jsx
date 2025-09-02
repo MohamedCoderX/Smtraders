@@ -3,7 +3,7 @@ import "./cracker.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getProducts } from "../../actions/productActions";
-
+import FlashingOfferBox from "../../components/FlashingOfferBox";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Product from "../../Pages/products/Product";
@@ -26,6 +26,7 @@ const Crackerdisplay = () => {
     <div>
       <div className="cracker-display" id="cracker-diplay">
         <h2>All Type Of Crackers</h2>
+        
         <Fragment>
             <div className="cracker-display-list">
                 {products && products.map(product => (

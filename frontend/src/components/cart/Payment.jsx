@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../footer/Footer";
 import "./Invoice.css";
+import "./Payment.css"
 
 const Payment = () => {
     const { shippingInfo, items: cartItems } = useSelector((state) => state.cartState);
@@ -53,7 +54,7 @@ const Payment = () => {
             const invoiceData = {
                 orderId: orderDetail._id,
                 companyName: "SM CRACKERS",
-                companyAddress: "4/89 Vallalar Street, Abirami Nagar, Sennelur, Chennai 600056",
+                companyAddress: "4/175/A  Veerapandiyapuram Near by toll gate Sattur - 626203",
                 companyPhone: "6381933039 / 8248450298",
                 customerName: shippingInfo.name,
                 customerPhone: shippingInfo.phoneNo,
@@ -70,23 +71,9 @@ const Payment = () => {
                 orderDate: new Date().toLocaleDateString(),
             };
 
-            axios.post("https://smtraders.onrender.com/api/v1/admin/upload-invoice", invoiceData, {
-                headers: { "Content-Type": "application/json" },
-            })
-                .then(() => {
-                    toast.success("Invoice sent to admin!");
-                    dispatch(clearCart());
-                    localStorage.removeItem("cartItems");
-                    localStorage.removeItem("shippingInfo");
-
-                    setTimeout(() => {
-                        navigate("/", { replace: true });
-                    }, 8000);
-                })
-                .catch((error) => {
-                    console.error("Failed to send invoice:", error);
-                    toast.error("Failed to send invoice to Admin.");
-                });
+           
+               
+                
         }
     }, [orderDetail, orderCreated, dispatch, cartItems, shippingInfo, navigate]);
 
@@ -122,7 +109,7 @@ const Payment = () => {
                 <div className="invoice-header">
                     <h1>SM CRACKERS</h1>
                     <p>
-                        Address: 4/89 Vallalar Street, Abirami Nagar, Sennelur, Chennai 600056<br />
+                        Address: 4<br />
                         Phone: 6381933039 / 8248450298
                     </p>
                 </div>
