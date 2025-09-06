@@ -11,6 +11,15 @@
     width: 95%;
     margin: auto;
 }
+.nav-main{
+    font-size: 2.5rem;
+    color: #56bed3;
+    font-weight: bold;
+    -webkit-text-stroke: 0.2px black;
+    text-stroke: 1px black;
+    text-shadow: 1px 0px 0 #000, -4px 0px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+
+}
 .navbar .Logo{
     width: 247px;
 }

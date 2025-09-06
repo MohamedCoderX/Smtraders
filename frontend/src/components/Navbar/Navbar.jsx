@@ -23,7 +23,7 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="imgnav">
-        <img src="../images/Logo.jpg" alt="logo" className="Logo" />
+        <h2 className='nav-main'>SM SIVAKASI CRACKERS</h2>
         <i
           className="fa-solid fa-bars bar d-lg-none d-md-flex"
           onClick={() => setMenu(!menu)}
