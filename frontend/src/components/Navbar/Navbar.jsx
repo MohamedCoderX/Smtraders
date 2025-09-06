@@ -23,7 +23,7 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="imgnav">
-        <img src="../images/Logo.png" alt="logo" className="Logo" />
+        <img src="../images/Logo.jpg" alt="logo" className="Logo" />
         <i
           className="fa-solid fa-bars bar d-lg-none d-md-flex"
           onClick={() => setMenu(!menu)}

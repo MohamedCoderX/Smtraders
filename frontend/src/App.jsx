@@ -26,7 +26,7 @@ import ProductList from './components/admin/ProductList';
 import NewProduct from './components/admin/NewProduct';
 import Payment from './components/cart/Payment';
 import OrderList from './components/admin/OrderList';
-
+import UpdateProduct from './components/admin/UpdateProduct';
 import Whatsapp from './components/Whatsapp';
 
 
@@ -60,7 +60,7 @@ useEffect(()=>{
       <Route path = '/shipping' element={<Shipping/>}/>
       <Route path = '/order/confirm' element={<ConfirmOrder/>}/>
       <Route path='/admin/orders' element={<OrderList/>}/>
-      
+      <Route path='/admin/product/:id' element={ <ProtectedRoute isAdmin={true}><UpdateProduct/></ProtectedRoute> } />
         <Route path ='/admin/dashboard' element={<ProtectedRoute isAdmin={true}><Dashboard/></ProtectedRoute>}/>
         <Route path='/admin/products' element={ <ProtectedRoute isAdmin={true}><ProductList/></ProtectedRoute> } />
         <Route path='/admin/products/create' element={ <ProtectedRoute isAdmin={true}><NewProduct/></ProtectedRoute> } />

@@ -23,7 +23,7 @@ const productSlice = createSlice({
             return {
                 ...state,
                 loading: false,
-                product: action.payload.product
+                product: action.payload
             }
         },
         productFail(state, action){
@@ -93,33 +93,33 @@ const productSlice = createSlice({
         //     }
         // },
 
-        // updateProductRequest(state, action){
-        //     return {
-        //         ...state,
-        //         loading: true
-        //     }
-        // },
-        // updateProductSuccess(state, action){
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         product: action.payload.product,
-        //         isProductUpdated: true
-        //     }
-        // },
-        // updateProductFail(state, action){
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         error:  action.payload,
-        //     }
-        // },
-        // clearProductUpdated(state, action) {
-        //     return {
-        //         ...state,
-        //         isProductUpdated: false
-        //     }
-        // },
+        updateProductRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        updateProductSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                product: action.payload.product || action.payload.Product,
+                isProductUpdated: true
+            }
+        },
+        updateProductFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload,
+            }
+        },
+        clearProductUpdated(state, action) {
+            return {
+                ...state,
+                isProductUpdated: false
+            }
+        },
         clearError(state, action) {
             return{ ...state,
              error: null
@@ -131,7 +131,6 @@ const productSlice = createSlice({
                 loading: true
             }
         },
-       
         deleteProductSuccess(state, action){
             return {
                 ...state,
@@ -165,8 +164,8 @@ export const {
     newProductSuccess,newProductRequest,
     clearProduct,clearProductCreated,
     clearError,
+    updateProductFail,updateProductSuccess,updateProductRequest,clearProductUpdated,
     deleteProductSuccess,deleteProductRequest,deleteProductFail,clearProductDeleted
-   
 } = actions;
 
 export default reducer;

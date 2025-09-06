@@ -54,7 +54,7 @@ const Payment = () => {
             const invoiceData = {
                 orderId: orderDetail._id,
                 companyName: "SM CRACKERS",
-                companyAddress: "4/175/A  Veerapandiyapuram Near by toll gate Sattur - 626203",
+                companyAddress: "4/175/A Veerapandiyapuram Near by toll gate Sattur - 626203",
                 companyPhone: "6381933039 / 8248450298",
                 customerName: shippingInfo.name,
                 customerPhone: shippingInfo.phoneNo,

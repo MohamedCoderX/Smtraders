@@ -4,7 +4,7 @@ const FlashingOfferBox = () => {
   return (
     <div className="vertical-offer-box">
       <div className="vertical-offer-text">
-        20% OFF 🔥 
+        90% OFF 🔥 
         <br />
         Min Purchase ₹3000
       </div>

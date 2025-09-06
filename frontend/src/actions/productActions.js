@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { adminProductsFail, adminProductsRequest, adminProductsSuccess, productsFail, productsRequest, productsSucess } from '../slices/productsSlice';
-import { deleteProductFail, deleteProductRequest, deleteProductSuccess, newProductFail, newProductRequest, newProductSuccess } from '../slices/productSlice';
+import { deleteProductFail, deleteProductRequest, deleteProductSuccess, newProductFail, newProductRequest, newProductSuccess,updateProductRequest,updateProductSuccess,updateProductFail,productRequest,productFail,productSuccess } from '../slices/productSlice';
 
 
 const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
@@ -20,6 +20,33 @@ export const getProducts = (keyword,category,currentPage,id,name,description,ima
 //handle error
 dispatch(productsFail(error.response.data.message))
     }
+}
+export const getProduct = id => async (dispatch) => {
+
+    try {  
+        dispatch(productRequest()) 
+        const { data }  =  await axios.get(`${frontendUrl}/product/${id}`);
+        console.log("API response:", data);
+        dispatch(productSuccess(data.Product))
+    } catch (error) {
+        //handle error
+        dispatch(productFail(error.response.data.message))
+    }
+    
+}
+
+export const updateProduct  =  (id, productData) => async (dispatch) => {
+
+    try {  
+        dispatch(updateProductRequest()) 
+        const { data }  =  await axios.put(`${frontendUrl}/admin/product/${id}`, productData,{withCredentials:true});
+        console.log("API response:", data);
+        dispatch(updateProductSuccess(data))
+    } catch (error) {
+        //handle error
+        dispatch(updateProductFail(error.response.data.message))
+    }
+    
 }
 
 // export const getProduct = id => async(dispatch)=>{
