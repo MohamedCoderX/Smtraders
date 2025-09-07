@@ -1,5 +1,5 @@
 const express = require("express");
-const { getProducts, newProduct, getSingleProduct, updateProduct, deleteProduct, getAdminProducts } = require("../controllers/productController");
+const { getProducts, newProduct, getSingleProduct, updateProduct, deleteProduct, getAdminProducts,updateStock } = require("../controllers/productController");
 const { model } = require("mongoose");
 const router = express.Router();
 const {isAunthenticatedUser, authorizeRoles} = require('../middleware/authenticate')
@@ -34,4 +34,5 @@ router.route('/product/:id').put(updateProduct)
 router.route('/admin/products').get(isAunthenticatedUser,authorizeRoles('admin'),getAdminProducts)
 router.route('/admin/product/new').post(isAunthenticatedUser, authorizeRoles('admin'),upload.array('images'), newProduct);
 router.route('/admin/product/:id').delete(isAunthenticatedUser,authorizeRoles('admin'),deleteProduct)
+
 module.exports = router;
