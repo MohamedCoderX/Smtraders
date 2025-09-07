@@ -109,8 +109,8 @@ const Payment = () => {
                 <div className="invoice-header">
                     <h1>SM CRACKERS</h1>
                     <p>
-                        Address: 4<br />
-                        Phone: 6381933039 / 8248450298
+                        Address: 4/175/A Veerapandiyapuram Near by toll gate Sattur - 626203<br />
+                        Phone: 8903359989 / 8248450298
                     </p>
                 </div>
 
@@ -166,7 +166,7 @@ const Payment = () => {
                 <div className="invoice-footer">
                     <p>__________________________________________________________________</p>
                     <p>THANK YOU FOR SHOPPING WITH US!</p>
-                    <p>NO: 3/1232/20, Sri Thirupathi Nagar, Parapatti, Sivakasi-89</p>
+                    <p>NO:4/175/A Veerapandiyapuram Near by toll gate Sattur - 626203</p>
                 </div>
             </div>
 

@@ -6,7 +6,7 @@ const Whatsapp = () => {
     <div>
         {/* WhatsApp Button */}
         <a 
-  href="https://wa.me/+918248450298" 
+  href="https://wa.me/+918903359989" 
   target="_blank" 
   rel="noopener noreferrer"
   className="whatsapp-float">
