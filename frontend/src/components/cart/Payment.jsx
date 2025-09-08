@@ -2,20 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { toast } from "react-toastify";
 import { createOrder } from "../../actions/orderActions";
-import { clearCart } from "../../slices/cartSlice";
+import { orderCompleted } from "../../slices/cartSlice";   // ✅ use orderCompleted instead of clearCart
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Footer from "../footer/Footer";
 import "./Invoice.css";
-import "./Payment.css"
+import "./Payment.css";
 
 const Payment = () => {
     const { shippingInfo, items: cartItems } = useSelector((state) => state.cartState);
     const { user } = useSelector((state) => state.authState);
     const { orderDetail } = useSelector((state) => state.orderState);
-    
+
     const invoiceRef = useRef();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -26,21 +24,7 @@ const Payment = () => {
     const calculateNetTotal = () => calculateTotal() - calculateDiscount();
 
     useEffect(() => {
-        // Prevent page reload duplicate
-        if (performance.navigation.type === 1) {
-            navigate("/", { replace: true });
-        }
-
-        // Prevent browser back to cart/checkout
-        const handlePopState = () => {
-            navigate("/", { replace: true });
-        };
-        window.addEventListener("popstate", handlePopState);
-        return () => window.removeEventListener("popstate", handlePopState);
-    }, [navigate]);
-
-    useEffect(() => {
-        if (!orderCreated) {
+        if (!orderCreated && cartItems.length > 0) {
             const order = {
                 orderItems: cartItems,
                 shippingInfo,
@@ -48,34 +32,27 @@ const Payment = () => {
             };
             dispatch(createOrder(order));
             setOrderCreated(true);
+
+            // ✅ Immediately clear cart after order creation
+            dispatch(orderCompleted());
+        }
+    }, [orderCreated, cartItems, shippingInfo, dispatch]);
+
+    // ✅ Prevent refresh/back duplication
+    useEffect(() => {
+        const redirectHome = () => {
+            navigate("/", { replace: true });
+        };
+
+        // If page is refreshed → go home
+        if (performance.navigation.type === 1) {
+            redirectHome();
         }
 
-        if (orderDetail && orderDetail._id) {
-            const invoiceData = {
-                orderId: orderDetail._id,
-                companyName: "SM CRACKERS",
-                companyAddress: "4/175/A Veerapandiyapuram Near by toll gate Sattur - 626203",
-                companyPhone: "6381933039 / 8248450298",
-                customerName: shippingInfo.name,
-                customerPhone: shippingInfo.phoneNo,
-                customerAddress: `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.postalCode}, ${shippingInfo.state}, ${shippingInfo.country}`,
-                orderItems: cartItems.map((item, index) => ({
-                    index: index + 1,
-                    name: item.name,
-                    quantity: item.quantity,
-                    price: item.price,
-                    discount: item.discount || 0,
-                    total: (item.price * item.quantity - (item.discount || 0) * item.quantity).toFixed(2),
-                })),
-                totalAmount: `₹${calculateNetTotal().toFixed(2)}`,
-                orderDate: new Date().toLocaleDateString(),
-            };
-
-           
-               
-                
-        }
-    }, [orderDetail, orderCreated, dispatch, cartItems, shippingInfo, navigate]);
+        // If user presses back → go home
+        window.addEventListener("popstate", redirectHome);
+        return () => window.removeEventListener("popstate", redirectHome);
+    }, [navigate]);
 
     useEffect(() => {
         invoiceRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -99,7 +76,7 @@ const Payment = () => {
         <div>
             <div className="alert-box">
                 <h3>
-                    Thank You For Your Enquiry. To Confirm the Order, <strong>Download the PDF and send it</strong>. 
+                    Thank You For Your Enquiry. To Confirm the Order, <strong>Download the PDF and send it</strong>.
                     Gpay - 8903359989 | Contact: 8248450298
                 </h3>
             </div>
@@ -162,6 +139,7 @@ const Payment = () => {
                     <p><strong>Net Total:</strong> ₹{calculateNetTotal().toFixed(2)}</p>
                 </div>
                 <p className="note-text"><em>Note: Extra 3% additional will be charged for packing.</em></p>
+
                 {/* Footer */}
                 <div className="invoice-footer">
                     <p>__________________________________________________________________</p>
@@ -169,7 +147,6 @@ const Payment = () => {
                     <p>NO:4/175/A Veerapandiyapuram Near by toll gate Sattur - 626203</p>
                 </div>
             </div>
-
 
             {/* Download Button */}
             <div className="button">
