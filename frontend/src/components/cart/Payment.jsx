@@ -161,7 +161,7 @@ const Payment = () => {
                     <p><strong>Discount:</strong> -₹{calculateDiscount().toFixed(2)}</p>
                     <p><strong>Net Total:</strong> ₹{calculateNetTotal().toFixed(2)}</p>
                 </div>
-
+                <p className="note-text"><em>Note: Extra 3% additional will be charged for packing.</em></p>
                 {/* Footer */}
                 <div className="invoice-footer">
                     <p>__________________________________________________________________</p>
@@ -169,6 +169,7 @@ const Payment = () => {
                     <p>NO:4/175/A Veerapandiyapuram Near by toll gate Sattur - 626203</p>
                 </div>
             </div>
+
 
             {/* Download Button */}
             <div className="button">

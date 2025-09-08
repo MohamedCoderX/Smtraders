@@ -19,7 +19,11 @@ body {
     margin: 0;
     font-size: 18px;
 }
-
+.note-text{
+    color: red;
+    font-size: 16px;
+    margin-top: 10px;
+}
 /* Invoice Container */
 .invoice-container {
     max-width: 800px;

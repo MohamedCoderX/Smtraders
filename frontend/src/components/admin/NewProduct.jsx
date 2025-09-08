@@ -41,7 +41,10 @@ export default function NewProduct() {
 'Varities',
 'Colour matches',
 'Gift box',
-'Sparklers'
+'Sparklers',
+"Peacock",
+"Pencil",
+"Others"
     ];
 
     const navigate = useNavigate();

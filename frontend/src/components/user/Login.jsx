@@ -47,7 +47,7 @@ export default function Login() {
       <Fragment>
         <div className="containerer">
           <div className="logo">
-            <img src="/images/logo.jpg" alt="logo" />
+            <img src="/images/logo.png" alt="logo" />
           </div>
           <div className="form">
             <img src="../images/logo.png" alt="logo img" />

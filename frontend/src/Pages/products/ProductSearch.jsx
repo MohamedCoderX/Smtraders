@@ -53,7 +53,10 @@ const categories = [
 'Varities',
 'Colour matches',
 'Gift box',
-'Sparklers'
+'Sparklers',
+"Peacock",
+"Pencil",
+"Others"
 ]
         
         
