@@ -13,10 +13,9 @@
 }
 .nav-main{
     font-size: 2.3rem;
-    color: #56bed3;
+    color: #2563eb;
     font-weight: bold;
-
-
+    text-decoration: none;
 }
 .navbar .Logo{
     width: 247px;

@@ -23,7 +23,7 @@ const Home = () => {
   <Header/>
 <Exploremenu/>
 <Crackerdisplay/>
-<About/>
+{/* <About/> */}
 <Footer/>
   </div>
 

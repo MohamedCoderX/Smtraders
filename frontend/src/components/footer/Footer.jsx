@@ -9,7 +9,7 @@ const Footer = () => {
     <div className="footer-full">
  <div className="logoss">
          <div className='logosimg'>
-         <img src="../images/logo.png" alt="SM Crackers logo"/>
+         <img src="../images/logo.png" alt="SM Crackers logo" loading='lazy'/>
          </div>
             <ul className="menu">
             <li onClick={()=>navigate('')}>Home</li>
