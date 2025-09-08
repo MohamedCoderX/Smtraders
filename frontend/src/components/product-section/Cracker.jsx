@@ -10,6 +10,8 @@ import MetaData from "../../Pages/Home/MetaData";
 import Pagination from "react-js-pagination";
 import Product from "../../Pages/products/Product";
 import Search from "../search";
+import FloatingCard from "../FloatingCard";
+import { Link } from "react-router-dom";
 
 const Cracker = () => {
   const dispatch = useDispatch();
@@ -61,6 +63,9 @@ const Cracker = () => {
 
   return (
     <div>
+      <Link to='/Mycart'>
+      <FloatingCard/>
+      </Link>
       <MetaData title={"Crackers"} />
       <div className="cracker-display" id="cracker-diplay">
         <h2>All Type Of Crackers</h2>
