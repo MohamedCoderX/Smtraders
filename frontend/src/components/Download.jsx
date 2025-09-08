@@ -1,6 +1,6 @@
 import React from "react";
 import { FaDownload } from "react-icons/fa";
-import pdf from "../../public/SMSivakasiCrackers.pdf"
+import pdf from "../SMSivakasiCrackers.pdf"
 import "./Download.css";
 
 const Download = () => {
