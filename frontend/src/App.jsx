@@ -28,6 +28,7 @@ import Payment from './components/cart/Payment';
 import OrderList from './components/admin/OrderList';
 import UpdateProduct from './components/admin/UpdateProduct';
 import Whatsapp from './components/Whatsapp';
+import Download from './components/Download';
 
 
 function App() {
@@ -42,7 +43,7 @@ useEffect(()=>{
       <Navbar/>
       
       <Whatsapp/>
-      
+      <Download/>
       <ToastContainer/>
       <Routes>
         <Route path='/search' element={<ProductSearch/>}/>

@@ -7,7 +7,7 @@ const About = () => {
       <h2>About-Us</h2>
       <div className="about-page">
         <div className="about-left">
-          <img src="./images/about.jpg" alt="img" />
+          <img src="./images/about.JPEG" alt="img" />
         </div>
         <div className="about-right">
           <p className="para">
