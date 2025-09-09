@@ -1,8 +1,10 @@
 import React from "react";
 import "./TermsAndConditions.css";
+import Footer from "./footer/Footer";
 
 const Termsandcondition = () => {
   return (
+    <div>
     <div className="terms-container">
       <h1 className="terms-title">Terms & Conditions</h1>
       <div className="terms-content">
@@ -90,6 +92,8 @@ const Termsandcondition = () => {
           <strong>Email:</strong> smpyropark.2019@gmail.com
         </p>
       </div>
+    </div>
+<Footer/>
     </div>
   );
 };
