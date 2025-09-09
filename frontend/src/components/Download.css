@@ -1,14 +1,18 @@
 .download-icon {
-    position: fixed;
-    left: 16px;              /* same as left-4 */
-    top: 50%;                /* vertical center */
-    transform: translateY(-50%);
-    color: #2563eb;          /* Tailwind's blue-600 */
-    cursor: pointer;
-    width: 40px;
-    z-index: 999;
-    height: 40px;
-    transition: color 0.3s ease;
+  color: white;
+  cursor: pointer;
+  /* height: 40px; */
+  left: 7px;
+  background: black;
+  padding: 6px;
+  border-radius: 16px;
+  font-size: 11px;
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  /* width: 40px; */
+  /* width: 40px; */
+  z-index: 999;
   }
   
   .download-icon:hover {

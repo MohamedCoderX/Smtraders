@@ -7,6 +7,9 @@
 .logosimg  img{
     width: 100%;
 }
+.menu li{
+    font-size: 14px;
+}
 .menu{
     display: flex;
     cursor: pointer;
