@@ -1,0 +1,48 @@
+.terms-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.7;
+    color: #333;
+  }
+  
+  .terms-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #292a62; /* professional dark blue */
+    margin-bottom: 25px;
+  }
+  
+  .terms-content h2 {
+    margin-top: 25px;
+    font-size: 1.3rem;
+    color: #444;
+    border-left: 4px solid #56bed3;
+    padding-left: 10px;
+  }
+  
+  .terms-content p,
+  .terms-content li {
+    font-size: 1rem;
+    margin: 8px 0;
+  }
+  
+  .terms-content ul {
+    margin: 10px 0 20px 20px;
+    list-style-type: disc;
+  }
+  
+  .terms-content a {
+    color: #56bed3;
+    text-decoration: none;
+  }
+  
+  .terms-content a:hover {
+    text-decoration: underline;
+  }
+  

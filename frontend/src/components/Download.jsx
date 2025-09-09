@@ -14,11 +14,13 @@ const Download = () => {
 
   return (
     <div>
-      <FaDownload
+      <span
         onClick={handleDownload}
         className="download-icon"
-        title="Download Price List"
-      />
+        
+      >
+DOWNLOAD PRICE-LIST
+        </span>
     </div>
   );
 };

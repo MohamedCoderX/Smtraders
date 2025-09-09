@@ -29,6 +29,7 @@ import OrderList from './components/admin/OrderList';
 import UpdateProduct from './components/admin/UpdateProduct';
 import Whatsapp from './components/Whatsapp';
 import Download from './components/Download';
+import Termsandcondition from './components/Termsandcondition';
 
 
 function App() {
@@ -48,6 +49,7 @@ useEffect(()=>{
       <Routes>
         <Route path='/search' element={<ProductSearch/>}/>
         <Route path='/About' element={<About/>}/>
+        <Route path='/terms ' element={<Termsandcondition/>}/>
       <Route path ='/' element ={ <Home/>} />
       <Route path='/search/:keyword' element={<ProductSearch/>}/>
       <Route path='/products' element ={<Cracker/>}/>

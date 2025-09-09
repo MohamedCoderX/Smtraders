@@ -16,6 +16,7 @@ const Footer = () => {
          | <li onClick={()=>navigate('/products')}>Products</li> |
           <li onClick={()=>navigate('/About')}>About-us</li> |
           <li onClick={()=>navigate('/contact')} > Contact-us</li>
+          <li onClick={()=>navigate('/terms')} > Terms and conditions</li>
           </ul>
             <h3>SM Crackers @2015</h3>
         </div>
