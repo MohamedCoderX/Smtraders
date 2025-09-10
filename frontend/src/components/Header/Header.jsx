@@ -7,9 +7,9 @@ const Header = () => {
    <div className="header">
     <div className="header-content">
        
-        <Link to={'/products'}>
+        {/* <Link to={'/products'}>
         <button >View menu</button>
-        </Link>
+        </Link> */}
     </div>
    </div>
   )
