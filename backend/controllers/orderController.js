@@ -64,19 +64,12 @@ exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
 
 
 //Create New Order - api/v1/order/new
-exports.newOrder =  catchAsyncError (async (req, res, next) => {
-    try{
-    const {
-        orderItems,
-        shippingInfo,
-        itemsPrice,
-        taxPrice,
-        shippingPrice,
-        totalPrice,
-        paymentInfo
-    } = req.body;
-
-    const order = await Order.create({
+exports.newOrder = catchAsyncError(async (req, res, next) => {
+    try {
+      const orderCount = await Order.countDocuments();
+      const newOrderNumber = orderCount + 1;
+  
+      const {
         orderItems,
         shippingInfo,
         itemsPrice,
@@ -84,25 +77,34 @@ exports.newOrder =  catchAsyncError (async (req, res, next) => {
         shippingPrice,
         totalPrice,
         paymentInfo,
+      } = req.body;
+  
+      const order = await Order.create({
+        orderItems,
+        shippingInfo,
+        itemsPrice,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+        paymentInfo,
+        orderNumber: newOrderNumber, // 👈 save incremental order number
         paidAt: Date.now(),
-        
-    })
-
-   
-        // Reduce stock for each product
-        for (let item of orderItems) {
-            await updateStock(item.product, item.quantity);
-        }
-
-        res.status(201).json({
-            success: true,
-            order
-        });
+      });
+  
+      // Reduce stock for each product
+      for (let item of orderItems) {
+        await updateStock(item.product, item.quantity);
+      }
+  
+      res.status(201).json({
+        success: true,
+        order,
+      });
     } catch (error) {
-        return next(error);
+      return next(error);
     }
-});
-
+  });
+  
 //Get Single Order - api/v1/order/:id
 exports.getSingleOrder = catchAsyncError(async (req, res, next) => {
     const order = await Order.findById(req.params.id).populate('user', 'name email');

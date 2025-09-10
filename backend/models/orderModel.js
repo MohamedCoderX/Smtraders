@@ -85,7 +85,11 @@ const orderSchema = new mongoose.Schema({
     invoice: {
         type: String, // Store the URL of the uploaded PDF
         required: false,
-    }
+    },
+    orderNumber: {
+        type: Number,
+        unique: true,
+      }
 });
 
 // Ensure 'user' is removed
