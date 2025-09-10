@@ -9,9 +9,9 @@ export default function ConfirmOrder(){
   const {shippingInfo,items:cartItems} = useSelector(state=>state.cartState)
   const {user} = useSelector(state=>state.authState)
   const itemsPrice = cartItems.reduce((acc, item)=> (acc + item.price * item.quantity),0);
-  const shippingPrice = itemsPrice > 200 ? 0 : 25;
+//   const shippingPrice = itemsPrice > 200 ? 0 : 25;
     let taxPrice = Number(0.05 * itemsPrice);
-    const totalPrice = Number(itemsPrice + shippingPrice + taxPrice).toFixed(2);
+    const totalPrice = Number(itemsPrice +  taxPrice).toFixed(2);
     taxPrice = Number(taxPrice).toFixed(2)
     const processPayment = () => {
         const data = {
@@ -79,7 +79,7 @@ export default function ConfirmOrder(){
                         <h4>Order Summary</h4>
                         <hr />
                         <p>Subtotal:  <span className="order-summary-values">&#x20B9;{itemsPrice}</span></p>
-                        <p>Shipping: <span className="order-summary-values">&#x20B9;{shippingPrice}</span></p>
+                        <p>TO PAY </p>
                         <p>Tax:  <span className="order-summary-values">&#x20B9;{taxPrice}</span></p>
 
                         <hr />
@@ -87,7 +87,7 @@ export default function ConfirmOrder(){
                         <p>Total: <span className="order-summary-values">&#x20B9;{totalPrice}</span></p>
 
                         <hr />
-                        <button id="checkout_btn" onClick={processPayment} className="btn btn-primary btn-block">Proceed to Payment</button>
+                        <button id="checkout_btn" onClick={processPayment} className="btn btn-primary btn-block">Confirm Order</button>
                     </div>
             </div>
         </div>

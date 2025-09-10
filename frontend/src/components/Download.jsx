@@ -1,7 +1,8 @@
 import React from "react";
-import { FaDownload } from "react-icons/fa";
+import { FiDownload } from "react-icons/fi";
 import pdf from "../SMSivakasiCrackers.pdf"
 import "./Download.css";
+
 
 const Download = () => {
   const handleDownload = () => {
@@ -14,13 +15,11 @@ const Download = () => {
 
   return (
     <div>
-      <span
+      <FiDownload
         onClick={handleDownload}
         className="download-icon"
-        
-      >
-DOWNLOAD PRICE-LIST
-        </span>
+        title="Download Price List"
+      />
     </div>
   );
 };

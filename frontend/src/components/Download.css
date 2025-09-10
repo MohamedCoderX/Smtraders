@@ -1,20 +1,22 @@
 .download-icon {
   color: white;
   cursor: pointer;
-  /* height: 40px; */
-  left: 7px;
   background: black;
-  padding: 6px;
-  border-radius: 16px;
-  font-size: 11px;
+  padding: 12px;
+  border-radius: 50%;       /* makes it perfectly round */
+  font-size: 20px;          /* bigger icon */
   position: fixed;
   top: 50%;
+  left: 10px;               /* stick to left side */
   transform: translateY(-50%);
-  /* width: 40px; */
-  /* width: 40px; */
   z-index: 999;
-  }
-  
-  .download-icon:hover {
-    color: #1e40af;          /* Tailwind's blue-800 */
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.download-icon:hover {
+  background: #1e40af;      /* Tailwind's blue-800 */
+  transform: translateY(-50%) scale(1.1); /* slight zoom on hover */
+}

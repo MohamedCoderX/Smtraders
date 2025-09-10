@@ -52,7 +52,7 @@ const Payment = () => {
 
         if (orderDetail && orderDetail._id) {
             const invoiceData = {
-                orderId: orderDetail._id,
+                orderId: orderDetail.orderNumber,
                 companyName: "SM CRACKERS",
                 companyAddress: "4/175/A Veerapandiyapuram Near by toll gate Sattur - 626203",
                 companyPhone: "6381933039 / 8248450298",
@@ -123,7 +123,7 @@ const Payment = () => {
                         <p><strong>Address:</strong> {shippingInfo?.address}, {shippingInfo?.city}, {shippingInfo?.postalCode}, {shippingInfo?.state}, {shippingInfo?.country}</p>
                     </div>
                     <div className="invoice-details">
-                        <p><strong>Order Id:</strong> {orderDetail?._id || "Loading..."}</p>
+                        <p><strong>Order Id:</strong> {orderDetail?.orderNumber || "Loading..."}</p>
                         <p><strong>Date:</strong> {new Date().toLocaleDateString()}</p>
                     </div>
                 </div>

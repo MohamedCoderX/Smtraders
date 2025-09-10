@@ -49,7 +49,7 @@ useEffect(()=>{
       <Routes>
         <Route path='/search' element={<ProductSearch/>}/>
         <Route path='/About' element={<About/>}/>
-        <Route path='/terms ' element={<Termsandcondition/>}/>
+        <Route path='/terms' element={<Termsandcondition/>}/>
       <Route path ='/' element ={ <Home/>} />
       <Route path='/search/:keyword' element={<ProductSearch/>}/>
       <Route path='/products' element ={<Cracker/>}/>

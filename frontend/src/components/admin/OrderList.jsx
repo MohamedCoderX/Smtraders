@@ -192,7 +192,7 @@ const OrderList = () => {
                             <p><strong>Name:</strong> {selectedOrder.shippingInfo?.name}</p>
                             <p><strong>Phone:</strong> {selectedOrder.shippingInfo?.phoneNo}</p>
                             <p><strong>Address:</strong> {selectedOrder.shippingInfo?.address}</p>
-                            <p><strong>Order ID:</strong> {selectedOrder._id}</p>
+                            <p><strong>Order ID:</strong> {selectedOrder.orderNumber}</p>
                             <p><strong>Date:</strong> {new Date(selectedOrder.createdAt).toLocaleDateString()}</p>
                             <hr />
                             <div className="table-responsive">
