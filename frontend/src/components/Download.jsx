@@ -1,5 +1,6 @@
 import React from "react";
 import { FiDownload } from "react-icons/fi";
+import { MdDownload } from "react-icons/md";
 import pdf from "../SMSivakasiCrackers.pdf"
 import "./Download.css";
 
@@ -15,9 +16,10 @@ const Download = () => {
 
   return (
     <div>
-      <FiDownload  onClick={handleDownload}
+      <MdDownload onClick={handleDownload}
         className="download-icon"
         title="Download Price List"/>
+      
     </div>
   );
 };
