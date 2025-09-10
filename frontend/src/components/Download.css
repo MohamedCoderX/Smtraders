@@ -2,9 +2,9 @@
   color: white;
   cursor: pointer;
   background: black;
-  padding: 12px;
+  padding: 5px;
   border-radius: 50%;       /* makes it perfectly round */
-  font-size: 20px;          /* bigger icon */
+  font-size: 43px;          /* bigger icon */
   position: fixed;
   top: 50%;
   left: 10px;               /* stick to left side */
