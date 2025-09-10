@@ -1,5 +1,5 @@
 .header{
-    background-image: url(../../../public/images/home.JPEG); 
+    background-image: url(../../../public/images/home.jpg); 
     background-position: center;
     background-size: cover;
    width: 100%;
@@ -19,13 +19,13 @@
 animation: fadeIn 3s;
 }
 .header-content span{
-color: transparent;
+color: rebeccapurple;
 font-weight: 900;
 text-transform: uppercase;
 letter-spacing: 2px;
 font-size: 75px;
     -webkit-text-stroke:  white;
-    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-width: 2px;
 }
 .header-content h1{
     font-size: 70px;

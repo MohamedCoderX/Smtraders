@@ -15,11 +15,9 @@ const Download = () => {
 
   return (
     <div>
-      <FiDownload
-        onClick={handleDownload}
+      <FiDownload  onClick={handleDownload}
         className="download-icon"
-        title="Download Price List"
-      />
+        title="Download Price List"/>
     </div>
   );
 };
