@@ -16,7 +16,7 @@ export default function ConfirmOrder(){
     const processPayment = () => {
         const data = {
             itemsPrice,
-            shippingPrice,
+           
             taxPrice,
             totalPrice
         }
