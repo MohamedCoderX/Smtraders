@@ -1,9 +1,9 @@
 import React from "react";
 import "./Combo.css"; // external css
-import img1 from "../../public/images/combo/SM-1.jpg";
-import img2 from "../../public/images/combo/SM-2.jpg";
-import img3 from "../../public/images/combo/SM-3.jpg";
-import img4 from "../../public/images/combo/SM-4.jpg";
+import img1 from "../combo/SM-1.jpg";
+import img2 from "../combo/SM-2.jpg";
+import img3 from "../combo/SM-3.jpg";
+import img4 from "../combo/SM-4.jpg";
 const Combo = () => {
   const combos = [
     {
