@@ -1,0 +1,43 @@
+.combo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .combo-heading {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+  }
+  
+  .combo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+  }
+  
+  .combo-item {
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .combo-item:hover {
+    transform: scale(1.05);
+  }
+  
+  .combo-img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+  
+  .combo-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #444;
+    margin-top: 12px;
+  }
+  

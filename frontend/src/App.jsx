@@ -30,6 +30,7 @@ import UpdateProduct from './components/admin/UpdateProduct';
 import Whatsapp from './components/Whatsapp';
 import Download from './components/Download';
 import Termsandcondition from './components/Termsandcondition';
+import Combo from './components/Combo';
 
 
 function App() {
@@ -51,6 +52,7 @@ useEffect(()=>{
         <Route path='/About' element={<About/>}/>
         <Route path='/terms' element={<Termsandcondition/>}/>
       <Route path ='/' element ={ <Home/>} />
+      <Route path='/combo' element={<Combo/>}/>
       <Route path='/search/:keyword' element={<ProductSearch/>}/>
       <Route path='/products' element ={<Cracker/>}/>
       <Route path='/contact' element = { <Contact/> }/>
