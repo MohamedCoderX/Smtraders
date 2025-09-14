@@ -8,22 +8,18 @@ const Combo = () => {
   const combos = [
     {
       id: 1,
-      
       img: img1,
     },
     {
       id: 2,
-      
       img: img2,
     },
     {
       id: 3,
-      
       img: img3,
     },
     {
       id: 4,
-      
       img: img4,
     },
   ];
