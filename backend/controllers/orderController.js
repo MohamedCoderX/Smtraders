@@ -66,9 +66,6 @@ exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
 //Create New Order - api/v1/order/new
 exports.newOrder = catchAsyncError(async (req, res, next) => {
     try {
-      const orderCount = await Order.countDocuments();
-      const newOrderNumber = orderCount + 1;
-  
       const {
         orderItems,
         shippingInfo,
@@ -79,6 +76,20 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
         paymentInfo,
       } = req.body;
   
+      // ✅ Check duplicate shipping name
+      const existingOrder = await Order.findOne({ "shippingInfo.name": shippingInfo.name });
+      if (existingOrder) {
+        return res.status(400).json({
+          success: false,
+          message: "Order already exists for this customer name.",
+        });
+      }
+  
+      // Generate new incremental order number
+      const orderCount = await Order.countDocuments();
+      const newOrderNumber = orderCount + 1;
+  
+      // ✅ Create new order only if not duplicate
       const order = await Order.create({
         orderItems,
         shippingInfo,
@@ -87,7 +98,7 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
         shippingPrice,
         totalPrice,
         paymentInfo,
-        orderNumber: newOrderNumber, // 👈 save incremental order number
+        orderNumber: newOrderNumber,
         paidAt: Date.now(),
       });
   
@@ -104,6 +115,7 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
       return next(error);
     }
   });
+  
   
 //Get Single Order - api/v1/order/:id
 exports.getSingleOrder = catchAsyncError(async (req, res, next) => {

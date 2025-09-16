@@ -58,7 +58,7 @@ const productSchema = new mongoose.Schema({
         "Sparklers",
         "Peacock",
         "Pencil",
-        "Others"
+        "New Arrivals"
       ],
       message: "please select correct category",
     },
