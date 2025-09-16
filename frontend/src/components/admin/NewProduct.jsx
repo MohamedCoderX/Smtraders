@@ -44,7 +44,7 @@ export default function NewProduct() {
 'Sparklers',
 "Peacock",
 "Pencil",
-"Others"
+"New Arrivals"
     ];
 
     const navigate = useNavigate();

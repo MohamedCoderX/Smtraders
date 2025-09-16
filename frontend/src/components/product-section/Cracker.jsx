@@ -46,7 +46,7 @@ const Cracker = () => {
     "Sparklers",
     "Peacock",
     "Pencil",
-    "Others"
+    "New Arrivals"
   ];
 
   const setCurrentPageNo = (pageNo) => {

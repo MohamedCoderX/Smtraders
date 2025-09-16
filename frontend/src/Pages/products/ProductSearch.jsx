@@ -56,7 +56,7 @@ const categories = [
 'Sparklers',
 "Peacock",
 "Pencil",
-"Others"
+"New Arrivals"
 ]
         
         
