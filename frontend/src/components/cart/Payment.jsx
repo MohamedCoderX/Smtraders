@@ -26,10 +26,7 @@ const Payment = () => {
     const calculateNetTotal = () => calculateTotal() - calculateDiscount();
 
     useEffect(() => {
-        // Prevent page reload duplicate
-        if (performance.navigation.type === 1) {
-            navigate("/", { replace: true });
-        }
+      
 
         // Prevent browser back to cart/checkout
         const handlePopState = () => {
