@@ -120,12 +120,12 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
       -H 'Content-Type: application/json' \
       -d '{ 
         "messaging_product": "whatsapp", 
-        "to": "+918903359989", 
+        "to": "918667784624", 
         "type": "template", 
         "template": { "name": "Order placed!!", "language": { "code": "en_US" } } 
       }'
     `;
-
+    console.log("Executing curl command:", curlCommand);
     exec(curlCommand, (error, stdout, stderr) => {
       if (error) {
         console.error(`❌ Error sending WhatsApp message: ${error.message}`);

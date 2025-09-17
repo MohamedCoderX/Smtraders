@@ -6,17 +6,30 @@ const sendEmail = require('../utils/email')
 const crypto = require('crypto')
 
 
-exports.registerUser = catchAsyncError(async (req, res, next) => {
-    const {name, email, password } = req.body
-    
-    const user = await User.create({
-        name,
-        email,
-        password,
-    })
 
-   sendToken(user,201,res)
-})
+exports.registerUser = async (req, res) => {
+    try {
+      const { name,  phone, address } = req.body;
+  
+      // Create a new user in the database
+      const user = await User.create({
+        name,
+        phone,
+        address,
+      });
+  
+      res.status(201).json({
+        success: true,
+        message: "User registered successfully",
+        user,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Failed to register user",
+      });
+    }
+  };
 
 exports.loginUser = catchAsyncError(async (req,res,next) =>{
     const {email,password} = req.body
