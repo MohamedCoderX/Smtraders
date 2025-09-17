@@ -27,7 +27,8 @@ const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
 export const fetchUsers = () => async (dispatch) => {
   try {
     dispatch(getUsersRequest());
-    const { data } = await axios.get(`${frontendUrl}/admin/users`); // Replace with your backend endpoint
+    const { data } = await axios.get(`${frontendUrl}/admin/users`,{
+      withCredentials:true }); // Replace with your backend endpoint
     console.log(data);
     dispatch(getUsersSuccess(data));
   } catch (error) {
