@@ -9,7 +9,7 @@ export default function Dashboard(){
     const dispatch = useDispatch();
     let outOfStock = 0;
     const {products=[]} = useSelector(state=>state.productsState);
-    const{users=[]}=useSelector(state => state.authState)
+    const{users=[]}=useSelector(state => state.authState);
     const { adminOrders = [] } = useSelector( state => state.orderState);
     // const { users = [] } = useSelector( state => state.userState);
     if (products.length > 0) {
@@ -28,9 +28,9 @@ export default function Dashboard(){
      }
 
     useEffect(()=>{
-        dispatch(getAdminProducts)
-       dispatch(adminOrdersAction)
-       dispatch(fetchUsers)
+        dispatch(getAdminProducts())
+       dispatch(adminOrdersAction())
+       dispatch(fetchUsers())
     },[dispatch])
 
    
