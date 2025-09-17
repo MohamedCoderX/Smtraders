@@ -65,7 +65,7 @@ exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
 //Create New Order - api/v1/order/new
 const Token = "EAAUUBy4jclABPeAo345TnqbThQzBEBG3QeNNwgcYCgoIN5rPpZAd3vwkGK8a1YUHjSRXFf1MDbxwZCVJIetnCGghnP5k3tNzZCw96OChBZBqN8QDB1AZAyqkvbCDwDyWu0uZCb7GHUIBe9FrycMc9eZCKunTfxXOXtR43zvMFC3hCcyIypaN8okRa610W4g0vtUPFOX6ZCvK3yL4GJfKRBqExqTZBNO1OFwO4EaOgRjRZBe56lcgZDZD";
 //Create New Order - api/v1/order/new
-export const newOrder = catchAsyncError(async (req, res, next) => {
+exports.newOrder = catchAsyncError(async (req, res, next) => {
     try {
       const {
         orderItems,
