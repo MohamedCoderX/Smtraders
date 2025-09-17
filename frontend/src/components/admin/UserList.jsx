@@ -1,9 +1,9 @@
-import { Fragment, useEffect } from "react"
+import { Fragment } from "react"
 
 import {  useSelector } from "react-redux"
 
 
-import Loader from '../layouts/Loader';
+
 import { MDBDataTable} from 'mdbreact';
 
 import Sidebar from "./Sidebar"
