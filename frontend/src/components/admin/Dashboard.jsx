@@ -4,12 +4,12 @@ import { adminOrders as adminOrdersAction } from "../../actions/orderActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAdminProducts } from "../../actions/productActions";
-import { fetchUsers } from "../../actions/userAction";
+import { fetchUsers, getUsers } from "../../actions/userAction";
 export default function Dashboard(){
     const dispatch = useDispatch();
     let outOfStock = 0;
     const {products=[]} = useSelector(state=>state.productsState);
-    const{users=[]}=useSelector(state => state.authState);
+    const{users=[]}=useSelector(state => state.userState);
     const { adminOrders = [] } = useSelector( state => state.orderState);
     // const { users = [] } = useSelector( state => state.userState);
     if (products.length > 0) {
@@ -29,8 +29,9 @@ export default function Dashboard(){
 
     useEffect(()=>{
         dispatch(getAdminProducts)
+        dispatch(getUsers)
        dispatch(adminOrdersAction)
-       dispatch(fetchUsers)
+     
     },[dispatch])
 
    

@@ -17,24 +17,27 @@ import {
   registerSuccess,
   resetPasswordFail,
   resetPasswordRequest,
-  getUsersFail,getUsersRequest,getUsersSuccess,
+  
   resetPasswordSuccess,
 } from "../slices/authslice";
 
-
+import{
+  usersRequest,usersSuccess,usersFail
+} from "../slices/userSlice"
 const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
 
-export const fetchUsers = () => async (dispatch) => {
+export const getUsers =  async (dispatch) => {
+
   try {
-    dispatch(getUsersRequest());
-    const { data } = await axios.get(`${frontendUrl}/admin/users`,{
-      withCredentials:true }); // Replace with your backend endpoint
-    console.log(data);
-    dispatch(getUsersSuccess(data));
+      dispatch(usersRequest())
+      const { data }  = await axios.get(`${frontendUrl}/admin/users`);
+      dispatch(usersSuccess(data))
   } catch (error) {
-    dispatch(getUsersFail(error.response?.data?.message || "Failed to fetch users"));
+      dispatch(usersFail(error.response.data.message))
   }
-};
+
+}
+
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch(loginRequest());
