@@ -32,6 +32,7 @@ import Download from './components/Download';
 import Termsandcondition from './components/Termsandcondition';
 import Combo from './components/Combo';
 import RegisterComp from './components/RegisterComp';
+import UserList from './components/admin/UserList';
 
 
 function App() {
@@ -58,6 +59,7 @@ useEffect(()=>{
       <Route path='/search/:keyword' element={<ProductSearch/>}/>
       <Route path='/products' element ={<Cracker/>}/>
       <Route path='/contact' element = { <Contact/> }/>
+      <Route path='/admin/users' element={<UserList/>}/>
       <Route path='/Login' element={<Login/>}/>
       <Route path='/Register' element={<Register/>}/>
       <Route path='/Forgotpassword' element={<ForgotPassword/>}/>
