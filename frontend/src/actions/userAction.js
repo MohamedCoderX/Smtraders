@@ -30,7 +30,7 @@ export const getUsers =  async (dispatch) => {
 
   try {
       dispatch(usersRequest())
-      const { data }  = await axios.get(`${frontendUrl}/admin/users`);
+      const { data }  = await axios.get(`${frontendUrl}/admin/users`,{withCredentials:true});
       dispatch(usersSuccess(data))
   } catch (error) {
       dispatch(usersFail(error.response.data.message))
