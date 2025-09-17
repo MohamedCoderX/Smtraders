@@ -5,7 +5,7 @@ const ErrorHandler = require('../utils/errorHandler')
 const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
-import { exec } from 'child_process';
+const { exec } = require('child_process');
 
 
 
