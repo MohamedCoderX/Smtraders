@@ -28,9 +28,9 @@ export default function Dashboard(){
      }
 
     useEffect(()=>{
-        dispatch(getAdminProducts())
-       dispatch(adminOrdersAction())
-       dispatch(fetchUsers())
+        dispatch(getAdminProducts)
+       dispatch(adminOrdersAction)
+       dispatch(fetchUsers)
     },[dispatch])
 
    
