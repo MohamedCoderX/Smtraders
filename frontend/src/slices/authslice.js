@@ -5,12 +5,39 @@ const authSlice = createSlice({
   initialState: {
     loading: false,
     isAuthenticated: false,
+    users:[],
   },
   reducers: {
     loginRequest(state, action) {
       return {
         ...state,
         loading: true,
+      };
+    },
+    getUsersRequest(state) {
+      return {
+        ...state,
+        loading: true,
+      };
+    },
+    getUsersSuccess(state, action) {
+      return {
+        ...state,
+        loading: false,
+        users: action.payload,
+      };
+    },
+    getUsersFail(state, action) {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    },
+    clearError(state) {
+      return {
+        ...state,
+        error: null,
       };
     },
     loginSucess(state, action) {
@@ -152,6 +179,7 @@ export const {
   forgotPasswordRequest,
   resetPasswordFail,
   resetPasswordSuccess,
-  resetPasswordRequest
+  resetPasswordRequest,
+  getUsersFail,getUsersRequest,getUsersSuccess
 } = actions;
 export default reducer;
