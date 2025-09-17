@@ -59,7 +59,7 @@ export const register = (userData) => async (dispatch) => {
   try {
     dispatch(registerRequest());
 
-    const { data } = await axios.post(`${backendUrl}/register`, userData, {
+    const { data } = await axios.post(`${frontendUrl}/register`, userData, {
       headers: {
         "Content-Type": "application/json",
       },
