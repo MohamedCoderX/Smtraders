@@ -28,7 +28,8 @@ export const fetchUsers = () => async (dispatch) => {
   try {
     dispatch(getUsersRequest());
     const { data } = await axios.get(`${frontendUrl}/admin/users`); // Replace with your backend endpoint
-    dispatch(getUsersSuccess(data.users));
+    console.log(data);
+    dispatch(getUsersSuccess(data));
   } catch (error) {
     dispatch(getUsersFail(error.response?.data?.message || "Failed to fetch users"));
   }

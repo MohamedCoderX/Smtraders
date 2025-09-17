@@ -24,7 +24,7 @@ const authSlice = createSlice({
       return {
         ...state,
         loading: false,
-        users: action.payload,
+        users: action.payload.users,
       };
     },
     getUsersFail(state, action) {
