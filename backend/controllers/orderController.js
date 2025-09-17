@@ -6,6 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
 const { exec } = require('child_process');
+const Counter = require('../models/CounterModel');
 
 
 
@@ -86,8 +87,12 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
     }
 
     // Generate new incremental order number
-    const orderCount = await Order.countDocuments();
-    const newOrderNumber = orderCount + 1;
+    const counter = await Counter.findOneAndUpdate(
+        { id: 'orderNumber' }, // Find the counter document with id 'orderNumber'
+        { $inc: { seq: 1 } },  // Increment the sequence by 1
+        { new: true, upsert: true } // Create the counter if it doesn't exist
+      );
+      const newOrderNumber = counter.seq; // Get the updated sequence number
 
     // ✅ Create new order
     const order = await Order.create({
