@@ -31,6 +31,7 @@ import Whatsapp from './components/Whatsapp';
 import Download from './components/Download';
 import Termsandcondition from './components/Termsandcondition';
 import Combo from './components/Combo';
+import RegisterComp from './components/RegisterComp';
 
 
 function App() {
@@ -42,6 +43,7 @@ useEffect(()=>{
     <Router>
      <div className="App">
       <HelmetProvider>
+        <RegisterComp/>
       <Navbar/>
       
       <Whatsapp/>

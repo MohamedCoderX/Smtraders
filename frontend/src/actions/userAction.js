@@ -19,7 +19,9 @@ import {
   resetPasswordRequest,
   resetPasswordSuccess,
 } from "../slices/authslice";
+
 const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
+
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch(loginRequest());
@@ -41,18 +43,20 @@ export const clearAuthError = (dispatch) => {
 
 export const register = (userData) => async (dispatch) => {
   try {
-    dispatch(registerRequest())
+    dispatch(registerRequest());
     const config = {
       headers: {
-        "Content-type": 'application/json',
+        "Content-Type": "application/json",
       },
-    }
-    const { data} = await axios.post(`${frontendUrl}/register`,userData,config,{withCredentials:true,headers: {
-      "Content-Type": "application/json",
-    }});
+    };
+    // Send user data to the backend to store in the database
+    const { data } = await axios.post(`${frontendUrl}/register`, userData, config);
+
+    // Dispatch success action with the response data
     dispatch(registerSuccess(data));
   } catch (error) {
-    dispatch(registerFail(error.response.data.message));
+    // Dispatch failure action with the error message
+    dispatch(registerFail(error.response?.data?.message || "Failed to register user"));
   }
 };
 
