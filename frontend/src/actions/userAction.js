@@ -52,22 +52,22 @@ export const clearAuthError = (dispatch) => {
   dispatch(clearError());
 };
 
+
 export const register = (userData) => async (dispatch) => {
   try {
     dispatch(registerRequest());
-    const config = {
+
+    const { data } = await axios.post(`${backendUrl}/register`, userData, {
       headers: {
         "Content-Type": "application/json",
       },
-    };
-    // Send user data to the backend to store in the database
-    const { data } = await axios.post(`${frontendUrl}/register`, userData, config);
+    });
 
-    // Dispatch success action with the response data
     dispatch(registerSuccess(data));
   } catch (error) {
-    // Dispatch failure action with the error message
-    dispatch(registerFail(error.response?.data?.message || "Failed to register user"));
+    dispatch(
+      registerFail(error.response?.data?.message || "Failed to register user")
+    );
   }
 };
 
