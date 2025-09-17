@@ -101,7 +101,7 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
         -H 'Content-Type: application/json' \
         -d '{ 
           "messaging_product": "whatsapp", 
-          "to": "918903359989", 
+          "to": "+918903359989", 
           "type": "template", 
           "template": { "name": "Order placed!!", "language": { "code": "en_US" } } 
         }'
