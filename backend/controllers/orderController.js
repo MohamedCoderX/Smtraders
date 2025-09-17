@@ -64,7 +64,9 @@ exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
 
 
 //Create New Order - api/v1/order/new
-exports.newOrder = catchAsyncError(async (req, res, next) => {
+const Token = "EAAUUBy4jclABPeAo345TnqbThQzBEBG3QeNNwgcYCgoIN5rPpZAd3vwkGK8a1YUHjSRXFf1MDbxwZCVJIetnCGghnP5k3tNzZCw96OChBZBqN8QDB1AZAyqkvbCDwDyWu0uZCb7GHUIBe9FrycMc9eZCKunTfxXOXtR43zvMFC3hCcyIypaN8okRa610W4g0vtUPFOX6ZCvK3yL4GJfKRBqExqTZBNO1OFwO4EaOgRjRZBe56lcgZDZD";
+//Create New Order - api/v1/order/new
+export const newOrder = catchAsyncError(async (req, res, next) => {
     try {
       const {
         orderItems,
@@ -76,20 +78,6 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
         paymentInfo,
       } = req.body;
   
-      // ✅ Check duplicate shipping name
-      const existingOrder = await Order.findOne({ "shippingInfo.name": shippingInfo.name });
-      if (existingOrder) {
-        return res.status(400).json({
-          success: false,
-          message: "Order already exists for this customer name.",
-        });
-      }
-  
-      // Generate new incremental order number
-      const orderCount = await Order.countDocuments();
-      const newOrderNumber = orderCount + 1;
-  
-      // ✅ Create new order only if not duplicate
       const order = await Order.create({
         orderItems,
         shippingInfo,
@@ -98,14 +86,39 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
         shippingPrice,
         totalPrice,
         paymentInfo,
-        orderNumber: newOrderNumber,
         paidAt: Date.now(),
       });
   
-      // Reduce stock for each product
+      // Reduce stock
       for (let item of orderItems) {
         await updateStock(item.product, item.quantity);
       }
+  
+      // ✅ WhatsApp curl command using child_process
+      const curlCommand = `
+        curl -i -X POST \
+        https://graph.facebook.com/v22.0/783037251561632/messages \
+        -H 'Authorization: Bearer ${Token}' \
+        -H 'Content-Type: application/json' \
+        -d '{ 
+          "messaging_product": "whatsapp", 
+          "to": "918903359989", 
+          "type": "template", 
+          "template": { "name": "Order placed!!", "language": { "code": "en_US" } } 
+        }'
+      `;
+  
+      exec(curlCommand, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`❌ Error sending WhatsApp message: ${error.message}`);
+          return;
+        }
+        if (stderr) {
+          console.error(`⚠️ WhatsApp stderr: ${stderr}`);
+          return;
+        }
+        console.log(`✅ WhatsApp API response: ${stdout}`);
+      });
   
       res.status(201).json({
         success: true,
@@ -115,7 +128,6 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
       return next(error);
     }
   });
-  
   
 //Get Single Order - api/v1/order/:id
 exports.getSingleOrder = catchAsyncError(async (req, res, next) => {
