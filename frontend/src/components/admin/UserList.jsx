@@ -64,7 +64,7 @@ export default function UserList() {
         <div className="col-12 col-md-10">
             <h1 className="my-4">User List</h1>
             <Fragment>
-                {loading ? <Loader/> : 
+                
                     <MDBDataTable
                         data={setUsers()}
                         bordered
@@ -72,7 +72,7 @@ export default function UserList() {
                         hover
                         className="px-3"
                     />
-                }
+          
             </Fragment>
         </div>
     </div>
