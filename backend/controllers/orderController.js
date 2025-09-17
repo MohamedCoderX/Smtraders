@@ -67,6 +67,8 @@ const Token = "EAAUUBy4jclABPeAo345TnqbThQzBEBG3QeNNwgcYCgoIN5rPpZAd3vwkGK8a1YUH
 //Create New Order - api/v1/order/new
 exports.newOrder = catchAsyncError(async (req, res, next) => {
     try {
+        const orderCount = await Order.countDocuments(); 
+        const newOrderNumber = orderCount + 1;
       const {
         orderItems,
         shippingInfo,
@@ -85,6 +87,7 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
         shippingPrice,
         totalPrice,
         paymentInfo,
+        orderNumber: newOrderNumber, // 👈 save incremental order number
         paidAt: Date.now(),
       });
   
