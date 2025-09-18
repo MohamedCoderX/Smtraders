@@ -3,6 +3,7 @@ import axios from "axios";
 import "./RegisterPopup.css";
 import { useDispatch } from "react-redux";
 import { register } from "../actions/userAction";
+import { useLocation } from "react-router-dom"; // Import useLocation to check the current route
 
 const RegisterComp = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -13,17 +14,20 @@ const RegisterComp = () => {
     address: "",
   });
   const dispatch = useDispatch();
+  const location = useLocation(); // Get the current route
 
   useEffect(() => {
-    // Show the popup every 10 seconds if the user is not registered
-    const interval = setInterval(() => {
-      if (!isRegistered) {
-        setShowPopup(true);
-      }
-    }, 10000);
+    // Show the popup every 10 seconds if the user is not registered and not on the admin dashboard
+    if (!location.pathname.includes("/admin")) {
+      const interval = setInterval(() => {
+        if (!isRegistered) {
+          setShowPopup(true);
+        }
+      }, 10000);
 
-    return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, [isRegistered]);
+      return () => clearInterval(interval); // Cleanup interval on component unmount
+    }
+  }, [isRegistered, location.pathname]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -31,21 +35,23 @@ const RegisterComp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  dispatch(register(formData));
+    dispatch(register(formData));
     setIsRegistered(true);
     setShowPopup(false);
   };
-const handleClose = () => {
-  setShowPopup(false);
-}
+
+  const handleClose = () => {
+    setShowPopup(false); // Close the popup when the Close button is clicked
+  };
+
   return (
     showPopup && (
       <div className="popup-overlay">
         <div className="popup-content">
-        <button className="close-button" onClick={handleClose}>
+          <button className="close-button" onClick={handleClose}>
             &times; {/* Close icon */}
           </button>
-          <h2>Submit Your Data our team will contact you shortly</h2>
+          <h2>Submit Your Data, our team will contact you shortly</h2>
           <form onSubmit={handleSubmit}>
             <div>
               <label>Name:</label>
@@ -57,7 +63,6 @@ const handleClose = () => {
                 required
               />
             </div>
-           
             <div>
               <label>Phone:</label>
               <input
@@ -65,15 +70,17 @@ const handleClose = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
+                required
               />
             </div>
             <div>
-              <label>City:</label>
+              <label>Address:</label>
               <input
                 type="text"
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
+                required
               />
             </div>
             <button type="submit">Submit</button>
