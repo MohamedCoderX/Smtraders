@@ -40,6 +40,9 @@ const RegisterComp = () => {
     showPopup && (
       <div className="popup-overlay">
         <div className="popup-content">
+        <button className="close-button" onClick={handleClose}>
+            &times; {/* Close icon */}
+          </button>
           <h2>Submit Your Data our team will contact you shortly</h2>
           <form onSubmit={handleSubmit}>
             <div>
