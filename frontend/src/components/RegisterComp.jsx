@@ -40,7 +40,7 @@ const RegisterComp = () => {
     showPopup && (
       <div className="popup-overlay">
         <div className="popup-content">
-          <h2>Submit Data our team will contact you shortly</h2>
+          <h2>Submit Your Data our team will contact you shortly</h2>
           <form onSubmit={handleSubmit}>
             <div>
               <label>Name:</label>
@@ -63,7 +63,7 @@ const RegisterComp = () => {
               />
             </div>
             <div>
-              <label>Address:</label>
+              <label>City:</label>
               <input
                 type="text"
                 name="address"

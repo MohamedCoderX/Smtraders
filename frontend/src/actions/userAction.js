@@ -57,25 +57,30 @@ export const clearAuthError = (dispatch) => {
   dispatch(clearError());
 };
 
-
 export const register = (userData) => async (dispatch) => {
   try {
-    
     dispatch(registerRequest());
-    const { data } = await axios.post(`${frontendUrl}/register`, userData);
-    console.log(data);
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.post(`${frontendUrl}/register`, userData, config);
+
+    console.log("Response Data:", data);
     dispatch(registerSuccess(data));
   } catch (error) {
+    console.error("Error in register action:", error.response?.data || error.message);
     dispatch(
       registerFail(error.response?.data?.message || "Failed to register user")
     );
   }
 };
-
 export const loadUser = async (dispatch) => {
     try {
       dispatch(loadUserRequest())
-     
       const { data} = await axios.get(`${frontendUrl}/myprofile`,{withCredentials:true}); 
       dispatch(loadUserSuccess(data));
     } catch (error) {
