@@ -42,9 +42,9 @@ export default function UserList() {
             rows : []
         }
 
-        users.forEach( user => {
+        users.forEach( (user,index )=> {
             data.rows.push({
-                id: user._id,
+                id: index+1,
                 name: user.name,
              
                 Phone:user.phone,
