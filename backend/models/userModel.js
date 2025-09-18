@@ -18,13 +18,13 @@ const userSchema = new mongoose.Schema({
     },
     email:{
         type: String,
-        
+        sparse:true,
         unique: true,
         validate: [validator.isEmail, 'Please enter valid email address']
     },
     password: {
         type: String,
-        
+        required:false,
         maxlength: [15, 'Password cannot exceed 15 characters'],
         select:false
     },
