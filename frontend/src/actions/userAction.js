@@ -60,14 +60,10 @@ export const clearAuthError = (dispatch) => {
 
 export const register = (userData) => async (dispatch) => {
   try {
+    
     dispatch(registerRequest());
-
-    const { data } = await axios.post(`${frontendUrl}/register`, userData, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
+    const { data } = await axios.post(`${frontendUrl}/register`, userData);
+    console.log(data);
     dispatch(registerSuccess(data));
   } catch (error) {
     dispatch(
