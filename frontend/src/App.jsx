@@ -44,7 +44,7 @@ useEffect(()=>{
     <Router>
      <div className="App">
       <HelmetProvider>
-        {/* <RegisterComp/> */}
+        <RegisterComp/>
       <Navbar/>
       
       <Whatsapp/>

@@ -32,6 +32,8 @@ const RegisterComp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   dispatch(register(formData));
+    setIsRegistered(true);
+    setShowPopup(false);
   };
 
   return (
