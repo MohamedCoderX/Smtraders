@@ -9,7 +9,15 @@ const crypto = require('crypto')
 
 exports.registerUser = async (req, res) => {
     try {
-      const { name,  phone, address } = req.body;
+      const { name, phone, address } = req.body;
+  
+      // Validate required fields
+      if (!name || !phone || !address) {
+        return res.status(400).json({
+          success: false,
+          message: "All fields (name, phone, address) are required",
+        });
+      }
   
       // Create a new user in the database
       const user = await User.create({
@@ -24,12 +32,18 @@ exports.registerUser = async (req, res) => {
         user,
       });
     } catch (error) {
+      // ✅ Debugging logs
+      console.error("Error in registerUser:", error.message);
+      console.error("Full error object:", error);
+  
       res.status(500).json({
         success: false,
-        message: "Failed to register user",
+        message: error.message || "Failed to register user", // return actual reason
+        stack: process.env.NODE_ENV === "development" ? error.stack : undefined, // show stack only in dev
       });
     }
   };
+  
 
 exports.loginUser = catchAsyncError(async (req,res,next) =>{
     const {email,password} = req.body
