@@ -63,7 +63,7 @@ exports.uploadInvoice = catchAsyncError(async (req, res, next) => {
 
 
 
-const Token = "EAAUUBy4jclABPeAo345TnqbThQzBEBG3QeNNwgcYCgoIN5rPpZAd3vwkGK8a1YUHjSRXFf1MDbxwZCVJIetnCGghnP5k3tNzZCw96OChBZBqN8QDB1AZAyqkvbCDwDyWu0uZCb7GHUIBe9FrycMc9eZCKunTfxXOXtR43zvMFC3hCcyIypaN8okRa610W4g0vtUPFOX6ZCvK3yL4GJfKRBqExqTZBNO1OFwO4EaOgRjRZBe56lcgZDZD";
+
 
 exports.newOrder = catchAsyncError(async (req, res, next) => {
   try {
@@ -114,16 +114,11 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
 
     // ✅ Send WhatsApp notification
     const curlCommand = `
-      curl -i -X POST \
-      https://graph.facebook.com/v22.0/783037251561632/messages \
-      -H 'Authorization: Bearer ${Token}' \
-      -H 'Content-Type: application/json' \
-      -d '{ 
-        "messaging_product": "whatsapp", 
-        "to": "918667784624", 
-        "type": "template", 
-        "template": { "name": "Order placed!!", "language": { "code": "en_US" } } 
-      }'
+     curl -i -X POST \
+  https://graph.facebook.com/v22.0/783037251561632/messages \
+  -H 'Authorization: Bearer EAAUUBy4jclABPeAo345TnqbThQzBEBG3QeNNwgcYCgoIN5rPpZAd3vwkGK8a1YUHjSRXFf1MDbxwZCVJIetnCGghnP5k3tNzZCw96OChBZBqN8QDB1AZAyqkvbCDwDyWu0uZCb7GHUIBe9FrycMc9eZCKunTfxXOXtR43zvMFC3hCcyIypaN8okRa610W4g0vtUPFOX6ZCvK3yL4GJfKRBqExqTZBNO1OFwO4EaOgRjRZBe56lcgZDZD' \
+  -H 'Content-Type: application/json' \
+  -d '{ "messaging_product": "whatsapp", "to": "918903359989", "type": "template", "template": { "name": "hello_world", "language": { "code": "en_US" } } }''
     `;
     console.log("Executing curl command:", curlCommand);
     exec(curlCommand, (error, stdout, stderr) => {
