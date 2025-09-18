@@ -35,7 +35,9 @@ const RegisterComp = () => {
     setIsRegistered(true);
     setShowPopup(false);
   };
-
+const handleClose = () => {
+  setShowPopup(false);
+}
   return (
     showPopup && (
       <div className="popup-overlay">
