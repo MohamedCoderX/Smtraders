@@ -12,6 +12,7 @@ const RegisterComp = () => {
     name: "",
     phone: "",
     address: "",
+    email: "",
   });
   const dispatch = useDispatch();
   const location = useLocation(); // Get the current route
@@ -74,6 +75,16 @@ const RegisterComp = () => {
               />
             </div>
             <div>
+              <label>Email:</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div>
               <label>Address:</label>
               <input
                 type="text"
@@ -83,6 +94,7 @@ const RegisterComp = () => {
                 required
               />
             </div>
+
             <button type="submit">Submit</button>
           </form>
         </div>
