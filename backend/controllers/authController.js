@@ -9,10 +9,10 @@ const crypto = require('crypto')
 
 exports.registerUser = async (req, res) => {
     try {
-      const { name, phone, address } = req.body;
+      const { name, phone, address,email } = req.body;
   
       // Validate required fields
-      if (!name || !phone || !address) {
+      if (!name || !phone || !address || !email) {
         return res.status(400).json({
           success: false,
           message: "All fields (name, phone, address) are required",
@@ -24,6 +24,7 @@ exports.registerUser = async (req, res) => {
         name,
         phone,
         address,
+        email,
       });
   
       res.status(201).json({
