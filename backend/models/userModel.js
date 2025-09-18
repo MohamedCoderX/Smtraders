@@ -3,12 +3,19 @@ const validator = require("validator")
 const bcrypt = require('bcryptjs')
 const jwt = require("jsonwebtoken")
 const crypto = require('crypto')
+const { type } = require("os")
 
 
 const userSchema = new mongoose.Schema({
     name : {
         type: String,
         required: [true, 'Please enter name']
+    },
+    phone:{
+        type:Number,
+    },
+    address:{
+        type:String,
     },
     email:{
         type: String,

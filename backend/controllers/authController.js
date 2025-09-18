@@ -5,19 +5,43 @@ const ErrorHandler = require('../utils/errorHandler')
 const sendEmail = require('../utils/email')
 const crypto = require('crypto')
 
-
-exports.registerUser = catchAsyncError(async (req, res, next) => {
-    const {name, email, password } = req.body
-    
-    const user = await User.create({
+exports.registerUser = async (req, res) => {
+    try {
+      const { name, phone, address } = req.body;
+  
+      // Validate required fields
+      if (!name || !phone || !address) {
+        return res.status(400).json({
+          success: false,
+          message: "All fields (name, phone, address) are required",
+        });
+      }
+  
+      // Create a new user in the database
+      const user = await User.create({
         name,
-        email,
-        password,
-    })
-
-   sendToken(user,201,res)
-})
-
+        phone,
+        address,
+      });
+  
+      res.status(201).json({
+        success: true,
+        message: "User registered successfully",
+        user,
+      });
+    } catch (error) {
+      // ✅ Debugging logs
+      console.error("Error in registerUser:", error.message);
+      console.error("Full error object:", error);
+  
+      res.status(500).json({
+        success: false,
+        message: error.message || "Failed to register user", // return actual reason
+        stack: process.env.NODE_ENV === "development" ? error.stack : undefined, // show stack only in dev
+      });
+    }
+  };
+  
 exports.loginUser = catchAsyncError(async (req,res,next) =>{
     const {email,password} = req.body
     if(!email || !password ){
