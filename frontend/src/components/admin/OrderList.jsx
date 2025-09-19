@@ -6,7 +6,8 @@ import Loader from "../Loader";
 import { MDBDataTable } from "mdbreact";
 import { Button, Modal, Form } from "react-bootstrap";
 import Sidebar from "./Sidebar";
-import { deleteOrder, adminOrders as adminAction, updateOrder } from "../../actions/orderActions";
+import { deleteOrder, adminOrders as adminAction } from "../../actions/orderActions";
+import { updateOrder } from "../../actions/orderActions";
 import html2pdf from "html2pdf.js";
 import "./OrderList.css";
 
