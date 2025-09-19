@@ -12,7 +12,7 @@ import html2pdf from "html2pdf.js";
 import "./OrderList.css";
 
 const OrderList = () => {
-  const { adminOrders, loading = true, error, isOrderDeleted, isOrderUpdated } =
+  const { adminOrders =[], loading = true, error, isOrderDeleted, isOrderUpdated } =
     useSelector((state) => state.orderState);
 
   const dispatch = useDispatch();
@@ -171,8 +171,8 @@ const OrderList = () => {
         type: "success",
         onOpen: () => dispatch(clearOrderUpdated()),
       });
+      return;
     }
-
     dispatch(adminAction);
   }, [dispatch, error, isOrderDeleted, isOrderUpdated]);
 
