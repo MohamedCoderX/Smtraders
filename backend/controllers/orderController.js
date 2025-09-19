@@ -183,26 +183,35 @@ exports.orders = catchAsyncError(async (req, res, next) => {
 })
 
 //Admin: Update Order / Order Status - api/v1/order/:id
-exports.updateOrder =  catchAsyncError(async (req, res, next) => {
+exports.updateOrder = catchAsyncError(async (req, res, next) => {
     const order = await Order.findById(req.params.id);
-
-    if(order.orderStatus == 'Delivered') {
-        return next(new ErrorHandler('Order has been already delivered!', 400))
+  
+    if (!order) {
+      return next(new ErrorHandler("Order not found", 404));
     }
-    //Updating the product stock of each order item
-    order.orderItems.forEach(async orderItem => {
-        await updateStock(orderItem.product, orderItem.quantity)
-    })
-
+  
+    if (!req.body.orderStatus) {
+      return next(new ErrorHandler("No order status provided", 400));
+    }
+  
+    if (order.orderStatus === "Delivered") {
+      return next(new ErrorHandler("Order has already been delivered!", 400));
+    }
+  
     order.orderStatus = req.body.orderStatus;
-    order.deliveredAt = Date.now();
-    await order.save();
-
+  
+    if (req.body.orderStatus === "Completed" || req.body.orderStatus === "Delivered") {
+      order.deliveredAt = Date.now();
+    }
+  
+    await order.save({ validateBeforeSave: false });
+  
     res.status(200).json({
-        success: true
-    })
-    
-});
+      success: true,
+      message: `Order status saved as ${req.body.orderStatus}`,
+    });
+  });
+  
 
 async function updateStock (productId, quantity){
     const product = await Product.findById(productId);
