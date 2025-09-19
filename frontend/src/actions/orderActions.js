@@ -2,7 +2,8 @@ import axios from "axios";
 import { 
     adminOrdersFail, adminOrdersRequest, adminOrdersSuccess, 
     createOrderFail, createOrderRequest, createOrderSuccess, 
-    deleteOrderFail, deleteOrderRequest, deleteOrderSuccess 
+    deleteOrderFail, deleteOrderRequest, deleteOrderSuccess,
+    updateOrderFail, updateOrderRequest, updateOrderSuccess
 } from "../slices/orderSlice";
 
  // Adjust port if needed
@@ -40,3 +41,16 @@ export const deleteOrder = (id) => async (dispatch) => {
         console.error("Delete Order Error:", error);
     }
 };
+
+export const updateOrder = (id, orderData) => async (dispatch) => {
+    try {
+      dispatch(updateOrderRequest());
+      const { data } = await axios.put(`${frontendUrl}/admin/order/${id}`, orderData,{
+        withCredentials: true,
+      });
+      dispatch(updateOrderSuccess(data));
+    } catch (error) {
+      dispatch(updateOrderFail(error.response.data.message));
+    }
+  };
+  
