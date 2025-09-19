@@ -12,7 +12,7 @@ import html2pdf from "html2pdf.js";
 import "./OrderList.css";
 
 const OrderList = () => {
-  const { adminOrders =[], loading = true, error, isOrderDeleted, isOrderUpdated } =
+  const { adminOrders = [] , loading = true, error, isOrderDeleted, isOrderUpdated } =
     useSelector((state) => state.orderState);
 
   const dispatch = useDispatch();
@@ -114,7 +114,7 @@ const OrderList = () => {
         Amount: `₹${order?.totalPrice?.toFixed(2) || "0.00"}`,
         status: (
           <Form.Select
-            value={order.orderStatus}
+            value={order.orderStatus || "Processing"}
             onChange={(e) => handleStatusChange(order._id, e.target.value)}
             size="sm"
           >
@@ -187,6 +187,7 @@ const OrderList = () => {
           <Loader />
         ) : (
           <div className="table-responsive">
+            {console.log("Admin Orders:", adminOrders)}
             <MDBDataTable data={setOrders()} bordered striped hover className="px-3" />
           </div>
         )}
