@@ -172,7 +172,7 @@ const OrderList = () => {
       });
     }
 
-    dispatch(adminAction());
+    dispatch(adminAction);
   }, [dispatch, error, isOrderDeleted, isOrderUpdated]);
 
   return (
