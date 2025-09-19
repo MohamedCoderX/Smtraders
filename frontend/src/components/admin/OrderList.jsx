@@ -91,6 +91,7 @@ const OrderList = () => {
     dispatch(updateOrder(orderId, { orderStatus: newStatus }));
   };
 
+  
   const setOrders = () => {
     const data = {
       columns: [
@@ -104,8 +105,11 @@ const OrderList = () => {
       ],
       rows: [],
     };
-
-    adminOrders.forEach((order) => {
+    const sortedOrders = [...adminOrders].sort((a, b) => {
+        const orderPriority = { Processing: 1, Completed: 2, Delivered: 3 };
+        return (orderPriority[a.orderStatus] || 4) - (orderPriority[b.orderStatus] || 4);
+      });
+    sortedOrders.forEach((order) => {
       data.rows.push({
         username: order.shippingInfo?.name || "Not Provided",
         Phoneno: order.shippingInfo?.phoneNo || "Not Provided",
@@ -113,15 +117,22 @@ const OrderList = () => {
         Amount: `₹${order?.totalPrice?.toFixed(2) || "0.00"}`,
         status: (
             <Fragment>
-            <select
-            value={order?.orderStatus || "Processing"}
-            onChange={(e) => handleStatusChange(order?._id, e.target.value)}
-            className="form-select form-select-sm"
-          >
-            <option value="Processing">Processing</option>
-            <option value="Completed">Completed</option>
-            <option value="Delivered">Delivered</option>
-          </select>
+             <select
+    value={order?.orderStatus || "Processing"}
+    onChange={(e) => handleStatusChange(order._id, e.target.value)}
+    className={`form-select form-select-sm ${
+      order?.orderStatus === "Completed"
+        ? "text-success fw-bold"
+        : order?.orderStatus === "Delivered"
+        ? "text-secondary fw-bold"
+        : ""
+    }`}
+    disabled={order?.orderStatus === "Completed" || order?.orderStatus === "Delivered"}
+  >
+    <option value="Processing">Processing</option>
+    <option value="Completed">Completed</option>
+    <option value="Delivered">Delivered</option>
+  </select>
           </Fragment>
         ),
         invoice: (
