@@ -62,8 +62,7 @@ const OrderList = () => {
             </tr>
           </thead>
           <tbody>
-            ${order.orderItems
-              .map(
+            ${order.orderItems.map(
                 (item, index) => `
               <tr>
                 <td style="padding: 10px; border: 1px solid #ddd;">${index + 1}</td>
@@ -113,15 +112,17 @@ const OrderList = () => {
         noofItems: order?.orderItems?.length || 0,
         Amount: `₹${order?.totalPrice?.toFixed(2) || "0.00"}`,
         status: (
-          <Form.Select
-            value={order.orderStatus || "Processing"}
-            onChange={(e) => handleStatusChange(order._id, e.target.value)}
-            size="sm"
+            <Fragment>
+            <select
+            value={order?.orderStatus || "Processing"}
+            onChange={(e) => handleStatusChange(order?._id, e.target.value)}
+            className="form-select form-select-sm"
           >
             <option value="Processing">Processing</option>
             <option value="Completed">Completed</option>
             <option value="Delivered">Delivered</option>
-          </Form.Select>
+          </select>
+          </Fragment>
         ),
         invoice: (
           <Fragment>
@@ -166,13 +167,13 @@ const OrderList = () => {
       });
       return;
     }
-    if (isOrderUpdated) {
-      toast("Order Status Updated!", {
-        type: "success",
-        onOpen: () => dispatch(clearOrderUpdated()),
-      });
-      return;
-    }
+    // if (isOrderUpdated) {     
+    //   toast("Order Status Updated!", {
+    //     type: "success",
+    //     onOpen: () => dispatch(clearOrderUpdated()),
+    //   });
+    //   return;
+    // }
     dispatch(adminAction);
   }, [dispatch, error, isOrderDeleted, isOrderUpdated]);
 
@@ -187,7 +188,7 @@ const OrderList = () => {
           <Loader />
         ) : (
           <div className="table-responsive">
-            {console.log("Admin Orders:", adminOrders)}
+            
             <MDBDataTable data={setOrders()} bordered striped hover className="px-3" />
           </div>
         )}
