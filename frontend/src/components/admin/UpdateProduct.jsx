@@ -41,6 +41,10 @@ export default function UpdateProduct() {
     "Varities",
     "Colour matches",
     "Gift box",
+    'Sparklers',
+    "Peacock",
+    "Pencil",
+    "New Arrivals"
   ];
 
   const navigate = useNavigate();

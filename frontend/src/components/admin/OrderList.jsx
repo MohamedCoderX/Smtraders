@@ -123,15 +123,14 @@ const OrderList = () => {
     className={`form-select form-select-sm ${
       order?.orderStatus === "Completed"
         ? "text-success fw-bold"
-        : order?.orderStatus === "Delivered"
-        ? "text-secondary fw-bold"
         : ""
     }`}
-    disabled={order?.orderStatus === "Completed" || order?.orderStatus === "Delivered"}
+    disabled={order?.orderStatus === "Completed" }
   >
+    <option value="Pending">Pending</option>
     <option value="Processing">Processing</option>
     <option value="Completed">Completed</option>
-    <option value="Delivered">Delivered</option>
+
   </select>
           </Fragment>
         ),
