@@ -125,7 +125,7 @@ const OrderList = () => {
         ? "text-success fw-bold"
         : ""
     }`}
-    disabled={order?.orderStatus === "Completed" }
+   
   >
     <option value="Pending">Pending</option>
     <option value="Processing">Processing</option>
