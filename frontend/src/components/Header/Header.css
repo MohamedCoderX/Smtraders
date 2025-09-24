@@ -1,57 +1,142 @@
-.header{
-    background-image: url(../../../public/images/home.jpg); 
-    background-position: center;
-    background-size: cover;
-   width: 100%;
-   height: 75vh;
-
-    margin:  auto;
+/* HEADER CONTAINER */
+.header {
+    width: 100%;
+    height: 75vh;
+    margin: auto;
     position: relative;
-
-}
-
-.header-content{
+    overflow: hidden;
+  }
+  
+  /* Base Background Layers */
+  .header::before,
+  .header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
+  }
+  
+  /* First Background Image → Cover */
+  .header::before {
+    background-image: url("../../../public/images/home.jpg");
+    background-size: cover;
+    opacity: 1;
+    animation: imageOneCycle 10s infinite;
+  }
+  
+  /* Second Background Image → Contain */
+  .header::after {
+    background-image: url("../../../public/images/homebg.jpg");
+    background-size: contain;
+    opacity: 0;
+    animation: imageTwoCycle 10s infinite;
+  }
+  
+  /* Keyframes for Image 1 (cover image) */
+  @keyframes imageOneCycle {
+    0%, 45% {
+      opacity: 1;
+    }
+    50%, 100% {
+      opacity: 0;
+    }
+  }
+  
+  /* Keyframes for Image 2 (contain image) */
+  @keyframes imageTwoCycle {
+    0%, 45% {
+      opacity: 0;
+    }
+    50%, 100% {
+      opacity: 1;
+    }
+  }
+  
+  /* HEADER CONTENT */
+  .header-content {
+    position: relative;
+    z-index: 1; /* Ensure text appears above background */
     color: white;
     max-width: 84%;
-    margin:auto;
+    margin: auto;
     padding: 100px 40px;
     text-align: center;
-animation: fadeIn 3s;
-}
-.header-content span{
-color: rebeccapurple;
-font-weight: 900;
-text-transform: uppercase;
-letter-spacing: 2px;
-font-size: 75px;
-    -webkit-text-stroke:  white;
+    animation: fadeIn 3s;
+  }
+  
+  /* Main title span */
+  .header-content span {
+    color: rebeccapurple;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 75px;
+    -webkit-text-stroke: white;
     -webkit-text-stroke-width: 2px;
-}
-.header-content h1{
+  }
+  
+  /* Main heading */
+  .header-content h1 {
     font-size: 70px;
     text-transform: uppercase;
     font-weight: 800;
     margin-bottom: 20px;
-}
-.header-content p{
+  }
+  
+  /* Paragraph text */
+  .header-content p {
     font-size: 18px;
-    word-break:keep-all;
+    word-break: keep-all;
     margin-bottom: 20px;
-}
-.header-content button{
+  }
+  
+  /* Button */
+  .header-content button {
     background-color: white;
     color: black;
     padding: 10px 30px;
-}
-@media (max-width:480px){
-    .header-content{
-        max-width: 100%;
-        padding: 100px 0px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .header-content button:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Fade-in animation for text */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
     }
-    .header-content h1{
-        font-size: 50px;
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
-    .header-content h1 span{
-        font-size: 37px;
+  }
+  
+  /* RESPONSIVE DESIGN */
+  @media (max-width: 480px) {
+    .header-content {
+      max-width: 100%;
+      padding: 100px 0;
     }
-}
+  
+    .header-content h1 {
+      font-size: 50px;
+    }
+  
+    .header-content span {
+      font-size: 37px;
+    }
+  }
+  
