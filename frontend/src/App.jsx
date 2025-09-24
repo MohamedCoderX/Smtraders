@@ -49,7 +49,7 @@ useEffect(()=>{
       <Navbar/>
       
       <Whatsapp/>
-      <Download/>
+
       <ToastContainer/>
       <Routes>
         <Route path='/search' element={<ProductSearch/>}/>

@@ -132,7 +132,10 @@
       opacity: 1 !important;
       background-size: contain;
     }
-  
+    .header {
+        height: auto; /* let content/image decide height */
+        aspect-ratio: auto; /* no forced ratio */
+      }
     .header::before {
       background-image: url("../../../public/images/bgbg.jpg"); /* your mobile image */
     }

@@ -1,0 +1,103 @@
+/* Main section */
+.price-section {
+    background: linear-gradient(to bottom, #fff7e6, #ffe9cc);
+    text-align: center;
+    padding: 60px 20px;
+    font-family: "Poppins", sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Decorative background (fireworks) */
+  .price-section::before {
+    content: "✨";
+    font-size: 120px;
+    position: absolute;
+    top: 20px;
+    left: 10%;
+    opacity: 0.2;
+    animation: float 6s infinite ease-in-out;
+  }
+  
+  .price-section::after {
+    content: "🎆";
+    font-size: 140px;
+    position: absolute;
+    bottom: 40px;
+    right: 10%;
+    opacity: 0.2;
+    animation: float 8s infinite ease-in-out reverse;
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  /* Title */
+  .price-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #b30000;
+    text-shadow: 2px 2px 5px rgba(255, 145, 0, 0.4);
+    margin-bottom: 10px;
+  }
+  
+  /* Subtitle */
+  .price-subtitle {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 30px;
+  }
+  
+  /* Buttons container */
+  .price-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  /* Common button style */
+  .btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Button icons */
+  .btn-icon {
+    font-size: 1.4rem;
+  }
+  
+  /* PDF button */
+  .btn-pdf {
+    background: linear-gradient(45deg, #e60000, #ff4d4d);
+    color: #fff;
+  }
+  
+  .btn-pdf:hover {
+    background: linear-gradient(45deg, #cc0000, #ff1a1a);
+    transform: scale(1.05);
+  }
+  
+  /* Excel button */
+  .btn-excel {
+    background: linear-gradient(45deg, #007a33, #00b359);
+    color: #fff;
+  }
+  
+  .btn-excel:hover {
+    background: linear-gradient(45deg, #006622, #00994d);
+    transform: scale(1.05);
+  }
+  
