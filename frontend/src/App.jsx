@@ -33,6 +33,7 @@ import Termsandcondition from './components/Termsandcondition';
 import Combo from './components/Combo';
 import RegisterComp from './components/RegisterComp';
 import UserList from './components/admin/UserList';
+import PriceList from './components/PriceList';
 
 
 function App() {
@@ -55,6 +56,7 @@ useEffect(()=>{
         <Route path='/About' element={<About/>}/>
         <Route path='/terms' element={<Termsandcondition/>}/>
       <Route path ='/' element ={ <Home/>} />
+      <Route path='/Price' element={<PriceList/>}/>
       <Route path='/combo' element={<Combo/>}/>
       <Route path='/search/:keyword' element={<ProductSearch/>}/>
       <Route path='/products' element ={<Cracker/>}/>

@@ -124,11 +124,26 @@
     }
   }
   
-  /* RESPONSIVE DESIGN */
+  /* ✅ Mobile: static image (no animation) */
   @media (max-width: 480px) {
+    .header::before,
+    .header::after {
+      animation: none !important;
+      opacity: 1 !important;
+      background-size: contain;
+    }
+  
+    .header::before {
+      background-image: url("../../../public/images/bgbg.jpg"); /* your mobile image */
+    }
+  
+    .header::after {
+      display: none; /* remove second layer */
+    }
+  
     .header-content {
       max-width: 100%;
-      padding: 100px 0;
+      padding: 100px 20px;
     }
   
     .header-content h1 {

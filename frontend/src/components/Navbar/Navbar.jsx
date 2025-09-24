@@ -38,6 +38,7 @@ const Navbar = () => {
           <li onClick={() => navigate('/About')}>About-us</li>
           <li onClick={() => navigate('/contact')}>Contact-us</li>
           <li onClick={() => navigate('/combo')}>Combo Packs</li>
+          <li onClick={() => navigate('/Price')}>Price List</li>
         </ul>
 
         <div className="navbar-right">
