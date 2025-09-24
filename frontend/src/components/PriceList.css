@@ -60,7 +60,7 @@
   }
   
   /* Common button style */
-  .btn {
+  .btn-price {
     display: flex;
     align-items: center;
     gap: 10px;

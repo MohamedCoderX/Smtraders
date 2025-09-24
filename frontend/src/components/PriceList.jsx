@@ -1,9 +1,11 @@
 import React from "react";
 import { FaFilePdf, FaFileExcel } from "react-icons/fa";
 import "./PriceList.css"; // external CSS
+import Footer from "./footer/Footer";
 
 const PriceList = () => {
   return (
+    <div>
     <div className="price-section">
       {/* Heading */}
       <h1 className="price-title">🎆 Price List 🎇</h1>
@@ -17,7 +19,7 @@ const PriceList = () => {
         <a
           href="/files/SMSivakasiCrackers.pdf"
           download
-          className="btn btn-pdf"
+          className="btn-price btn-pdf"
         >
           <FaFilePdf className="btn-icon" />
           <span>Download PDF</span>
@@ -27,12 +29,14 @@ const PriceList = () => {
         <a
           href="/files/SMCRACKERS.xlsx"
           download
-          className="btn btn-excel"
+          className="btn-price btn-excel"
         >
           <FaFileExcel className="btn-icon" />
           <span>Download Excel</span>
         </a>
       </div>
+    </div>
+<Footer/>
     </div>
   );
 };

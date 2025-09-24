@@ -133,7 +133,7 @@
       background-size: contain;
     }
     .header {
-        height: auto; /* let content/image decide height */
+        height: 35vh; /* let content/image decide height */
         aspect-ratio: auto; /* no forced ratio */
       }
     .header::before {
