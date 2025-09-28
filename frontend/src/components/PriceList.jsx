@@ -2,7 +2,8 @@ import React from "react";
 import { FaFilePdf, FaFileExcel } from "react-icons/fa";
 import "./PriceList.css"; // external CSS
 import Footer from "./footer/Footer";
-
+import pdf from "../SMSivakasiCrackers.pdf"
+import xcl from "../SMCRACKERS.xlsx"
 const PriceList = () => {
   return (
     <div>
@@ -17,7 +18,7 @@ const PriceList = () => {
       <div className="price-buttons">
         {/* PDF Button */}
         <a
-          href="/files/SMSivakasiCrackers.pdf"
+          href={pdf}
           download
           className="btn-price btn-pdf"
         >
@@ -27,7 +28,7 @@ const PriceList = () => {
 
         {/* Excel Button */}
         <a
-          href="/files/SMCRACKERS.xlsx"
+          href={xcl}
           download
           className="btn-price btn-excel"
         >
