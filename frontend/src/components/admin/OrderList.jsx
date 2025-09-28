@@ -37,11 +37,10 @@ const OrderList = () => {
           <img src="/images/logo.png" alt="Logo" style="width: 150px;margin-bottom: 10px;" />
           <h2>SM CRACKERS</h2>
           <p>4/175/A Sattur to Sivakasi road Veerapandiyapuram Near by toll gate Sattur - 626203</p>
-          <p>Office No : 8903359989 </p>
-          <p>☎ 6381933039 / 8248450298</p>
+          <p>Office No :+91 8903359989 / 6381933039 / 8248450298 </p>
         </div>
         <hr/>
-        <h1>Invoice Bill </h1>
+        <h2>Invoice Bill </h2>
         <div style="display: flex; justify-content: space-between;">
           <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
         </div>

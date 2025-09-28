@@ -54,7 +54,14 @@ export default function ProductList(){
             rows : []
         }
 
-        products.forEach(( product,index) => {
+        const sortedProducts = [...products].sort((a, b) => {
+            if (a.stock === 0 && b.stock !== 0) return -1; // a first
+            if (a.stock !== 0 && b.stock === 0) return 1;  // b first
+            return 0; // otherwise keep same order
+          });
+        
+
+          sortedProducts.forEach(( product,index) => {
             data.rows.push({
                 id: index + 1,
                 name: product.name,

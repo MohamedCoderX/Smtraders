@@ -81,16 +81,34 @@ const Payment = () => {
     const downloadPDF = async () => {
         const invoiceElement = invoiceRef.current;
         if (!invoiceElement) return;
-
-        const canvas = await html2canvas(invoiceElement);
+      
+        const canvas = await html2canvas(invoiceElement, { scale: 2 }); // better quality
         const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("portrait", "mm", "a4");
-        const imgProps = pdf.getImageProperties(imgData);
+        const pdf = new jsPDF("p", "mm", "a4");
+      
         const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        pdf.addImage(imgData, "PNG", 10, 10, pdfWidth - 20, pdfHeight - 20);
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const imgWidth = pdfWidth;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+        let heightLeft = imgHeight;
+        let position = 0;
+      
+        // First page
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      
+        // Add extra pages
+        while (heightLeft > 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+          heightLeft -= pdfHeight;
+        }
+      
         pdf.save("invoice.pdf");
-    };
+      };
+      
 
     return (
         <div>

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import "./RegisterPopup.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../actions/userAction";
-import { useLocation } from "react-router-dom"; // Import useLocation to check the current route
+import { useLocation } from "react-router-dom";
+import "./RegisterPopup.css";
 
 const RegisterComp = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -14,27 +13,28 @@ const RegisterComp = () => {
     address: "",
     email: "",
   });
+
   const dispatch = useDispatch();
-  const location = useLocation(); // Get the current route
+  const location = useLocation();
+  const { isAuthenticated, user } = useSelector((state) => state.authState); // ✅ Same as Navbar
 
   useEffect(() => {
-    // Show the popup every 10 seconds if the user is not registered and not on the admin dashboard
-    if (!location.pathname.includes("/admin")) {
+    if (!location.pathname.includes("/admin") && !isAuthenticated) {
       const interval = setInterval(() => {
         if (!isRegistered) {
           setShowPopup(true);
         }
       }, 10000);
 
-      return () => clearInterval(interval); // Cleanup interval on component unmount
+      return () => clearInterval(interval);
     }
-  }, [isRegistered, location.pathname]);
+  }, [isRegistered, location.pathname, isAuthenticated]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(register(formData));
     setIsRegistered(true);
@@ -42,15 +42,18 @@ const RegisterComp = () => {
   };
 
   const handleClose = () => {
-    setShowPopup(false); // Close the popup when the Close button is clicked
+    setShowPopup(false);
   };
+
+  // ✅ Don’t render anything if logged in
+  if (isAuthenticated) return null;
 
   return (
     showPopup && (
       <div className="popup-overlay">
         <div className="popup-content">
           <button className="close-button" onClick={handleClose}>
-            &times; {/* Close icon */}
+            &times;
           </button>
           <h2>Submit Your Data, our team will contact you shortly</h2>
           <form onSubmit={handleSubmit}>
