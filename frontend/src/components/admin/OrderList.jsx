@@ -60,29 +60,32 @@ const OrderList = () => {
         </div>
         <hr/>
         <table style="width: 100%; border-collapse: collapse; text-align: center;">
-          <thead>
-            <tr style="background: #007bff; color: white;">
-              <th style="padding: 10px; border: 1px solid #ddd;">S.No</th>
-              <th style="padding: 10px; border: 1px solid #ddd;">Product</th>
-              <th style="padding: 10px; border: 1px solid #ddd;">Qty</th>
-              <th style="padding: 10px; border: 1px solid #ddd;">Price (₹)</th>
-              <th style="padding: 10px; border: 1px solid #ddd;">Total (₹)</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${order.orderItems.map(
-                (item, index) => `
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd;">${index + 1}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${item.name}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${item.quantity}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">₹ ${item.price.toFixed(2)}</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">₹ ${(item.price * item.quantity).toFixed(2)}</td>
-              </tr>`
-              )
-              .join("")}
-          </tbody>
-        </table>
+      <thead>
+        <tr style="background: #007bff; color: white; page-break-inside: avoid; break-inside: avoid-page;">
+          <th style="padding: 10px; border: 1px solid #ddd;">S.No</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Product</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Qty</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Price (₹)</th>
+          <th style="padding: 10px; border: 1px solid #ddd;">Total (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${order.orderItems
+          .map(
+            (item, index) => `
+              <tr style="page-break-inside: avoid; break-inside: avoid-page; display: table-row;">
+                <td style="padding: 10px; border: 1px solid #ddd; page-break-inside: avoid; break-inside: avoid-page;">${index + 1}</td>
+                <td style="padding: 10px; border: 1px solid #ddd; page-break-inside: avoid; break-inside: avoid-page;">${item.name}</td>
+                <td style="padding: 10px; border: 1px solid #ddd; page-break-inside: avoid; break-inside: avoid-page;">${item.quantity}</td>
+                <td style="padding: 10px; border: 1px solid #ddd; page-break-inside: avoid; break-inside: avoid-page;">₹ ${item.price.toFixed(2)}</td>
+                <td style="padding: 10px; border: 1px solid #ddd; page-break-inside: avoid; break-inside: avoid-page;">₹ ${(item.price * item.quantity).toFixed(2)}</td>
+              </tr>
+            `
+          )
+          .join("")}
+      </tbody>
+    </table>
+
         <hr/>
         <div style="text-align: right; font-size: 18px; font-weight: bold;">
           <p>Total Amount: ₹ ${order.totalPrice.toFixed(2)}</p>
