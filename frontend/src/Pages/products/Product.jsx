@@ -1,15 +1,3 @@
-// import React from 'react'
-// import Crackerdisplay from '../../components/cracker/Crackerdisplay'
-// import Header  from '../../components/Header/Header'
-// import Navbar from '../../components/Navbar/Navbar'
-// const Product = () => {
-//   return (
-//     <div>
-//  <Header/>
-// <Crackerdisplay/>
-// </div>
-//   )
-// }
 
 import { useState } from "react";
 import { addCartItem } from "../../actions/cartActions";
@@ -46,7 +34,7 @@ export default function Product({ product }) {
     <div className="cracker-list-item">
       
       <div className="cracker-img">
-        <img src={product.images[0]?.image} alt="Product" />
+        <img src={product.images[0]?.image} alt="Product" loading="lazy"/>
       </div>
       <div className="cracker-item-info">
         <div className="cracker-review">
