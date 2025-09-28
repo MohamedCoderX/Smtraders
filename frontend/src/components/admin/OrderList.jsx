@@ -33,12 +33,21 @@ const OrderList = () => {
   const handleDownloadInvoice = (order) => {
     const invoiceHtml = `
       <div style="width: 800px; margin: auto; padding: 20px; border: 1px solid #ddd; font-family: Arial, sans-serif;">
-        <div style="text-align: center;">
-          <img src="/images/logo.png" alt="Logo" style="width: 150px;margin-bottom: 10px;" />
-          <h2>SM CRACKERS</h2>
-          <p>4/175/A Sattur to Sivakasi road Veerapandiyapuram Near by toll gate Sattur - 626203</p>
-          <p>Office No :+91 8903359989 / 6381933039 / 8248450298 </p>
-        </div>
+       <div style="display: flex; align-items: center; justify-content: space-between;  margin: 0 auto; padding: 15px;">
+  <div style="flex-shrink: 0;">
+    <img src="/images/logo.png" alt="Logo" style="width: 150px; margin-right: 20px;" />
+  </div>
+  <div style="text-align: left; flex: 1;">
+    <h2 style="margin: 0 0 8px 0; font-size: 24px; color: #333;">SM CRACKERS</h2>
+    <p style="margin: 4px 0; color: #555; line-height: 1.4;">
+      4/175/A Sattur to Sivakasi road, Veerapandiyapuram, Near by toll gate, Sattur - 626203
+    </p>
+    <p style="margin: 4px 0; color: #555; font-weight: 500;">
+      Office No: +91 8903359989 / 6381933039 / 8248450298
+    </p>
+  </div>
+</div>
+
         <hr/>
         <h2>Invoice Bill </h2>
         <div style="display: flex; justify-content: space-between;">
