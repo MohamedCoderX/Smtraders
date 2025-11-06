@@ -9,6 +9,9 @@ import Sidebar from "./Sidebar";
 import { deleteOrder, adminOrders as adminAction } from "../../actions/orderActions";
 import { updateOrder } from "../../actions/orderActions";
 import html2pdf from "html2pdf.js";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
 import "./OrderList.css";
 
 const OrderList = () => {
@@ -198,6 +201,43 @@ const OrderList = () => {
     dispatch(adminAction);
   }, [dispatch, error, isOrderDeleted, isOrderUpdated]);
 
+  const handleDownloadAllOrders = () => {
+    if (!adminOrders || adminOrders.length === 0) {
+      toast("No orders available to download", { type: "info" });
+      return;
+    }
+  
+    // Prepare data for Excel
+    const exportData = adminOrders.map((order, index) => ({
+      "S.No": index + 1,
+      "Customer Name": order.shippingInfo?.name || "Not Provided",
+      "Phone Number": order.shippingInfo?.phoneNo || "Not Provided",
+      Address: order.shippingInfo?.address || "Not Provided",
+      City: order.shippingInfo?.city || "Not Provided",
+      State: order.shippingInfo?.state || "Not Provided",
+      "Postal Code": order.shippingInfo?.postalCode || "Not Provided",
+      "Total Amount (₹)": order.totalPrice ? order.totalPrice.toFixed(2) : "0.00",
+      Date: new Date(order.createdAt).toLocaleDateString(),
+    }));
+  
+    // Create a worksheet
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+  
+    // Create a workbook and append the worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Orders");
+  
+    // Generate Excel file
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+  
+    // Save file
+    const fileData = new Blob([excelBuffer], { type: "application/octet-stream" });
+    saveAs(fileData, `All_Orders_${new Date().toLocaleDateString()}.xlsx`);
+  };
+  
   return (
     <div className="row">
       <div className="col-12 col-md-2">
@@ -205,6 +245,9 @@ const OrderList = () => {
       </div>
       <div className="col-12 col-md-10">
         <h1 className="my-4">Order List</h1>
+        <Button variant="primary" onClick={handleDownloadAllOrders}>
+    Download All Orders (Excel)
+  </Button>
         {loading ? (
           <Loader />
         ) : (
