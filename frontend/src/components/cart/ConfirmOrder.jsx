@@ -1,96 +1,112 @@
-import { Fragment, useEffect } from "react"
-import { useSelector } from "react-redux"
-import { Link, useNavigate } from "react-router-dom"
-import CheckoutSteps from "./CheckoutSteps"
-import MetaData from "../../Pages/Home/MetaData"
-import { validateShipping } from "./Shipping"
+import { Fragment } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import CheckoutSteps from "./CheckoutSteps";
+import MetaData from "../../Pages/Home/MetaData";
 
-export default function ConfirmOrder(){
-  const {shippingInfo,items:cartItems} = useSelector(state=>state.cartState)
-  const {user} = useSelector(state=>state.authState)
-  const itemsPrice = cartItems.reduce((acc, item)=> (acc + item.price * item.quantity),0);
-//   const shippingPrice = itemsPrice > 200 ? 0 : 25;
-    let taxPrice = Number(0.05 * itemsPrice);
-    const totalPrice = Number(itemsPrice +  taxPrice).toFixed(2);
-    taxPrice = Number(taxPrice).toFixed(2)
-    const processPayment = () => {
-        const data = {
-            itemsPrice,
-           
-            taxPrice,
-            totalPrice
-        }
-        sessionStorage.setItem('orderInfo', JSON.stringify(data))
-        navigate('/payment')
-    }
-
+export default function ConfirmOrder() {
+  const { shippingInfo, items: cartItems } = useSelector((state) => state.cartState);
+  const { user } = useSelector((state) => state.authState);
   const navigate = useNavigate();
 
-  
-  return(
-<Fragment>
-            <MetaData title={'Confirm Order'} />
-            <CheckoutSteps shipping confirmOrder />
-            <div className="row d-flex justify-content-center">
-            <div className="col-12 col-lg-8 mt-5 order-confirm">
+  const itemsPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const taxPrice = Number(0.05 * itemsPrice).toFixed(2);
+  const totalPrice = (Number(itemsPrice) + Number(taxPrice)).toFixed(2);
 
-                <h4 className="mb-3">Shipping Info</h4>
-                <p><b>Name:</b> {shippingInfo.name}</p>
-                <p><b>Phone:</b> {shippingInfo.phoneNo}</p>
-                <p className="mb-4"><b>Address:</b> {shippingInfo.address}, {shippingInfo.city}, {shippingInfo.postalCode}, {shippingInfo.state}, {shippingInfo.country} </p>
-                
-                <hr />
-                <h4 className="mt-4">Your Cart Items:</h4>
+  const processPayment = () => {
+    const data = { itemsPrice, taxPrice, totalPrice };
+    sessionStorage.setItem("orderInfo", JSON.stringify(data));
+    navigate("/payment");
+  };
 
-                    {cartItems.map(item => (
-                            <Fragment>
-                                <div className="cart-item my-1">
-                                    <div className="row align-items-center">
-                                        <div className="col-4 col-lg-2">
-                                            <img src={item.image} alt={item.name} height="100" width="70" />
-                                        </div>
+  return (
+    <Fragment>
+      <MetaData title={"Confirm Order"} />
+      <CheckoutSteps shipping confirmOrder />
 
-                                        <div className="col-5 col-lg-6 text-capitalize">
-                                           <h6>{item.name}</h6>
-                                        </div>
-
-
-                                        <div className="col-4 col-lg-4 mt-4 mt-lg-0">
-                                            <p>{item.quantity} x &#x20B9;{item.price} = <b>&#x20B9;{item.quantity * item.price}</b></p>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <hr />
-                            </Fragment>
-                        )
-                    
-                        )
-                    
-                    }
-              
-              
-                
-
+      <section className="min-h-screen bg-gradient-to-b from-white via-indigo-50/30 to-white py-10 px-4 sm:px-6 lg:px-12">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10">
+          {/* Left Side - Shipping Info & Items */}
+          <div className="lg:col-span-2 bg-white rounded-2xl shadow-md border border-gray-100 p-6 sm:p-8">
+            {/* Shipping Info */}
+            <div className="mb-8">
+              <h3 className="text-xl font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
+                Shipping Information
+              </h3>
+              <p className="text-gray-700">
+                <span className="font-medium text-gray-800">Name:</span> {shippingInfo.name}
+              </p>
+              <p className="text-gray-700">
+                <span className="font-medium text-gray-800">Phone:</span> {shippingInfo.phoneNo}
+              </p>
+              <p className="text-gray-700">
+                <span className="font-medium text-gray-800">Address:</span>{" "}
+                {shippingInfo.address}, {shippingInfo.city}, {shippingInfo.postalCode},{" "}
+                {shippingInfo.state}
+              </p>
             </div>
-			
-            <div className="col-12 col-lg-3 my-4">
-                    <div id="order_summary">
-                        <h4>Order Summary</h4>
-                        <hr />
-                        <p>Subtotal:  <span className="order-summary-values">&#x20B9;{itemsPrice}</span></p>
-                        <p>TO PAY </p>
-                        <p>Tax:  <span className="order-summary-values">&#x20B9;{taxPrice}</span></p>
 
-                        <hr />
-
-                        <p>Total: <span className="order-summary-values">&#x20B9;{totalPrice}</span></p>
-
-                        <hr />
-                        <button id="checkout_btn" onClick={processPayment} className="btn btn-primary btn-block">Confirm Order</button>
+            {/* Cart Items */}
+            <div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
+                Your Cart Items
+              </h3>
+              <div className="space-y-5">
+                {cartItems.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between gap-4 border-b border-gray-100 pb-3"
+                  >
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-16 h-16 object-contain rounded-md bg-gray-50 border"
+                      />
+                      <h4 className="text-gray-800 font-medium capitalize">{item.name}</h4>
                     </div>
+                    <p className="text-gray-700 text-sm sm:text-base">
+                      {item.quantity} × ₹{item.price}{" "}
+                      <span className="font-semibold text-gray-900 ml-1">
+                        = ₹{item.quantity * item.price}
+                      </span>
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
+          </div>
+
+          {/* Right Side - Summary */}
+          <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-6 sm:p-8 h-fit">
+            <h3 className="text-xl font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
+              Order Summary
+            </h3>
+            <div className="space-y-3 text-gray-700">
+              <p className="flex justify-between">
+                <span>Subtotal:</span>
+                <span className="font-medium text-gray-900">₹{itemsPrice}</span>
+              </p>
+              <p className="flex justify-between">
+                <span>Tax (5%):</span>
+                <span className="font-medium text-gray-900">₹{taxPrice}</span>
+              </p>
+              <hr className="my-3" />
+              <p className="flex justify-between text-lg font-semibold text-gray-900">
+                <span>Total:</span>
+                <span>₹{totalPrice}</span>
+              </p>
+            </div>
+
+            <button
+              onClick={processPayment}
+              className="w-full mt-6 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-medium transition-all duration-300 shadow-md"
+            >
+              Confirm Order
+            </button>
+          </div>
         </div>
-        </Fragment>
-    )
+      </section>
+    </Fragment>
+  );
 }

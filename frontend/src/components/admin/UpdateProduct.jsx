@@ -41,10 +41,10 @@ export default function UpdateProduct() {
     "Varities",
     "Colour matches",
     "Gift box",
-    'Sparklers',
+    "Sparklers",
     "Peacock",
     "Pencil",
-    "New Arrivals"
+    "New Arrivals",
   ];
 
   const navigate = useNavigate();
@@ -52,39 +52,29 @@ export default function UpdateProduct() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-  
-    // 🔹 Prepare product object (JSON)
     const updatedProduct = {
-      name: name.trim(),                         // remove extra spaces
-      price: price !== "" ? Number(price) : 0,   // convert to number
+      name: name.trim(),
+      price: price !== "" ? Number(price) : 0,
       originalPrice: originalPrice !== "" ? Number(originalPrice) : 0,
       stock: stock !== "" ? Number(stock) : 0,
       description: description.trim(),
       category: category,
     };
-  
-    // 🔹 Debug: check what is being sent
-    console.log("Submitting product:", updatedProduct);
-  
-    // 🔹 Dispatch Redux action
     dispatch(updateProduct(productId, updatedProduct));
   };
-  
 
-  // 🔹 Handle success/error/fetch
   useEffect(() => {
     if (isProductUpdated) {
-        toast('Updated  Succesfully!',{
-            type: 'success',
+      toast("Updated Successfully!", {
+        type: "success",
         onOpen: () => dispatch(clearProductUpdated()),
       });
       navigate("/admin/products");
       return;
     }
-  
+
     if (error) {
       toast(error, {
-        
         type: "error",
         onOpen: () => {
           dispatch(clearError());
@@ -92,12 +82,11 @@ export default function UpdateProduct() {
       });
       return;
     }
-  
+
     dispatch(getProduct(productId));
   }, [isProductUpdated, error, dispatch, navigate, productId]);
-  
+
   useEffect(() => {
-    console.log("Product data:", product);
     if (product) {
       setName(product.name || "");
       setPrice(product.price || "");
@@ -109,102 +98,145 @@ export default function UpdateProduct() {
   }, [product]);
 
   return (
-    <div className="row">
-      <div className="col-12 col-md-2">
+    <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
+      {/* Sidebar */}
+      <div className="w-full md:w-1/5 bg-white shadow-md border-r">
         <Sidebar />
       </div>
-      <div className="col-12 col-md-10">
+
+      {/* Main Content */}
+      <div className="flex-1 p-6 md:p-10 overflow-y-auto">
         <Fragment>
-          <div className="wrapper my-5">
+          <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-6 md:p-10 border border-gray-200">
             {loading ? (
-              <h2>Loading product...</h2>
+              <h2 className="text-center text-gray-600 text-lg">Loading product...</h2>
             ) : (
               <form
                 onSubmit={submitHandler}
-                className="shadow-lg"
                 encType="multipart/form-data"
+                className="space-y-6"
               >
-                <h1 className="mb-4">Update Product</h1>
+                <h1 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
+                  Update Product
+                </h1>
 
-                <div className="form-group">
-                  <label htmlFor="name_field">Name</label>
+                {/* Name */}
+                <div>
+                  <label
+                    htmlFor="name_field"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Name
+                  </label>
                   <input
                     type="text"
                     id="name_field"
-                    className="form-control"
-                    onChange={(e) => setName(e.target.value)}
                     value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   />
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="price_field">Discounted Price</label>
-                  <input
-                    type="text"
-                    id="price_field"
-                    className="form-control"
-                    onChange={(e) => setPrice(e.target.value)}
-                    value={price}
-                  />
+                {/* Price */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label
+                      htmlFor="price_field"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Discounted Price
+                    </label>
+                    <input
+                      type="text"
+                      id="price_field"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="originalPrice_field"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Original Price
+                    </label>
+                    <input
+                      type="text"
+                      id="originalPrice_field"
+                      value={originalPrice}
+                      onChange={(e) => setOriginalPrice(e.target.value)}
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    />
+                  </div>
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="originalPrice_field">Original Price</label>
-                  <input
-                    type="text"
-                    id="originalPrice_field"
-                    className="form-control"
-                    onChange={(e) => setOriginalPrice(e.target.value)}
-                    value={originalPrice}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="description_field">Description</label>
+                {/* Description */}
+                <div>
+                  <label
+                    htmlFor="description_field"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Description
+                  </label>
                   <textarea
-                    className="form-control"
                     id="description_field"
-                    rows="8"
-                    onChange={(e) => setDescription(e.target.value)}
+                    rows="5"
                     value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none"
                   ></textarea>
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="category_field">Category</label>
-                  <select
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="form-control"
-                    id="category_field"
-                    value={category}
-                  >
-                    <option value="">Select</option>
-                    {categories.map((cat) => (
-                      <option key={cat} value={cat}>
-                        {cat}
-                      </option>
-                    ))}
-                  </select>
+                {/* Category & Stock */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label
+                      htmlFor="category_field"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Category
+                    </label>
+                    <select
+                      id="category_field"
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    >
+                      <option value="">Select</option>
+                      {categories.map((cat) => (
+                        <option key={cat} value={cat}>
+                          {cat}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="stock_field"
+                      className="block text-sm font-medium text-gray-700 mb-1"
+                    >
+                      Stock
+                    </label>
+                    <input
+                      type="number"
+                      id="stock_field"
+                      value={stock}
+                      onChange={(e) => setStock(e.target.value)}
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    />
+                  </div>
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="stock_field">Stock</label>
-                  <input
-                    type="number"
-                    id="stock_field"
-                    className="form-control"
-                    onChange={(e) => setStock(e.target.value)}
-                    value={stock}
-                  />
-                </div>
-
+                {/* Submit Button */}
                 <button
-                  id="login_button"
                   type="submit"
                   disabled={loading}
-                  className="btn btn-block py-3"
+                  className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-200 shadow-md disabled:opacity-50"
                 >
-                  Update
+                  {loading ? "Updating..." : "Update Product"}
                 </button>
               </form>
             )}

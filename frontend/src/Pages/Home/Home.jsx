@@ -9,6 +9,9 @@ import Footer from '../../components/footer/Footer'
 import About from '../../components/about-us/About-us'
 import FloatingCard from '../../components/FloatingCard'
 import { Link } from 'react-router-dom'
+import Product from '../products/Product'
+import Combo from '../../components/Combo'
+import TestimonialSection from '../../components/TestimonialSection'
 
 
 const Home = () => {
@@ -22,7 +25,10 @@ const Home = () => {
    <MetaData title={`Buy Best Products`}/>
   <Header/>
 <Exploremenu/>
+
 <Crackerdisplay/>
+<Combo/>
+<TestimonialSection/>
 {/* <About/> */}
 <Footer/>
   </div>
