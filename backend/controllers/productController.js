@@ -105,7 +105,7 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
       const oldImageUrl = Product.images[0]?.image;
       if (oldImageUrl) {
         const oldPublicId = oldImageUrl.split("/").pop().split(".")[0]; // Extract public_id from URL
-        await cloudinary.v2.uploader.destroy(`products/${oldPublicId}`);
+        await cloudinary.uploader.destroy(`products/${oldPublicId}`);
       }
 
       // Upload new image to Cloudinary
