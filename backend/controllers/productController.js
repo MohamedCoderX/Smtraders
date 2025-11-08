@@ -71,72 +71,57 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
 
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
   try {
-    const productId = req.params.id;
-    const existingProduct = await product.findById(productId);
+    let Product = await product.findById(req.params.id);
 
-    if (!existingProduct) {
-      return res.status(404).json({
-        success: false,
-        message: "Product not found",
-      });
+    if (!Product) {
+      return res.status(404).json({ success: false, message: "Product not found" });
     }
 
-    // ✅ Handle new image upload (replace the single existing one)
+    // If a new image is uploaded, delete the old one and update
     if (req.files && req.files.length > 0) {
-      const oldImageUrl = existingProduct.images?.[0]?.image;
-
-      if (oldImageUrl) {
+      // delete the existing image from Cloudinary
+      const oldImage = Product.images[0]; // since only 1 image in your model
+      if (oldImage && oldImage.image) {
         try {
-          // Extract public_id from URL
-          const publicId = oldImageUrl.split("/").pop().split(".")[0];
+          // Extract public_id from Cloudinary URL
+          const publicId = oldImage.image.split("/").slice(-1)[0].split(".")[0];
           await cloudinary.v2.uploader.destroy(`products/${publicId}`);
-          console.log("🗑️ Deleted old image:", publicId);
         } catch (err) {
-          console.error("❌ Error deleting old image:", err.message);
+          console.error("Cloudinary image deletion failed:", err.message);
         }
       }
 
-      // Upload new image
-      const result = await cloudinary.v2.uploader.upload(req.files[0].path, {
-        folder: "products",
-      });
+      // Upload the new image from multer (which is already uploaded to Cloudinary)
+      const newImage = req.files[0];
+      if (!newImage?.path) {
+        return res.status(500).json({ success: false, message: "File upload failed" });
+      }
 
-      // Replace the old image in the array (index 0)
-      existingProduct.images = [{ image: result.secure_url }];
+      req.body.images = [{ image: newImage.path }]; // store Cloudinary secure_url
+    } else {
+      // no new image uploaded — keep the existing one
+      req.body.images = Product.images;
     }
 
-    // ✅ Update text fields
-    existingProduct.name = req.body.name?.trim() || existingProduct.name;
-    existingProduct.price = req.body.price
-      ? Number(req.body.price)
-      : existingProduct.price;
-    existingProduct.originalPrice = req.body.originalPrice
-      ? Number(req.body.originalPrice)
-      : existingProduct.originalPrice;
-    existingProduct.description =
-      req.body.description?.trim() || existingProduct.description;
-    existingProduct.category =
-      req.body.category?.trim() || existingProduct.category;
-    existingProduct.stock = req.body.stock
-      ? Number(req.body.stock)
-      : existingProduct.stock;
+    req.body.user = req.user.id;
 
-    // Save changes
-    await existingProduct.save();
+    const updatedProduct = await product.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Product updated successfully",
-      product: existingProduct,
+      product: updatedProduct,
     });
   } catch (error) {
-    console.error("❌ Error updating product:", error);
-    res.status(500).json({
-      success: false,
-      message: error.message || "Internal server error",
-    });
+    console.error("Update Product Error:", error);
+    res.status(500).json({ success: false, message: error.message });
   }
 });
+
 
 //get single product -{{base_url}}/api/v1/product/:id
 exports.getSingleProduct = catchAsyncError(async(req,res,next) => {
