@@ -69,6 +69,26 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
 
 
 
+
+
+//get single product -{{base_url}}/api/v1/product/:id
+exports.getSingleProduct = catchAsyncError(async(req,res,next) => {
+   const Product = await product.findById(req.params.id);
+
+if(!Product){
+return next(new ErrorHanlder('product not found',400))
+}
+
+res.status(201).json({
+    sucess:true,
+    Product
+})
+})
+
+
+//update product - {{base_url}}/api/v1/product/:id
+
+
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
   try {
     let Product = await product.findById(req.params.id);
@@ -125,45 +145,6 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
     });
   }
 });
-
-
-//get single product -{{base_url}}/api/v1/product/:id
-exports.getSingleProduct = catchAsyncError(async(req,res,next) => {
-   const Product = await product.findById(req.params.id);
-
-if(!Product){
-return next(new ErrorHanlder('product not found',400))
-}
-
-res.status(201).json({
-    sucess:true,
-    Product
-})
-})
-
-
-//update product - {{base_url}}/api/v1/product/:id
-
-exports.updateProduct  =async (req,res,next)=>{
-    let Product = await product.findById(req.params.id);
-
-    if(!Product){
-        return res.status(404).json({
-            success:false,
-            message:"product not found"
-         });
-    }
-    
-    Product = await product.findByIdAndUpdate(req.params.id,req.body ,{
-new:true,
-runValidators:true
-    })
-
-    res.status(200).json({
-        sucess:true,
-        Product
-    })
-}
 
 //delete product 
 // exports.deleteProduct = async (req,res,next)=>{
