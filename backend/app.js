@@ -13,7 +13,7 @@ app.use(cookieParser());
 app.use(cors({
   credentials: true,
   origin:[process.env.FRONTEND_URL,
-    " "
+    "https://smsivakasicrackers.com",
   ] ,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ['Content-Type', 'Authorization'],
