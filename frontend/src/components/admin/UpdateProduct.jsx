@@ -13,14 +13,17 @@ export default function UpdateProduct() {
   const [originalPrice, setOriginalPrice] = useState("");
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState(0);
-  const [image, setImage] = useState(""); // single image
-  const [oldImage, setOldImage] = useState("");
-  const [imagePreview, setImagePreview] = useState("");
+  const [images, setImages] = useState([]); // store actual File objects
+  const [oldImages, setOldImages] = useState([]);
+  const [imagesPreview, setImagesPreview] = useState([]);
 
   const { id: productId } = useParams();
   const { loading, isProductUpdated, error, product } = useSelector(
     (state) => state.productState
   );
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const categories = [
     "Sound crackers",
@@ -49,49 +52,50 @@ export default function UpdateProduct() {
     "New Arrivals",
   ];
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // 🖼 Handle image input (multiple)
+  const onImagesChange = (e) => {
+    const files = Array.from(e.target.files);
 
-  // Handle image change (single)
-  const onChangeImage = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    setImages([]);
+    setImagesPreview([]);
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setImage(reader.result);
-        setImagePreview(reader.result);
-      }
-    };
-    reader.readAsDataURL(file);
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImagesPreview((old) => [...old, reader.result]); // for preview only
+          setImages((old) => [...old, file]); // store actual file object
+        }
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
-  // Submit form handler
+  // 🧾 Form submit handler
   const submitHandler = (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.set("name", name.trim());
-    formData.set("price", price !== "" ? Number(price) : 0);
-    formData.set("originalPrice", originalPrice !== "" ? Number(originalPrice) : 0);
-    formData.set("stock", stock !== "" ? Number(stock) : 0);
-    formData.set("description", description.trim());
+    formData.set("name", name);
+    formData.set("price", price);
+    formData.set("originalPrice", originalPrice);
+    formData.set("stock", stock);
+    formData.set("description", description);
     formData.set("category", category);
 
-    if (image) {
-      formData.append("images", image);
-    }
+    images.forEach((img) => {
+      formData.append("images", img);
+    });
 
     dispatch(updateProduct(productId, formData));
   };
 
-  // ✅ Fetch product details only once
+  // 🧠 Fetch product details initially
   useEffect(() => {
     dispatch(getProduct(productId));
   }, [dispatch, productId]);
 
-  // ✅ Handle success/error separately
+  // ✅ Handle success/error
   useEffect(() => {
     if (isProductUpdated) {
       toast("Product Updated Successfully!", {
@@ -109,7 +113,7 @@ export default function UpdateProduct() {
     }
   }, [isProductUpdated, error, dispatch, navigate]);
 
-  // ✅ Set product details in state when loaded
+  // 🧠 Fill state when product is loaded
   useEffect(() => {
     if (product) {
       setName(product.name || "");
@@ -118,20 +122,16 @@ export default function UpdateProduct() {
       setDescription(product.description || "");
       setOriginalPrice(product.originalPrice || "");
       setCategory(product.category || "");
-      if (product.images && product.images.length > 0) {
-        setOldImage(product.images[0].image || product.images[0].url || "");
-      }
+      setOldImages(product.images || []);
     }
   }, [product]);
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
-      {/* Sidebar */}
       <div className="w-full md:w-1/5 bg-white shadow-md border-r">
         <Sidebar />
       </div>
 
-      {/* Main Content */}
       <div className="flex-1 p-6 md:p-10 overflow-y-auto">
         <Fragment>
           <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-6 md:p-10 border border-gray-200">
@@ -149,87 +149,67 @@ export default function UpdateProduct() {
 
                 {/* Name */}
                 <div>
-                  <label
-                    htmlFor="name_field"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Name
                   </label>
                   <input
                     type="text"
-                    id="name_field"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
-                {/* Price */}
+                {/* Prices */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label
-                      htmlFor="price_field"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Discounted Price
                     </label>
                     <input
-                      type="text"
-                      id="price_field"
+                      type="number"
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="originalPrice_field"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Original Price
                     </label>
                     <input
-                      type="text"
-                      id="originalPrice_field"
+                      type="number"
                       value={originalPrice}
                       onChange={(e) => setOriginalPrice(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
 
                 {/* Description */}
                 <div>
-                  <label
-                    htmlFor="description_field"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Description
                   </label>
                   <textarea
-                    id="description_field"
-                    rows="5"
+                    rows="4"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none"
+                    className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 resize-none"
                   ></textarea>
                 </div>
 
                 {/* Category & Stock */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label
-                      htmlFor="category_field"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Category
                     </label>
                     <select
-                      id="category_field"
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="">Select</option>
                       {categories.map((cat) => (
@@ -241,65 +221,61 @@ export default function UpdateProduct() {
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="stock_field"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Stock
                     </label>
                     <input
                       type="number"
-                      id="stock_field"
                       value={stock}
                       onChange={(e) => setStock(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
 
                 {/* Image Upload */}
                 <div>
-                  <label
-                    htmlFor="formFile"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Product Image
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Product Images
                   </label>
                   <input
                     type="file"
-                    id="formFile"
                     name="images"
                     accept="image/*"
-                    onChange={onChangeImage}
+                    multiple
+                    onChange={onImagesChange}
                     className="w-full border border-gray-300 rounded-lg p-3"
                   />
 
                   <div className="flex flex-wrap gap-3 mt-3">
-                    {/* Old image */}
-                    {oldImage && (
-                      <img
-                        src={oldImage}
-                        alt="Old Product"
-                        className="h-20 w-20 object-cover rounded-md border"
-                      />
-                    )}
+                    {/* Old Images */}
+                    {oldImages &&
+                      oldImages.map((img, i) => (
+                        <img
+                          key={i}
+                          src={img.image || img.url}
+                          alt="Old Product"
+                          className="h-20 w-20 object-cover rounded-md border"
+                        />
+                      ))}
 
-                    {/* New image preview */}
-                    {imagePreview && (
+                    {/* New Previews */}
+                    {imagesPreview.map((img, i) => (
                       <img
-                        src={imagePreview}
+                        key={i}
+                        src={img}
                         alt="Preview"
                         className="h-20 w-20 object-cover rounded-md border"
                       />
-                    )}
+                    ))}
                   </div>
                 </div>
 
-                {/* Submit Button */}
+                {/* Submit */}
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-200 shadow-md disabled:opacity-50"
+                  className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50"
                 >
                   {loading ? "Updating..." : "Update Product"}
                 </button>
