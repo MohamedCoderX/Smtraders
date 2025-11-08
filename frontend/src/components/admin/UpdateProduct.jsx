@@ -86,7 +86,7 @@ const onChangeImages = (e) => {
     formData.set("category", category);
   
     images.forEach((image) => {
-      formData.append("images", newImageFile);
+      formData.append("images", image);
     });
   
     dispatch(updateProduct(productId, formData)); // 👈 send FormData
