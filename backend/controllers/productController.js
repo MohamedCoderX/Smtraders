@@ -35,6 +35,40 @@ res.status(200).json({
 })
 
 //Create product - api/v1/products/new
+exports.newProduct = catchAsyncError(async (req, res, next) => {
+    try {
+        console.log("Received files:", req.files);
+
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({ success: false, message: "No images uploaded" });
+        }
+
+        let images = [];
+
+        for (let file of req.files) {
+            if (!file?.path) {
+                return res.status(500).json({ success: false, message: "File upload failed" });
+            }
+            images.push({ image: file.path }); // Cloudinary secure_url is in file.path
+        }
+
+        req.body.images = images;
+        req.body.user = req.user.id;
+
+        const createdProduct = await product.create(req.body);
+
+        res.status(201).json({
+            success: true,
+            product: createdProduct,
+        });
+    } catch (error) {
+        console.error("Product creation error:", error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
+
+
+
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
   try {
     let Product = await product.findById(req.params.id);
@@ -89,61 +123,6 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
       success: false,
       message: error.message,
     });
-  }
-});
-
-
-
-exports.updateProduct = catchAsyncError(async (req, res, next) => {
-  try {
-    let Product = await product.findById(req.params.id);
-
-    if (!Product) {
-      return res.status(404).json({ success: false, message: "Product not found" });
-    }
-
-    // If a new image is uploaded, delete the old one and update
-    if (req.files && req.files.length > 0) {
-      // delete the existing image from Cloudinary
-      const oldImage = Product.images[0]; // since only 1 image in your model
-      if (oldImage && oldImage.image) {
-        try {
-          // Extract public_id from Cloudinary URL
-          const publicId = oldImage.image.split("/").slice(-1)[0].split(".")[0];
-          await cloudinary.v2.uploader.destroy(`products/${publicId}`);
-        } catch (err) {
-          console.error("Cloudinary image deletion failed:", err.message);
-        }
-      }
-
-      // Upload the new image from multer (which is already uploaded to Cloudinary)
-      const newImage = req.files[0];
-      if (!newImage?.path) {
-        return res.status(500).json({ success: false, message: "File upload failed" });
-      }
-
-      req.body.images = [{ image: newImage.path }]; // store Cloudinary secure_url
-    } else {
-      // no new image uploaded — keep the existing one
-      req.body.images = Product.images;
-    }
-
-    req.body.user = req.user.id;
-
-    const updatedProduct = await product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-      useFindAndModify: false,
-    });
-
-    return res.status(200).json({
-      success: true,
-      message: "Product updated successfully",
-      product: updatedProduct,
-    });
-  } catch (error) {
-    console.error("Update Product Error:", error);
-    res.status(500).json({ success: false, message: error.message });
   }
 });
 
