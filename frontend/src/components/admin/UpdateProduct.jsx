@@ -283,7 +283,7 @@ const onChangeImages = (e) => {
       oldImages.map((img, i) => (
         <img
           key={i}
-          src={img.url}
+          src={img.image || img.url}  
           alt="Old Product"
           className="h-20 w-20 object-cover rounded-md border"
         />
