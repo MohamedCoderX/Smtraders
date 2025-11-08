@@ -90,60 +90,47 @@ res.status(201).json({
 
 
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
-  try {
-    let Product = await product.findById(req.params.id);
-    if (!Product) {
-      return res.status(404).json({
-        success: false,
-        message: "Product not found",
-      });
-    }
-
-    // ✅ If a new image is uploaded (via multer → req.files)
-    if (req.files && req.files.length > 0) {
-      // Delete old image from Cloudinary
-      const oldImageUrl = Product.images[0]?.image;
-      if (oldImageUrl) {
-        const oldPublicId = oldImageUrl.split("/").pop().split(".")[0]; // Extract public_id from URL
-        await cloudinary.uploader.destroy(`products/${oldPublicId}`);
-      }
-
-      // Upload new image to Cloudinary
-      const file = req.files[0];
-      const result = await cloudinary.v2.uploader.upload(file.path, {
-        folder: "products",
-      });
-
-      // Replace image field
-      req.body.images = [
-        {
-          image: result.secure_url,
-        },
-      ];
-    } else {
-      // Keep old image if not updating
-      req.body.images = Product.images;
-    }
-
-    // ✅ Update other product fields
-    Product = await product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-      useFindAndModify: false,
-    });
-
-    res.status(200).json({
-      success: true,
-      message: "Product updated successfully",
-      Product,
-    });
-  } catch (error) {
-    console.error("Error updating product:", error);
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+  let Product = await product.findById(req.params.id);
+  if (!Product) {
+    return res.status(404).json({ success: false, message: "Product not found" });
   }
+
+  // 🧹 If new image uploaded, delete the old one first
+  if (req.files && req.files.length > 0) {
+    const oldImageUrl = Product.images[0]?.image;
+    if (oldImageUrl) {
+      try {
+        const parts = oldImageUrl.split("/");
+        const fileWithExt = parts[parts.length - 1]; // "product-1757303518460-3....png"
+        const publicId = `products/${fileWithExt.split(".")[0]}`; // "products/product-1757303518460-3...."
+        await cloudinary.uploader.destroy(publicId);
+      } catch (err) {
+        console.error("Failed to delete old Cloudinary image:", err);
+      }
+    }
+
+    // ✅ Upload new image(s)
+    const uploadedImages = [];
+    for (const file of req.files) {
+      uploadedImages.push({ image: file.path }); // multer-storage-cloudinary gives path = secure_url
+    }
+
+    req.body.images = uploadedImages;
+  } else {
+    req.body.images = Product.images; // Keep old image
+  }
+
+  // ✅ Update product
+  Product = await product.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Product updated successfully",
+    Product,
+  });
 });
 
 //delete product 
