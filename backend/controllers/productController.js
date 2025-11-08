@@ -69,76 +69,74 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
 
 
 
-exports.updateProduct = async (req, res) => {
-    try {
-      const productId = req.params.id;
-  
-      // Find existing product
-      const existingProduct = await product.findById(productId);
-      if (!existingProduct) {
-        return res.status(404).json({
-          success: false,
-          message: "Product not found",
-        });
-      }
-  
-      // Handle image update (if images sent)
-      let images = [];
-  
-      if (req.body.images && req.body.images.length > 0) {
-        // Delete old images from Cloudinary
-        for (let i = 0; i < existingProduct.images.length; i++) {
-          await cloudinary.v2.uploader.destroy(existingProduct.images[i].public_id);
-        }
-  
-        // Upload new images to Cloudinary
-        for (let i = 0; i < req.body.images.length; i++) {
-          const result = await cloudinary.v2.uploader.upload(req.body.images[i], {
-            folder: "products",
-          });
-  
-          images.push({
-            public_id: result.public_id,
-            url: result.secure_url,
-          });
-        }
-      } else {
-        // Keep existing images if none are uploaded
-        images = existingProduct.images;
-      }
-  
-      // Prepare updated fields
-      const updatedFields = {
-        name: req.body.name?.trim() || existingProduct.name,
-        price: req.body.price ? Number(req.body.price) : existingProduct.price,
-        originalPrice: req.body.originalPrice
-          ? Number(req.body.originalPrice)
-          : existingProduct.originalPrice,
-        description: req.body.description?.trim() || existingProduct.description,
-        category: req.body.category?.trim() || existingProduct.category,
-        stock: req.body.stock ? Number(req.body.stock) : existingProduct.stock,
-        images,
-      };
-  
-      // Update product
-      const updatedProduct = await product.findByIdAndUpdate(
-        productId,
-        updatedFields,
-        { new: true, runValidators: true }
-      );
-  
-      res.status(200).json({
-        success: true,
-        product: updatedProduct,
-      });
-    } catch (error) {
-      console.error("Error updating product:", error);
-      res.status(500).json({
+exports.updateProduct = catchAsyncError(async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+    const existingProduct = await product.findById(productId);
+
+    if (!existingProduct) {
+      return res.status(404).json({
         success: false,
-        message: error.message || "Internal server error",
+        message: "Product not found",
       });
     }
-  };
+
+    // ✅ Handle new image upload (replace the single existing one)
+    if (req.files && req.files.length > 0) {
+      const oldImageUrl = existingProduct.images?.[0]?.image;
+
+      if (oldImageUrl) {
+        try {
+          // Extract public_id from URL
+          const publicId = oldImageUrl.split("/").pop().split(".")[0];
+          await cloudinary.v2.uploader.destroy(`products/${publicId}`);
+          console.log("🗑️ Deleted old image:", publicId);
+        } catch (err) {
+          console.error("❌ Error deleting old image:", err.message);
+        }
+      }
+
+      // Upload new image
+      const result = await cloudinary.v2.uploader.upload(req.files[0].path, {
+        folder: "products",
+      });
+
+      // Replace the old image in the array (index 0)
+      existingProduct.images = [{ image: result.secure_url }];
+    }
+
+    // ✅ Update text fields
+    existingProduct.name = req.body.name?.trim() || existingProduct.name;
+    existingProduct.price = req.body.price
+      ? Number(req.body.price)
+      : existingProduct.price;
+    existingProduct.originalPrice = req.body.originalPrice
+      ? Number(req.body.originalPrice)
+      : existingProduct.originalPrice;
+    existingProduct.description =
+      req.body.description?.trim() || existingProduct.description;
+    existingProduct.category =
+      req.body.category?.trim() || existingProduct.category;
+    existingProduct.stock = req.body.stock
+      ? Number(req.body.stock)
+      : existingProduct.stock;
+
+    // Save changes
+    await existingProduct.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Product updated successfully",
+      product: existingProduct,
+    });
+  } catch (error) {
+    console.error("❌ Error updating product:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Internal server error",
+    });
+  }
+});
 
 //get single product -{{base_url}}/api/v1/product/:id
 exports.getSingleProduct = catchAsyncError(async(req,res,next) => {
