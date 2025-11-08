@@ -13,6 +13,30 @@ export default function UpdateProduct() {
   const [originalPrice, setOriginalPrice] = useState("");
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState(0);
+  const [images, setImages] = useState([]);
+const [oldImages, setOldImages] = useState([]);
+const [imagesPreview, setImagesPreview] = useState([]);
+
+const onChangeImages = (e) => {
+  const files = Array.from(e.target.files);
+
+  setImages([]);
+  setImagesPreview([]);
+
+  files.forEach((file) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setImages((old) => [...old, reader.result]);
+        setImagesPreview((old) => [...old, reader.result]);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
+
 
   const { id: productId } = useParams();
 
