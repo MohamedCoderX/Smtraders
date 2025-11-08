@@ -76,18 +76,22 @@ const onChangeImages = (e) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const updatedProduct = {
-      name: name.trim(),
-      price: price !== "" ? Number(price) : 0,
-      originalPrice: originalPrice !== "" ? Number(originalPrice) : 0,
-      stock: stock !== "" ? Number(stock) : 0,
-      description: description.trim(),
-      category: category,
-      images, // include images in payload
-    };
   
-    dispatch(updateProduct(productId, updatedProduct));
+    const formData = new FormData();
+    formData.set("name", name.trim());
+    formData.set("price", price !== "" ? Number(price) : 0);
+    formData.set("originalPrice", originalPrice !== "" ? Number(originalPrice) : 0);
+    formData.set("stock", stock !== "" ? Number(stock) : 0);
+    formData.set("description", description.trim());
+    formData.set("category", category);
+  
+    images.forEach((image) => {
+      formData.append("images", newImageFile);
+    });
+  
+    dispatch(updateProduct(productId, formData)); // 👈 send FormData
   };
+  
   
 
   useEffect(() => {
