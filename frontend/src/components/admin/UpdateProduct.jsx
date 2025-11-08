@@ -13,33 +13,11 @@ export default function UpdateProduct() {
   const [originalPrice, setOriginalPrice] = useState("");
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState(0);
-  const [images, setImages] = useState([]);
-const [oldImages, setOldImages] = useState([]);
-const [imagesPreview, setImagesPreview] = useState([]);
-
-const onChangeImages = (e) => {
-  const files = Array.from(e.target.files);
-
-  setImages([]);
-  setImagesPreview([]);
-
-  files.forEach((file) => {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setImages((old) => [...old, reader.result]);
-        setImagesPreview((old) => [...old, reader.result]);
-      }
-    };
-
-    reader.readAsDataURL(file);
-  });
-};
-
+  const [image, setImage] = useState(""); // single image
+  const [oldImage, setOldImage] = useState("");
+  const [imagePreview, setImagePreview] = useState("");
 
   const { id: productId } = useParams();
-
   const { loading, isProductUpdated, error, product } = useSelector(
     (state) => state.productState
   );
@@ -74,9 +52,25 @@ const onChangeImages = (e) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // Handle image change (single)
+  const onChangeImage = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setImage(reader.result);
+        setImagePreview(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Submit form handler
   const submitHandler = (e) => {
     e.preventDefault();
-  
+
     const formData = new FormData();
     formData.set("name", name.trim());
     formData.set("price", price !== "" ? Number(price) : 0);
@@ -84,39 +78,38 @@ const onChangeImages = (e) => {
     formData.set("stock", stock !== "" ? Number(stock) : 0);
     formData.set("description", description.trim());
     formData.set("category", category);
-  
-    images.forEach((image) => {
-      formData.append("images", image);
-    });
-  
-    dispatch(updateProduct(productId, formData)); // 👈 send FormData
-  };
-  
-  
 
+    if (image) {
+      formData.append("images", image);
+    }
+
+    dispatch(updateProduct(productId, formData));
+  };
+
+  // ✅ Fetch product details only once
+  useEffect(() => {
+    dispatch(getProduct(productId));
+  }, [dispatch, productId]);
+
+  // ✅ Handle success/error separately
   useEffect(() => {
     if (isProductUpdated) {
-      toast("Updated Successfully!", {
+      toast("Product Updated Successfully!", {
         type: "success",
         onOpen: () => dispatch(clearProductUpdated()),
       });
       navigate("/admin/products");
-      return;
     }
 
     if (error) {
       toast(error, {
         type: "error",
-        onOpen: () => {
-          dispatch(clearError());
-        },
+        onOpen: () => dispatch(clearError()),
       });
-      return;
     }
+  }, [isProductUpdated, error, dispatch, navigate]);
 
-    dispatch(getProduct(productId));
-  }, [isProductUpdated, error, dispatch, navigate, productId]);
-
+  // ✅ Set product details in state when loaded
   useEffect(() => {
     if (product) {
       setName(product.name || "");
@@ -125,10 +118,11 @@ const onChangeImages = (e) => {
       setDescription(product.description || "");
       setOriginalPrice(product.originalPrice || "");
       setCategory(product.category || "");
-      setOldImages(product.images || []); // Add this line
+      if (product.images && product.images.length > 0) {
+        setOldImage(product.images[0].image || product.images[0].url || "");
+      }
     }
   }, [product]);
-  
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row bg-gray-50">
@@ -261,50 +255,45 @@ const onChangeImages = (e) => {
                       className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
                   </div>
-                  
                 </div>
+
                 {/* Image Upload */}
-<div>
-  <label
-    htmlFor="formFile"
-    className="block text-sm font-medium text-gray-700 mb-1"
-  >
-    Product Images
-  </label>
-  <input
-    type="file"
-    id="formFile"
-    name="images"
-    accept="image/*"
-    multiple
-    onChange={onChangeImages}
-    className="w-full border border-gray-300 rounded-lg p-3"
-  />
+                <div>
+                  <label
+                    htmlFor="formFile"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Product Image
+                  </label>
+                  <input
+                    type="file"
+                    id="formFile"
+                    name="images"
+                    accept="image/*"
+                    onChange={onChangeImage}
+                    className="w-full border border-gray-300 rounded-lg p-3"
+                  />
 
-  <div className="flex flex-wrap gap-3 mt-3">
-    {/* Show old images */}
-    {oldImages &&
-      oldImages.map((img, i) => (
-        <img
-          key={i}
-          src={img.image || img.url}  
-          alt="Old Product"
-          className="h-20 w-20 object-cover rounded-md border"
-        />
-      ))}
+                  <div className="flex flex-wrap gap-3 mt-3">
+                    {/* Old image */}
+                    {oldImage && (
+                      <img
+                        src={oldImage}
+                        alt="Old Product"
+                        className="h-20 w-20 object-cover rounded-md border"
+                      />
+                    )}
 
-    {/* Preview new images */}
-    {imagesPreview.map((img, i) => (
-      <img
-        key={i}
-        src={img}
-        alt="Preview"
-        className="h-20 w-20 object-cover rounded-md border"
-      />
-    ))}
-  </div>
-</div>
-
+                    {/* New image preview */}
+                    {imagePreview && (
+                      <img
+                        src={imagePreview}
+                        alt="Preview"
+                        className="h-20 w-20 object-cover rounded-md border"
+                      />
+                    )}
+                  </div>
+                </div>
 
                 {/* Submit Button */}
                 <button
