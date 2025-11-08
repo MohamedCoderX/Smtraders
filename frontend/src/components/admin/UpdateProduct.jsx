@@ -13,6 +13,9 @@ export default function UpdateProduct() {
   const [originalPrice, setOriginalPrice] = useState("");
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState(0);
+  const [images, setImages] = useState([]);
+  const [oldImages, setOldImages] = useState([]);
+  const [imagesPreview, setImagesPreview] = useState([]);
 
   const { id: productId } = useParams();
 
@@ -50,6 +53,28 @@ export default function UpdateProduct() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // 🧾 Handle image selection
+  const onChangeImages = (e) => {
+    const files = Array.from(e.target.files);
+
+    setImages([]);
+    setImagesPreview([]);
+
+    files.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImages((old) => [...old, reader.result]);
+          setImagesPreview((old) => [...old, reader.result]);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // 🧠 Handle form submit
   const submitHandler = (e) => {
     e.preventDefault();
     const updatedProduct = {
@@ -59,10 +84,12 @@ export default function UpdateProduct() {
       stock: stock !== "" ? Number(stock) : 0,
       description: description.trim(),
       category: category,
+      images, // include selected images
     };
     dispatch(updateProduct(productId, updatedProduct));
   };
 
+  // 🚀 Handle side effects (fetch, error, success)
   useEffect(() => {
     if (isProductUpdated) {
       toast("Updated Successfully!", {
@@ -86,6 +113,7 @@ export default function UpdateProduct() {
     dispatch(getProduct(productId));
   }, [isProductUpdated, error, dispatch, navigate, productId]);
 
+  // 🎯 Load product details
   useEffect(() => {
     if (product) {
       setName(product.name || "");
@@ -94,6 +122,7 @@ export default function UpdateProduct() {
       setDescription(product.description || "");
       setOriginalPrice(product.originalPrice || "");
       setCategory(product.category || "");
+      setOldImages(product.images || []);
     }
   }, [product]);
 
@@ -227,6 +256,48 @@ export default function UpdateProduct() {
                       onChange={(e) => setStock(e.target.value)}
                       className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     />
+                  </div>
+                </div>
+
+                {/* Images */}
+                <div>
+                  <label
+                    htmlFor="formFile"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Product Images
+                  </label>
+                  <input
+                    type="file"
+                    id="formFile"
+                    name="images"
+                    accept="image/*"
+                    multiple
+                    onChange={onChangeImages}
+                    className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                  />
+
+                  {/* Old images */}
+                  <div className="flex flex-wrap gap-3 mt-3">
+                    {oldImages &&
+                      oldImages.map((img, i) => (
+                        <img
+                          key={i}
+                          src={img.url}
+                          alt="Old Product"
+                          className="h-20 w-20 object-cover rounded-md border"
+                        />
+                      ))}
+
+                    {/* New image previews */}
+                    {imagesPreview.map((img, i) => (
+                      <img
+                        key={i}
+                        src={img}
+                        alt="Preview"
+                        className="h-20 w-20 object-cover rounded-md border"
+                      />
+                    ))}
                   </div>
                 </div>
 
