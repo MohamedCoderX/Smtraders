@@ -1,5 +1,5 @@
 import React from "react";
-import { FiDownload } from "react-icons/fi";
+
 import { MdDownload } from "react-icons/md";
 import pdf from "../SMSivakasiCrackers.pdf"
 import "./Download.css";

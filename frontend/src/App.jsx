@@ -28,7 +28,7 @@ import Payment from './components/cart/Payment';
 import OrderList from './components/admin/OrderList';
 import UpdateProduct from './components/admin/UpdateProduct';
 import Whatsapp from './components/Whatsapp';
-import Download from './components/Download';
+
 import Termsandcondition from './components/Termsandcondition';
 import Combo from './components/Combo';
 import RegisterComp from './components/RegisterComp';
@@ -45,7 +45,7 @@ useEffect(()=>{
     <Router>
      <div className="App">
       <HelmetProvider>
-        {/* <RegisterComp/> */}
+        <RegisterComp/>
       <Navbar/>
       
       <Whatsapp/>

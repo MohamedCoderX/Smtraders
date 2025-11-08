@@ -9,7 +9,7 @@ import { MDBDataTable} from 'mdbreact';
 import Sidebar from "./Sidebar"
 
 export default function UserList() {
-    const { users = [], loading = true, error, isUserDeleted }  = useSelector(state => state.userState)
+    const { users = []}  = useSelector(state => state.userState)
 
 
 

@@ -12,7 +12,7 @@ import Loader from '../../components/Loader';
 import Search from '../../components/search';
 import './product.css'
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { set } from 'mongoose';
+
 
 const ProductSearch = () => {
   const location = useLocation();

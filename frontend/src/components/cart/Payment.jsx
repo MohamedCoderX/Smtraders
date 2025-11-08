@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { toast } from "react-toastify";
+
 import { createOrder } from "../../actions/orderActions";
-import { clearCart } from "../../slices/cartSlice";
+
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+
 import Footer from "../footer/Footer";
 import "./Invoice.css";
 import "./Payment.css"
@@ -72,7 +72,7 @@ const Payment = () => {
                
                 
         }
-    }, [orderDetail, orderCreated, dispatch, cartItems, shippingInfo, navigate]);
+    }, [orderDetail, orderCreated, dispatch, cartItems, shippingInfo, navigate, calculateNetTotal]);
 
     useEffect(() => {
         invoiceRef.current?.scrollIntoView({ behavior: "smooth" });

@@ -90,7 +90,7 @@ export default function ProductList() {
       return;
     }
     dispatch(getAdminProducts);
-  }, [dispatch, error, isProductDeleted]);
+  }, [dispatch, error, isProductDeleted , productError]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
