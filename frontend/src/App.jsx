@@ -49,7 +49,7 @@ useEffect(()=>{
       <Route path='/products' element ={<Cracker/>}/>
       <Route path='/contact' element = { <Contact/> }/>
       <Route path='/Login' element={<Login/>}/>
-      <Route path='/Register' element={<Register/>}/>
+      {/* <Route path='/Register' element={<Register/>}/> */}
       <Route path='/Forgotpassword' element={<ForgotPassword/>}/>
       <Route path='/password/reset/:token' element={<ResetPassword/>}/>
       <Route path = '/Mycart' element={<Cart/>}/>

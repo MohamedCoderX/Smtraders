@@ -69,7 +69,7 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
 
 
 
-exports.updateProduct = async (req, res, next) => {
+exports.updateProduct = async (req, res) => {
     try {
       const productId = req.params.id;
   
@@ -82,17 +82,42 @@ exports.updateProduct = async (req, res, next) => {
         });
       }
   
-      // Debug: check what frontend is sending
-
+      // Handle image update (if images sent)
+      let images = [];
   
-      // Prepare updated fields safely
+      if (req.body.images && req.body.images.length > 0) {
+        // Delete old images from Cloudinary
+        for (let i = 0; i < existingProduct.images.length; i++) {
+          await cloudinary.v2.uploader.destroy(existingProduct.images[i].public_id);
+        }
+  
+        // Upload new images to Cloudinary
+        for (let i = 0; i < req.body.images.length; i++) {
+          const result = await cloudinary.v2.uploader.upload(req.body.images[i], {
+            folder: "products",
+          });
+  
+          images.push({
+            public_id: result.public_id,
+            url: result.secure_url,
+          });
+        }
+      } else {
+        // Keep existing images if none are uploaded
+        images = existingProduct.images;
+      }
+  
+      // Prepare updated fields
       const updatedFields = {
         name: req.body.name?.trim() || existingProduct.name,
         price: req.body.price ? Number(req.body.price) : existingProduct.price,
-        originalPrice: req.body.originalPrice ? Number(req.body.originalPrice) : existingProduct.originalPrice,
+        originalPrice: req.body.originalPrice
+          ? Number(req.body.originalPrice)
+          : existingProduct.originalPrice,
         description: req.body.description?.trim() || existingProduct.description,
         category: req.body.category?.trim() || existingProduct.category,
         stock: req.body.stock ? Number(req.body.stock) : existingProduct.stock,
+        images,
       };
   
       // Update product

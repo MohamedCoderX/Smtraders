@@ -31,7 +31,7 @@ const OrderList = () => {
         const invoiceHtml = `
             <div style="width: 800px; margin: auto; padding: 20px; border: 1px solid #ddd; font-family: Arial, sans-serif;">
                 <div style="text-align: center;">
-                    <img src="/images/Logo.jpg" alt="Logo" style="width: 150px;margin-bottom: 10px;" />
+                    <img src="/images/logo.png" alt="Logo" style="width: 150px;margin-bottom: 10px;" />
 
                     <h2>SM CRACKERS</h2>
                     <p>Sattur to thayilpatti main road 

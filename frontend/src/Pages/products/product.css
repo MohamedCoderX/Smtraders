@@ -7,6 +7,7 @@
 }
 .cracker-list-item{
     width: 262px!important;
+    height:-webkit-fill-available;
 }
 .cracker-display-list{
     align-items: flex-start;
