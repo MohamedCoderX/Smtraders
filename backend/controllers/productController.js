@@ -35,36 +35,61 @@ res.status(200).json({
 })
 
 //Create product - api/v1/products/new
-exports.newProduct = catchAsyncError(async (req, res, next) => {
-    try {
-        console.log("Received files:", req.files);
-
-        if (!req.files || req.files.length === 0) {
-            return res.status(400).json({ success: false, message: "No images uploaded" });
-        }
-
-        let images = [];
-
-        for (let file of req.files) {
-            if (!file?.path) {
-                return res.status(500).json({ success: false, message: "File upload failed" });
-            }
-            images.push({ image: file.path }); // Cloudinary secure_url is in file.path
-        }
-
-        req.body.images = images;
-        req.body.user = req.user.id;
-
-        const createdProduct = await product.create(req.body);
-
-        res.status(201).json({
-            success: true,
-            product: createdProduct,
-        });
-    } catch (error) {
-        console.error("Product creation error:", error);
-        res.status(500).json({ success: false, message: error.message });
+exports.updateProduct = catchAsyncError(async (req, res, next) => {
+  try {
+    let Product = await product.findById(req.params.id);
+    if (!Product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
     }
+
+    // ✅ If a new image is uploaded (via multer → req.files)
+    if (req.files && req.files.length > 0) {
+      // Delete old image from Cloudinary
+      const oldImageUrl = Product.images[0]?.image;
+      if (oldImageUrl) {
+        const oldPublicId = oldImageUrl.split("/").pop().split(".")[0]; // Extract public_id from URL
+        await cloudinary.v2.uploader.destroy(`products/${oldPublicId}`);
+      }
+
+      // Upload new image to Cloudinary
+      const file = req.files[0];
+      const result = await cloudinary.v2.uploader.upload(file.path, {
+        folder: "products",
+      });
+
+      // Replace image field
+      req.body.images = [
+        {
+          image: result.secure_url,
+        },
+      ];
+    } else {
+      // Keep old image if not updating
+      req.body.images = Product.images;
+    }
+
+    // ✅ Update other product fields
+    Product = await product.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Product updated successfully",
+      Product,
+    });
+  } catch (error) {
+    console.error("Error updating product:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 });
 
 
