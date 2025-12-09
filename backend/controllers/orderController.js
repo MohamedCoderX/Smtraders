@@ -77,14 +77,8 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
       paymentInfo,
     } = req.body;
 
-    // ✅ Check for duplicate order by customer name
-    const existingOrder = await Order.findOne({ "shippingInfo.name": shippingInfo.name });
-    if (existingOrder) {
-      return res.status(400).json({
-        success: false,
-        message: "Order already exists for this customer name.",
-      });
-    }
+   
+    
 
     // Generate new incremental order number
     const counter = await Counter.findOneAndUpdate(
