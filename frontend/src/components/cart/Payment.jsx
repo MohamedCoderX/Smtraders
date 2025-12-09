@@ -26,8 +26,6 @@ const Payment = () => {
     const calculateNetTotal = () => calculateTotal() - calculateDiscount();
 
     useEffect(() => {
-      
-
         // Prevent browser back to cart/checkout
         const handlePopState = () => {
             navigate("/", { replace: true });
@@ -66,13 +64,10 @@ const Payment = () => {
                 })),
                 totalAmount: `₹${calculateNetTotal().toFixed(2)}`,
                 orderDate: new Date().toLocaleDateString(),
-            };
-
-           
-               
+            };     
                 
         }
-    }, [orderDetail, orderCreated, dispatch, cartItems, shippingInfo, navigate, calculateNetTotal]);
+    }, [orderDetail, orderCreated, dispatch, cartItems, shippingInfo, navigate]);
 
     useEffect(() => {
         invoiceRef.current?.scrollIntoView({ behavior: "smooth" });
