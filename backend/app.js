@@ -14,6 +14,7 @@ app.use(cors({
   credentials: true,
   origin:[process.env.FRONTEND_URL,
     "https://smsivakasicrackers.com",
+    "http://localhost:3000"
   ] ,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ['Content-Type', 'Authorization'],

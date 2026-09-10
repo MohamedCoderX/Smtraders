@@ -39,17 +39,17 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
     try {
         console.log("Received files:", req.files);
 
-        if (!req.files || req.files.length === 0) {
-            return res.status(400).json({ success: false, message: "No images uploaded" });
-        }
-
         let images = [];
 
-        for (let file of req.files) {
-            if (!file?.path) {
-                return res.status(500).json({ success: false, message: "File upload failed" });
+        if (!req.files || req.files.length === 0) {
+            images.push({ image: "https://placehold.co/400x400/png?text=Diwali+Cracker" });
+        } else {
+            for (let file of req.files) {
+                if (!file?.path) {
+                    return res.status(500).json({ success: false, message: "File upload failed" });
+                }
+                images.push({ image: file.path }); // Cloudinary secure_url is in file.path
             }
-            images.push({ image: file.path }); // Cloudinary secure_url is in file.path
         }
 
         req.body.images = images;
@@ -95,17 +95,23 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
     return res.status(404).json({ success: false, message: "Product not found" });
   }
 
-  // 🧹 If new image uploaded, delete the old one first
+  // 🧹 If new image uploaded, delete the old ones first
   if (req.files && req.files.length > 0) {
-    const oldImageUrl = Product.images[0]?.image;
-    if (oldImageUrl) {
-      try {
-        const parts = oldImageUrl.split("/");
-        const fileWithExt = parts[parts.length - 1]; // "product-1757303518460-3....png"
-        const publicId = `products/${fileWithExt.split(".")[0]}`; // "products/product-1757303518460-3...."
-        await cloudinary.uploader.destroy(publicId);
-      } catch (err) {
-        console.error("Failed to delete old Cloudinary image:", err);
+    if (Product.images && Product.images.length > 0) {
+      for (let i = 0; i < Product.images.length; i++) {
+        const oldImageUrl = Product.images[i]?.image;
+        if (oldImageUrl) {
+          try {
+            const parts = oldImageUrl.split("/");
+            const fileWithExt = parts[parts.length - 1]; // "product-1757303518460-3....png"
+            // Account for any potential query strings like ?v=123
+            const filename = fileWithExt.split("?")[0];
+            const publicId = `products/${filename.split(".")[0]}`; 
+            await cloudinary.uploader.destroy(publicId);
+          } catch (err) {
+            console.error("Failed to delete old Cloudinary image:", err);
+          }
+        }
       }
     }
 

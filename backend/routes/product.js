@@ -15,7 +15,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'products', // Folder name in Cloudinary
     allowedFormats: ['jpeg', 'png', 'jpg'], // Allowed image formats
-    transformation: [{ width: 500, height: 500, crop: "limit" }],
+    transformation: [{ width: 500, height: 500, crop: "pad", background: "white" }],
     public_id: (req, file) => `product-${Date.now()}-${file.originalname.split('.')[0]}`, // Unique ID
   },
 });
