@@ -224,4 +224,20 @@ exports.updateStock = async (productId, quantity) => {
 };
 
 
+//Track Order - api/v1/order/track
+exports.trackOrder = catchAsyncError(async (req, res, next) => {
+    const { phoneNo } = req.body;
+    if(!phoneNo) {
+        return next(new ErrorHandler("Please enter your phone number to track orders", 400));
+    }
+    const orders = await Order.find({ "shippingInfo.phoneNo": phoneNo }).sort({ createdAt: -1 }).populate('orderItems.product');
 
+    if(!orders || orders.length === 0) {
+        return next(new ErrorHandler(`No orders found with phone number: ${phoneNo}`, 404));
+    }
+
+    res.status(200).json({
+        success: true,
+        orders
+    });
+});

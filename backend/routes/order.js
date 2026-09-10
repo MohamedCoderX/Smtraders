@@ -1,5 +1,5 @@
 const express = require('express');
-const { newOrder, getSingleOrder, myOrders, orders, updateOrder, deleteOrder ,uploadInvoice} = require('../controllers/orderController');
+const { newOrder, getSingleOrder, myOrders, orders, updateOrder, deleteOrder, uploadInvoice, trackOrder } = require('../controllers/orderController');
 const { isAunthenticatedUser, authorizeRoles } = require('../middleware/authenticate');
 const router = express.Router();
 const multer = require("multer");
@@ -23,6 +23,7 @@ const upload = multer({
   
 
 router.route('/order/new').post(newOrder);
+router.route('/order/track').post(trackOrder);
 router.route('/order/:id').get(isAunthenticatedUser,getSingleOrder)
 router.route('/myorders').get(isAunthenticatedUser,myOrders)
 
