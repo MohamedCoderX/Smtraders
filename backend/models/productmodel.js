@@ -66,7 +66,7 @@ const productSchema = new mongoose.Schema({
   stock: {
     type: Number,
     required: [true, "please enter product stock "],
-    maxLength: [30, "product stock cannot exceed 30"],
+    maxLength: [300, "product stock cannot exceed 300"],
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
