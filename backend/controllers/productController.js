@@ -7,9 +7,9 @@ const cloudinary = require('../config/cloudinary');
 //get products - {{base_url}}/api/v1/products
 exports.getProducts =catchAsyncError(async(req,res,next)=>{
 
-    const resPerPage = 12;
+    const resPerPage = 1000; // Increased to show all products in one page
     let buildQuery = () => {
-        return new APIFeatures(product.find(), req.query).search().filter()
+        return new APIFeatures(product.find().sort({ createdAt: -1 }), req.query).search().filter()
     }
     const filteredProductsCount = await buildQuery().query.countDocuments({})
     const totalProductsCount = await product.countDocuments({});
