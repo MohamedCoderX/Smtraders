@@ -9,7 +9,7 @@ exports.getProducts =catchAsyncError(async(req,res,next)=>{
 
     const resPerPage = 1000; // Increased to show all products in one page
     let buildQuery = () => {
-        return new APIFeatures(product.find().sort({ createdAt: -1 }), req.query).search().filter()
+        return new APIFeatures(product.find().sort({ category: 1 }), req.query).search().filter()
     }
     const filteredProductsCount = await buildQuery().query.countDocuments({})
     const totalProductsCount = await product.countDocuments({});
