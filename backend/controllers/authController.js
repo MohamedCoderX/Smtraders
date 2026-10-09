@@ -181,6 +181,10 @@ exports.updateUser = catchAsyncError(async(req,res,next)=>{
         role: req.body.role
     }
 
+    if (req.body.contacted !== undefined) {
+        newUserData.contacted = req.body.contacted;
+    }
+
     const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
         new: true,
         runValidators: true,
