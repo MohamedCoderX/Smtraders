@@ -43,6 +43,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    process: {
+        type: String,
+        default: 'Pending'
+    },
     resetPasswordToken: String,
     resetPasswordTokenExpire: Date,
     createdAt :{

@@ -185,6 +185,12 @@ exports.updateUser = catchAsyncError(async(req,res,next)=>{
         newUserData.contacted = req.body.contacted;
     }
 
+    if (req.body.process !== undefined) {
+        newUserData.process = req.body.process;
+    } else if (req.body.processStatus !== undefined) {
+        newUserData.process = req.body.processStatus;
+    }
+
     const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
         new: true,
         runValidators: true,
