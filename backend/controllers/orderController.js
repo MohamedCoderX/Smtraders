@@ -169,14 +169,12 @@ exports.updateOrder = catchAsyncError(async (req, res, next) => {
       return next(new ErrorHandler("No order status provided", 400));
     }
   
-    if (order.orderStatus === "Delivered") {
-      return next(new ErrorHandler("Order has already been delivered!", 400));
-    }
-  
     order.orderStatus = req.body.orderStatus;
   
-    if (req.body.orderStatus === "Completed" || req.body.orderStatus === "Delivered") {
+    if (req.body.orderStatus === "Delivery Complete" || req.body.orderStatus === "Delivered" || req.body.orderStatus === "Completed") {
       order.deliveredAt = Date.now();
+    } else {
+      order.deliveredAt = null;
     }
   
     await order.save({ validateBeforeSave: false });

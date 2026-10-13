@@ -76,7 +76,7 @@ const orderSchema = new mongoose.Schema({
     orderStatus: {
         type: String,
         required: true,
-        default: 'Processing'
+        default: 'Packing'
     },
     createdAt: {
         type: Date,
