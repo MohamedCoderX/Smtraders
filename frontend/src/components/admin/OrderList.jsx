@@ -28,23 +28,24 @@ const OrderList = () => {
     
 
     const handleDownloadInvoice = (order) => {
+        const invoiceNo = order.orderNumber ? String(order.orderNumber).padStart(3, '0') : "001";
         const invoiceHtml = `
             <div style="width: 800px; margin: auto; padding: 20px; border: 1px solid #ddd; font-family: Arial, sans-serif;">
                 <div style="text-align: center;">
                     <img src="/images/logo.png" alt="Logo" style="width: 150px;margin-bottom: 10px;" />
 
-                    <h2>SM CRACKERS</h2>
-                    <p>Sattur to Thayilpatti Road, Unjampatti, Near Jai Sree Matches, Sattur - 626203</p>
-                    <p>Office No : 8903359989 </p>
-                    <p>☎ 6381933039 / 8248450298</p>
+                    <h2 style="font-weight: 800; text-transform: uppercase;">SM CRACKERS</h2>
+                    <p style="font-weight: 700; text-transform: uppercase; color: #000; margin: 3px 0;">SATTUR TO THAYILPATTI ROAD, UNJAMPATTI</p>
+                    <p style="font-weight: 700; text-transform: uppercase; color: #000; margin: 3px 0;">NEAR JAI SREE MATCHES, SATTUR - 626203</p>
+                    <p style="font-weight: 700; color: #000; margin: 3px 0;">Office No : 8903359989 | ☎ 6381933039 / 8248450298</p>
                 </div>
                 <hr/>
-                <h1>Invoice Bill </h1>
-                <div style="display: flex; justify-content: space-between;">
-                   
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h1>Invoice Bill #${invoiceNo}</h1>
                     <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
                 </div>
                 <div>
+                    <p><strong>Invoice No:</strong> ${invoiceNo}</p>
                     <p><strong>Name:</strong> ${order.shippingInfo?.name}</p>
                     <p><strong>Phone:</strong> ${order.shippingInfo?.phoneNo}</p>
                      <p><b>Address:</b> ${order.shippingInfo?.address}, ${order.shippingInfo?.city}, ${order.shippingInfo?.postalCode}, ${order.shippingInfo?.state} </p>
