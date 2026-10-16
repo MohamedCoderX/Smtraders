@@ -34,8 +34,7 @@ const OrderList = () => {
                     <img src="/images/logo.png" alt="Logo" style="width: 150px;margin-bottom: 10px;" />
 
                     <h2>SM CRACKERS</h2>
-                    <p>Sattur to thayilpatti main road 
-Unjampatti</p>
+                    <p>Sattur to Thayilpatti Road, Unjampatti, Near Jai Sree Matches, Sattur - 626203</p>
                     <p>Office No : 8903359989 </p>
                     <p>☎ 6381933039 / 8248450298</p>
                 </div>

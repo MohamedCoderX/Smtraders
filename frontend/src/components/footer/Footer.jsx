@@ -22,8 +22,8 @@ const Footer = () => {
         <div className="contact">
         <h2>Contact us</h2>
             <div className="contact_s1">
-                <a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
-                <p>4/175/A Sattur to Sivakasi road Veerapandiyapuram near by Toll gate Sattur -626203</p>
+                <a href="https://maps.app.goo.gl/q17vmtdDpRD5MuKN6" target="_blank" rel="noopener noreferrer"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
+                <p>Sattur to Thayilpatti Road, Unjampatti, Near Jai Sree Matches, Sattur - 626203</p>
             </div>
             <div className="contact_s1">
                 <a href="#"><i class="fa fa-mobile" aria-hidden="true"></i></a>
