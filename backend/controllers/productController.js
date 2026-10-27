@@ -9,10 +9,10 @@ exports.getProducts =catchAsyncError(async(req,res,next)=>{
 
     const resPerPage = 1000; // Increased to show all products in one page
     let buildQuery = () => {
-        return new APIFeatures(product.find().sort({ category: 1 }), req.query).search().filter()
+        return new APIFeatures(product.find({ stock: { $gt: 0 } }).sort({ category: 1 }), req.query).search().filter()
     }
     const filteredProductsCount = await buildQuery().query.countDocuments({})
-    const totalProductsCount = await product.countDocuments({});
+    const totalProductsCount = await product.countDocuments({ stock: { $gt: 0 } });
     // const apifeatures = new APIFeatures(product.find(),req.query).search().filter().paginate(resPerPage);
 
 

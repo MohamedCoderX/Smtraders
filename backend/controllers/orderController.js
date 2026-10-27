@@ -80,7 +80,35 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
    
     
 
-    // Generate new incremental order number
+    if (!orderItems || !Array.isArray(orderItems) || orderItems.length === 0) {
+      return next(new ErrorHandler("No order items found", 400));
+    }
+
+    // 1. Verify that all products are in stock and have sufficient quantities
+    for (let item of orderItems) {
+      const prod = await Product.findById(item.product);
+      if (!prod) {
+        return next(new ErrorHandler("One or more products were not found", 404));
+      }
+      if (prod.stock <= 0) {
+        return next(
+          new ErrorHandler(
+            `"${prod.name}" is out of stock and cannot be ordered. Please remove it from your cart.`,
+            400
+          )
+        );
+      }
+      if (prod.stock < item.quantity) {
+        return next(
+          new ErrorHandler(
+            `Only ${prod.stock} unit(s) available for "${prod.name}", but ${item.quantity} requested. Please adjust the quantity.`,
+            400
+          )
+        );
+      }
+    }
+
+    // 2. Generate new incremental order number
     const counter = await Counter.findOneAndUpdate(
         { id: 'orderNumber' }, // Find the counter document with id 'orderNumber'
         { $inc: { seq: 1 } },  // Increment the sequence by 1
@@ -88,7 +116,7 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
       );
       const newOrderNumber = counter.seq; // Get the updated sequence number
 
-    // ✅ Create new order
+    // 3. Create new order
     const order = await Order.create({
       orderItems,
       shippingInfo,
@@ -101,12 +129,12 @@ exports.newOrder = catchAsyncError(async (req, res, next) => {
       paidAt: Date.now(),
     });
 
-    // Reduce stock for each product
+    // 4. Reduce stock for each product atomically
     for (let item of orderItems) {
-      await updateStock(item.product, item.quantity);
+      await Product.findByIdAndUpdate(item.product, {
+        $inc: { stock: -item.quantity }
+      });
     }
-
-
 
     res.status(201).json({
       success: true,
@@ -188,8 +216,9 @@ exports.updateOrder = catchAsyncError(async (req, res, next) => {
 
 async function updateStock (productId, quantity){
     const product = await Product.findById(productId);
-    product.stock = product.stock - quantity;
-    product.save({validateBeforeSave: false})
+    if (!product) return;
+    product.stock = Math.max(0, product.stock - quantity);
+    await product.save({validateBeforeSave: false});
 }
 
 //Admin: Delete Order - api/v1/order/:id
